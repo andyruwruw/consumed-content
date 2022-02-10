@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 
+import Landing from '../views/Landing.vue';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -8,6 +9,11 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    name: 'Landing',
+    component: Landing,
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home,
   },
@@ -15,11 +21,6 @@ const routes: Array<RouteConfig> = [
     path: '/category/:id',
     name: 'Category',
     component: () => import('../views/Category.vue'),
-  },
-  {
-    path: '/landing',
-    name: 'Landing',
-    component: () => import('../views/Landing.vue'),
   },
   {
     path: '/login',

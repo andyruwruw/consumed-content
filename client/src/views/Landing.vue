@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.component">
     <h1>
       This is the landing page
     </h1>
@@ -20,3 +20,15 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="scss" module>
+.component {
+  h1 {
+    color: white;
+  }
+
+  p {
+    color: white;
+  }
+}
+</style>

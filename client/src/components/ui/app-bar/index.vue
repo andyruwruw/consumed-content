@@ -1,8 +1,9 @@
 <template>
   <v-app-bar
+    color="#343434"
     app
-    color="#E6B31E"
-    dark>
+    dark
+    flat>
     <div class="d-flex align-center">
       <span
         :class="$style.title"

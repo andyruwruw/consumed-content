@@ -12,8 +12,14 @@
       </v-col>
     </v-row>
     <p>Rating</p>
-    <v-slider hint="Im a hint" max="10" min="0"></v-slider>
+    <v-slider
+      hint="Use the slider to leave a rating from 1 to 10"
+      max="10"
+      min="0"
+    ></v-slider>
     <v-btn elevation="2">Submit</v-btn>
+    &nbsp;
+    <v-btn elevation="2">Cancel</v-btn>
   </v-container>
 </template>
 
@@ -26,3 +32,10 @@ export default Vue.extend({
   components: {},
 });
 </script>
+
+<style>
+h1,
+p {
+  color: white;
+}
+</style>

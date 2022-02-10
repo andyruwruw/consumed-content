@@ -1,7 +1,20 @@
 <template>
-  <div>
-    <v-text-field />
-  </div>
+  <v-container fluid>
+    <h1>Write A Review For movieName</h1>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-text-field label="Review Title" solo></v-text-field>
+        <v-textarea
+          solo
+          name="input-7-4"
+          label="Write your review here"
+        ></v-textarea>
+      </v-col>
+    </v-row>
+    <p>Rating</p>
+    <v-slider hint="Im a hint" max="10" min="0"></v-slider>
+    <v-btn elevation="2">Submit</v-btn>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -10,7 +23,6 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'WriteReview',
 
-  components: {
-  },
+  components: {},
 });
 </script>

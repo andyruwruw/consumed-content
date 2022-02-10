@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -11,12 +12,39 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/category/:id',
+    name: 'Category',
+    component: () => import('../views/Category.vue'),
+  },
+  {
+    path: '/landing',
+    name: 'Landing',
+    component: () => import('../views/Landing.vue'),
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+  },
+  {
+    path: '/review/:showId/:userId',
+    name: 'Review',
+    component: () => import('../views/Review.vue'),
+  },
+  {
+    path: '/show/:id',
+    name: 'Show',
+    component: () => import('../views/Show.vue'),
+  },
+  {
+    path: '/review/:showId',
+    name: 'WriteReview',
+    component: () => import('../views/WriteReview.vue'),
   },
 ];
 

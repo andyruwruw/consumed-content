@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-text-field />
   </div>
 </template>
 
@@ -7,7 +8,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'Home',
+  name: 'WriteReview',
 
   components: {
   },

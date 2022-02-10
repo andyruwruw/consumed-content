@@ -5,6 +5,10 @@
     dark
     flat>
     <div class="d-flex align-center">
+      <img
+        :class="$style.icon"
+        src="../../../assets/images/icon.svg" />
+
       <span
         :class="$style.title"
         @click="goHome">
@@ -30,13 +34,23 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend({
   name: 'AppBar',
 
+  computed: {
+    ...mapGetters('user', [
+      'getUser',
+    ]),
+  },
+
   methods: {
     goHome() {
-      this.$router.push('/');
+      if (this.getUser === null) {
+        this.$router.push('/');
+      }
+      this.$router.push('/home');
     },
 
     loginPage() {
@@ -47,7 +61,14 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" module>
+.icon {
+  height: 1.4rem;
+  width: 1.4rem;
+  margin-right: 0.5rem;
+}
+
 .title {
+  color: #E6B31D;
   cursor: pointer;
   margin-right: 2rem;
 }

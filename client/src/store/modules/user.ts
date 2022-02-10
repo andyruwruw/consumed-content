@@ -12,7 +12,13 @@ export interface AuthModuleState {
 }
 
 const defaultState = (): AuthModuleState => ({
-  user: null,
+  user: {
+    id: 1,
+    name: 'Andrew Young',
+    private: false,
+    image: 'https://media-exp1.licdn.com/dms/image/C5603AQEwnHwJL_dsGQ/profile-displayphoto-shrink_800_800/0/1583544905412?e=1649894400&v=beta&t=Cq-pNr1LQW4e_ENASTYytydRIwAP6vKyX5dhUT-TOCA',
+    username: 'andyruwruw',
+  },
 });
 
 const getters: GetterTree<AuthModuleState, any> = {

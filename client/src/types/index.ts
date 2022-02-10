@@ -1,8 +1,10 @@
 export interface IUser {
   id: number;
   name: string;
-  password: string;
+  password?: string;
   private: boolean;
+  image: string;
+  username: string;
 }
 
 export interface IShow {
@@ -24,14 +26,14 @@ export interface ICategory {
   name: string;
 }
 
-export interface IReview {
+// export interface IReview {
 
-}
+// }
 
-export interface ICategoryItem {
+// export interface ICategoryItem {
 
-}
+// }
 
-export interface IFollow {
+// export interface IFollow {
 
-}
+// }

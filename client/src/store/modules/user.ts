@@ -22,13 +22,19 @@ const defaultState = (): AuthModuleState => ({
 });
 
 const getters: GetterTree<AuthModuleState, any> = {
-  getUser(state) {
+  getUser(state: AuthModuleState): IUser | null {
     return state.user;
+  },
+  isLoggedIn(state: AuthModuleState): boolean {
+    return state.user !== null;
   },
 };
 
 const mutations: MutationTree<AuthModuleState> = {
-  setUser(state, user) {
+  setUser(
+    state: AuthModuleState,
+    user: IUser | null,
+  ): void {
     state.user = user;
   },
 };

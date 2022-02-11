@@ -7,9 +7,7 @@
     floating>
     <navigation-drawer-user />
 
-    <v-btn color="#343434">
-      Some Button
-    </v-btn>
+    <navigation-drawer-my-profile-button />
 
     <navigation-drawer-tabs />
   </v-navigation-drawer>
@@ -21,6 +19,7 @@ import { mapGetters } from 'vuex';
 
 import NavigationDrawerUser from './user.vue';
 import NavigationDrawerTabs from './tabs.vue';
+import NavigationDrawerMyProfileButton from './my-profile-button.vue';
 
 export default Vue.extend({
   name: 'NavigationDrawer',
@@ -28,6 +27,7 @@ export default Vue.extend({
   components: {
     NavigationDrawerUser,
     NavigationDrawerTabs,
+    NavigationDrawerMyProfileButton,
   },
 
   computed: {

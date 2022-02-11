@@ -17,6 +17,7 @@
     </div>
 
     <v-text-field
+      v-if="isLoggedIn"
       outlined
       dense
       hide-details
@@ -25,6 +26,7 @@
     <v-spacer></v-spacer>
 
     <v-btn
+      v-if="!isLoggedIn"
       outlined
       @click="loginPage">
       Login
@@ -41,16 +43,17 @@ export default Vue.extend({
 
   computed: {
     ...mapGetters('user', [
-      'getUser',
+      'isLoggedIn',
     ]),
   },
 
   methods: {
     goHome() {
-      if (this.getUser === null) {
+      if (this.isLoggedIn) {
+        this.$router.push('/home');
+      } else {
         this.$router.push('/');
       }
-      this.$router.push('/home');
     },
 
     loginPage() {

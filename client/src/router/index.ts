@@ -72,6 +72,11 @@ const routes: Array<RouteConfig> = [
     name: 'WriteReview',
     component: () => import('../views/WriteReview.vue'),
   },
+  {
+    path: '/platform/:platformId',
+    name: 'Platform',
+    component: () => import('../views/Platform.vue'),
+  },
 ];
 
 const router = new VueRouter({

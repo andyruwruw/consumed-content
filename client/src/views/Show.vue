@@ -25,7 +25,14 @@
     </p>
 
     <p>
-      Available Platforms: Netflix, Hulu
+      Available Platforms:
+      <span
+        v-for="platform in platforms"
+        :key="`platform-${platform}`"
+        :class="$style.platform"
+        @click="goToPlatform(platform)">
+        {{ platform }}
+      </span>
     </p>
 
     <v-btn dark color="#E6B31D" tile style="margin-right: 1rem">
@@ -51,11 +58,19 @@ export default Vue.extend({
 
   data: () => ({
     show: FEATURE,
+    platforms: [
+      'Netflix',
+      'Hulu',
+    ],
   }),
 
   methods: {
     writeReview() {
-      this.$router.push(`/review/${this.id}`);
+      this.$router.push('/review/1');
+    },
+
+    goToPlatform(platform: string) {
+      this.$router.push(`/platform/${platform}`);
     },
   },
 });
@@ -73,6 +88,14 @@ export default Vue.extend({
 
   p {
     color: white;
+  }
+}
+
+.platform {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 </style>

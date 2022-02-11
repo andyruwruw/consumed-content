@@ -71,13 +71,13 @@ export default Vue.extend({
   },
 
   data: () => ({
-    editedShows: [],
+    editedShows: [] as Record<string, any>[],
     reviewDescriptions: RANDOM_REVIEW_DESCRIPTIONS,
     reviewTitles: RANDOM_REVIEW_TITLES,
   }),
 
   created() {
-    this.editedShows = [];
+    this.editedShows = [] as Record<string, any>[];
 
     for (let i = 0; i < FAKE_MOVIES.length; i += 1) {
       this.editedShows.push(FAKE_MOVIES[i]);
@@ -94,7 +94,7 @@ export default Vue.extend({
 
   methods: {
     unlike(id: number) {
-      const newShows = [];
+      const newShows = [] as Record<string, any>[];
 
       for (let i = 0; i < this.editedShows.length; i += 1) {
         if (i !== id) {

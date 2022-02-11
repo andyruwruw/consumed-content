@@ -33,6 +33,7 @@
 import Vue from 'vue';
 
 import ShowCardItem from './show-card-item.vue';
+import { IShow } from '../../../types';
 
 export default Vue.extend({
   name: 'ShowCards',
@@ -74,14 +75,14 @@ export default Vue.extend({
   },
 
   data: () => ({
-    editedShows: [],
+    editedShows: [] as Record<string, any>[],
   }),
 
   created() {
-    this.editedShows = [];
+    this.editedShows = [] as Record<string, any>[];
 
     for (let i = 0; i < this.shows.length; i += 1) {
-      this.editedShows.push(this.shows[i]);
+      this.editedShows.push((this.shows[i] as Record<string, any>[]));
     }
 
     if (this.randomize) {
@@ -103,7 +104,7 @@ export default Vue.extend({
         }
       }
 
-      this.editedShows = newShows;
+      this.editedShows = newShows as IShow[];
     },
   },
 });

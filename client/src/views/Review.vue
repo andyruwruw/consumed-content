@@ -106,11 +106,11 @@ export default Vue.extend({
 
   methods: {
     writeReview() {
-      this.$router.push(`/review/${this.id}`);
+      this.$router.push('/review/1');
     },
 
     goToShow() {
-      this.$router.push(`/show/${this.id}`);
+      this.$router.push('/show/1');
     },
 
     goToProfile() {

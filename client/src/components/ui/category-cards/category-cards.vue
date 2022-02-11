@@ -59,7 +59,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    categories: [],
+    categories: [] as any[],
   }),
 
   created() {
@@ -77,7 +77,7 @@ export default Vue.extend({
       const shows = editedShows.splice(0, 4);
 
       this.categories.push({
-        title: CATEGORY_NAMES[(i + offset) % CATEGORY_NAMES.length],
+        title: (CATEGORY_NAMES as string[])[(i + offset) % CATEGORY_NAMES.length] as string,
         shows,
       });
     }

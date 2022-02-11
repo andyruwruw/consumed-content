@@ -12,6 +12,7 @@ export interface IShow {
   title: string;
   type: string;
   genre: string;
+  imageUrl: string;
 }
 
 export interface IPlatform {

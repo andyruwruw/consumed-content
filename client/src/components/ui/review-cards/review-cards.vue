@@ -13,7 +13,7 @@
           [$style['item-wrapper--rows']]: rows,
         },
       ]">
-      <show-card-item
+      <review-card-item
         v-for="(show, index) in editedShows"
         :key="show.title"
         :id="index"
@@ -23,7 +23,9 @@
         :released="show.released"
         :imageUrl="show.imageUrl"
         :padding="rows"
-        :saved="saved"
+        :rating="Math.round(Math.random() * 10)"
+        :reviewTitle="reviewTitles[index % reviewTitles.length]"
+        :description="reviewDescriptions[index % reviewDescriptions.length]"
         @unlike="unlike(index)" />
     </div>
   </div>
@@ -32,24 +34,24 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import ShowCardItem from './show-card-item.vue';
+import {
+  FAKE_MOVIES,
+  RANDOM_REVIEW_DESCRIPTIONS,
+  RANDOM_REVIEW_TITLES,
+} from '../../../config';
+import ReviewCardItem from './review-card-item.vue';
 
 export default Vue.extend({
-  name: 'ShowCards',
+  name: 'ReviewCards',
 
   components: {
-    ShowCardItem,
+    ReviewCardItem,
   },
 
   props: {
     title: {
       type: String,
       default: '',
-    },
-
-    shows: {
-      type: Array,
-      default: () => [],
     },
 
     rows: {
@@ -66,22 +68,19 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
-
-    saved: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   data: () => ({
     editedShows: [],
+    reviewDescriptions: RANDOM_REVIEW_DESCRIPTIONS,
+    reviewTitles: RANDOM_REVIEW_TITLES,
   }),
 
   created() {
     this.editedShows = [];
 
-    for (let i = 0; i < this.shows.length; i += 1) {
-      this.editedShows.push(this.shows[i]);
+    for (let i = 0; i < FAKE_MOVIES.length; i += 1) {
+      this.editedShows.push(FAKE_MOVIES[i]);
     }
 
     if (this.randomize) {

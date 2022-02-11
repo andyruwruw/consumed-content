@@ -26,17 +26,29 @@
     <v-spacer></v-spacer>
 
     <v-btn
-      v-if="!isLoggedIn"
-      outlined
+      v-if="landingPage"
+      tile
+      color="#E6B31D"
       @click="loginPage">
       Login
+    </v-btn>
+
+    <v-btn
+      v-if="!landingPage"
+      icon
+      style="margin-right: 1rem;"
+      color="#E6B31D"
+      @click="toggleNavBar">
+      <v-icon>
+        mdi-menu
+      </v-icon>
     </v-btn>
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'AppBar',
@@ -45,9 +57,17 @@ export default Vue.extend({
     ...mapGetters('user', [
       'isLoggedIn',
     ]),
+
+    landingPage() {
+      return this.$route.name === 'Landing';
+    },
   },
 
   methods: {
+    ...mapActions('user', [
+      'toggleNavBar',
+    ]),
+
     goHome() {
       if (this.isLoggedIn) {
         this.$router.push('/home');

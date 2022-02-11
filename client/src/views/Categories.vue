@@ -1,23 +1,20 @@
 <template>
   <div :class="$style.component">
-    <h1>
-      Andrew's Category: Horror
-    </h1>
-
-    <show-list />
+    <category-cards
+      title="Your Categories" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 
-import ShowList from '../components/ui/show-list/show-list.vue';
+import CategoryCards from '../components/ui/category-cards/category-cards.vue';
 
 export default Vue.extend({
   name: 'Category',
 
   components: {
-    ShowList,
+    CategoryCards,
   },
 });
 </script>

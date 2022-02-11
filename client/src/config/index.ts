@@ -474,3 +474,40 @@ export const FAKE_MOVIES = [
     imageUrl: 'https://images.moviesanywhere.com/354b04d46e497d02270d05aeaf07210d/5c5dd027-84dc-418c-bede-dc789f03b67a.jpg',
   },
 ];
+
+export const CATEGORY_NAMES = [
+  'Watch Later',
+  'Some Favorites',
+  '2021',
+  'In Background',
+  'Favorite Horror',
+  'Scary',
+  'Made me Cry',
+  'Super Awesome',
+  'Horrible',
+  'Meh Movies',
+  'Watch with Family',
+  'Not my type',
+];
+
+export const RANDOM_REVIEW_DESCRIPTIONS = [
+  'A movie with a really interesting idea and with menacing aliens as enemies. It was mostly fun to watch. Although, it could be a bit messy and rushed sometimes, and had a certain exaggeration at parts.',
+  'The movie seemed pretty promising and had a pretty interesting idea. The characters were done pretty good as well. Although, the movie became messier and more forced as it went on and came to turn on it\'s head.',
+  'A pretty creative movie with really cool monsters. Although, the movie was in general really stupid.',
+  'The movie was a bit obnoxious and not very well edited.',
+  'Great in every element. A fun yet fairly serious film that\'s hilarious and probably relatable for many.',
+  'Sauce.',
+  'A decent film. I just have really mixed thoughts about the movie and it therefore got an average rating from me.',
+  'A brilliant film with a brilliant idea and a terrifying enemy, that might be called evil itself.',
+  'The film has both good funny moments and sad moments as well.',
+];
+
+export const RANDOM_REVIEW_TITLES = [
+  'Great movie',
+  'Would watch again',
+  'Pretty great',
+  'Worth a watch',
+  'A bit boring',
+  'Not bad',
+  'Not my type',
+];

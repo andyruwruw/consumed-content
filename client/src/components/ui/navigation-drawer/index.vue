@@ -1,10 +1,11 @@
 <template>
   <v-navigation-drawer
-    v-model="isOpen"
+    :value="isOpen"
     color="#343434"
     app
     flat
-    floating>
+    floating
+    permanent>
     <navigation-drawer-user />
 
     <navigation-drawer-my-profile-button />
@@ -33,10 +34,15 @@ export default Vue.extend({
   computed: {
     ...mapGetters('user', [
       'getUser',
+      'isNavBarOpen',
     ]),
 
     isOpen() {
-      return this.$route.name !== 'Landing' && this.getUser !== null;
+      return this.isNavBarOpen
+        || (this.$route.name !== 'Landing'
+        && this.$route.name !== 'Login'
+        && this.$route.name !== 'Logout'
+        && this.getUser !== null);
     },
   },
 });

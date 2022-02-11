@@ -18,6 +18,11 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
+    path: '/category',
+    name: 'Categories',
+    component: () => import('../views/Categories.vue'),
+  },
+  {
     path: '/category/:id',
     name: 'Category',
     component: () => import('../views/Category.vue'),
@@ -28,14 +33,34 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Login.vue'),
   },
   {
+    path: '/logout',
+    name: 'Logout',
+    component: () => import('../views/Logout.vue'),
+  },
+  {
     path: '/profile/:id',
     name: 'Profile',
     component: () => import('../views/Profile.vue'),
   },
   {
+    path: '/review',
+    name: 'Reviews',
+    component: () => import('../views/Reviews.vue'),
+  },
+  {
     path: '/review/:showId/:userId',
     name: 'Review',
     component: () => import('../views/Review.vue'),
+  },
+  {
+    path: '/movies',
+    name: 'Movies',
+    component: () => import('../views/Movies.vue'),
+  },
+  {
+    path: '/shows',
+    name: 'Shows',
+    component: () => import('../views/Shows.vue'),
   },
   {
     path: '/show/:id',

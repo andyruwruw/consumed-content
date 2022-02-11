@@ -65,16 +65,16 @@ export default Vue.extend({
         icon: 'mdi-folder-table-outline',
         text: 'My Categories',
         type: 'tab',
-        path: '/categories',
+        path: '/category',
       },
       {
         icon: 'mdi-message-draw',
         text: 'My Reviews',
         type: 'tab',
-        path: '/reviews',
+        path: '/review',
       },
       {
-        text: 'divider1',
+        text: 'divider2',
         type: 'divider',
       },
       {

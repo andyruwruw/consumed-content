@@ -12,18 +12,21 @@
       title="Popular Now"
       :shows="movies"
       :limit="10"
+      :rows="false"
       :randomize="true" />
 
     <show-cards
       title="People You're Following"
       :shows="movies"
       :limit="10"
+      :rows="false"
       :randomize="true" />
 
     <show-cards
       title="Top Rated"
       :shows="movies"
       :limit="10"
+      :rows="false"
       :randomize="true" />
   </div>
 </template>

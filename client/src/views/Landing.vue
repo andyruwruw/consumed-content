@@ -1,11 +1,18 @@
 <template>
   <div :class="$style.component">
     <h1>
-      This is the landing page
+      Landing Page
     </h1>
 
     <p>
+    </p>
+
+    <p>
       This page will give our users a quick overview of the application in hopes that they sign up!
+    </p>
+
+    <p>
+      For now, click the login button at the top right.
     </p>
   </div>
 </template>

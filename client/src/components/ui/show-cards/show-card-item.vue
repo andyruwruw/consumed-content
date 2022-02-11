@@ -1,19 +1,35 @@
 <template>
-  <div :class="$style.component">
+  <div
+    :class="[
+      $style.component,
+      {
+        [$style.padding]: padding,
+      },
+    ]">
     <div :class="$style.details">
       <div :class="$style['button-wrapper']">
         <v-btn
           color="#E6B31D"
-          icon>
+          icon
+          @click="writeReview">
           <v-icon large>
-            mdi-plus
+            mdi-message-draw
+          </v-icon>
+        </v-btn>
+
+        <v-btn
+          color="#E6B31D"
+          icon
+          @click="interact">
+          <v-icon large>
+            {{ saved ? 'mdi-minus' : 'mdi-plus' }}
           </v-icon>
         </v-btn>
       </div>
 
       <span
         :class="$style.title"
-        @click="clicked">
+        @click="goToShow">
         {{ title }}
       </span>
 
@@ -64,11 +80,41 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+
+    padding: {
+      type: Boolean,
+      default: false,
+    },
+
+    saved: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
-    clicked() {
+    goToShow() {
       this.$router.push(`/show/${this.id}`);
+    },
+
+    writeReview() {
+      this.$router.push(`/review/${this.id}`);
+    },
+
+    interact() {
+      if (this.saved) {
+        this.unlike();
+      } else {
+        this.like();
+      }
+    },
+
+    unlike() {
+      this.$emit('unlike', this.id);
+    },
+
+    like() {
+      console.log('If we had any features like that I\'d add it for you');
     },
   },
 });
@@ -84,6 +130,10 @@ export default Vue.extend({
   background-position: center;
   margin-right: 2rem;
   position: relative;
+
+  &.padding {
+    margin-bottom: 2rem;
+  }
 }
 
 .details {
@@ -124,6 +174,9 @@ export default Vue.extend({
 
 .button-wrapper {
   position: absolute;
+  left: 1rem;
+  display: flex;
+  justify-content: space-between;
   right: 1rem;
   top: 1rem;
 }

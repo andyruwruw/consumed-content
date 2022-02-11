@@ -13,18 +13,13 @@
           [$style['item-wrapper--rows']]: rows,
         },
       ]">
-      <show-card-item
-        v-for="(show, index) in editedShows"
-        :key="show.title"
+      <category-card-item
+        v-for="(category, index) in categories"
+        :key="`category-${index}`"
         :id="index"
-        :title="show.title"
-        :duration="show.duration"
-        :genres="show.genres"
-        :released="show.released"
-        :imageUrl="show.imageUrl"
-        :padding="rows"
-        :saved="saved"
-        @unlike="unlike(index)" />
+        :title="category.title"
+        :shows="category.shows"
+        :padding="rows" />
     </div>
   </div>
 </template>
@@ -32,24 +27,24 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import ShowCardItem from './show-card-item.vue';
+import {
+  FAKE_MOVIES,
+  CATEGORY_NAMES,
+} from '../../../config';
+
+import CategoryCardItem from './category-card-item.vue';
 
 export default Vue.extend({
-  name: 'ShowCards',
+  name: 'CategoryCards',
 
   components: {
-    ShowCardItem,
+    CategoryCardItem,
   },
 
   props: {
     title: {
       type: String,
       default: '',
-    },
-
-    shows: {
-      type: Array,
-      default: () => [],
     },
 
     rows: {
@@ -61,50 +56,31 @@ export default Vue.extend({
       type: Number,
       default: 0,
     },
-
-    randomize: {
-      type: Boolean,
-      default: false,
-    },
-
-    saved: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   data: () => ({
-    editedShows: [],
+    categories: [],
   }),
 
   created() {
-    this.editedShows = [];
+    let editedShows = [];
 
-    for (let i = 0; i < this.shows.length; i += 1) {
-      this.editedShows.push(this.shows[i]);
+    for (let i = 0; i < FAKE_MOVIES.length; i += 1) {
+      editedShows.push(FAKE_MOVIES[i]);
     }
 
-    if (this.randomize) {
-      this.editedShows = this.editedShows.sort(() => 0.5 - Math.random());
+    editedShows = editedShows.sort(() => 0.5 - Math.random());
+
+    const offset = Math.floor(Math.random() * 200);
+
+    for (let i = 0; i < (this.limit === 0 ? 15 : this.limit); i += 1) {
+      const shows = editedShows.splice(0, 4);
+
+      this.categories.push({
+        title: CATEGORY_NAMES[(i + offset) % CATEGORY_NAMES.length],
+        shows,
+      });
     }
-
-    if (this.limit !== 0) {
-      this.editedShows.length = this.limit;
-    }
-  },
-
-  methods: {
-    unlike(id: number) {
-      const newShows = [];
-
-      for (let i = 0; i < this.editedShows.length; i += 1) {
-        if (i !== id) {
-          newShows.push(this.editedShows[i]);
-        }
-      }
-
-      this.editedShows = newShows;
-    },
   },
 });
 </script>

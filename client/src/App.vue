@@ -4,7 +4,7 @@
 
     <navigation-drawer />
 
-    <v-main>
+    <v-main style="margin: 0 1rem">
       <router-view/>
     </v-main>
   </v-app>

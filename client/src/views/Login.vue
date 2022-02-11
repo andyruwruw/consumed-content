@@ -1,15 +1,41 @@
 <template>
-  <v-container fluid>
-    <h1>Login or Join</h1>
+  <v-container
+    :class="$style.component"
+    fluid>
+    <h1>
+      Login or Join
+    </h1>
+
+    <p>
+      No information needed! Just click the button below to login to a test account.
+    </p>
+
     <v-row>
-      <v-col cols="12" md="6">
-        <v-text-field label="User Name" solo></v-text-field>
-        <v-text-field label="Password" solo></v-text-field>
+      <v-col
+        cols="12"
+        md="6">
+        <v-text-field
+          label="User Name"
+          solo />
+        <v-text-field
+          label="Password"
+          solo />
       </v-col>
     </v-row>
-    <v-btn elevation="2">Login</v-btn>
+
+    <v-btn
+      elevation="2"
+      @click="goHome">
+      Login
+    </v-btn>
+
     &nbsp;
-    <v-btn elevation="2">Join</v-btn>
+
+    <v-btn
+      elevation="2"
+      @click="goHome">
+      Join
+    </v-btn>
   </v-container>
 </template>
 
@@ -20,12 +46,20 @@ export default Vue.extend({
   name: 'Login',
 
   components: {},
+
+  methods: {
+    goHome() {
+      this.$router.push('/home');
+    },
+  },
 });
 </script>
 
-<style>
-h1,
-p {
-  color: white;
+<style lang="scss" module>
+.component {
+  h1,
+  p {
+    color: white;
+  }
 }
 </style>

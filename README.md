@@ -1,4 +1,29 @@
-# Consumed Content
+<p align="center">
+  <h1>
+    Consumed Content
+  </h1>
+</p>
+
+<p align="center">
+  Categorize and review your favorite shows and movies.
+<p>
+
+<p align="center">
+  <a href="#">Live Site</a>
+  ·
+  <a href="https://github.com/andyruwruw">Andrew Young</a>
+  ·
+  <a href="https://github.com/LosM-ro">Carlos Muro</a>
+</p>
+
+Consumed Content was made for CS 340 at Oregon State University.
+
+The website allows users to save their favorite movies, make custom categories, and write their own reviews.
+
+# Table of Contents
+
+- [Usage](#usage)
+- [Data](#data)
 
 # Usage
 
@@ -47,3 +72,7 @@ To build for production:
 ```
 $ npm run build
 ```
+# Data
+
+- Movies and Shows
+  - [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction)

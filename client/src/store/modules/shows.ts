@@ -14,19 +14,19 @@ import { IShow } from '../../../../shared/types';
 
   The shows module will manage a cache of shows to prevent repeated requests.
 */
-  
+
 // State interface
 export interface ShowsState extends Record<string, any> {
   shows: Record<string, IShow>;
 }
-  
+
 // Default state
 export const defaultState = (): ShowsState => ({
   shows: {} as Record<string, IShow>,
 });
-  
+
 // Module state
-const state: ShowsState = defaultState();
+const moduleState: ShowsState = defaultState();
 
 // Module getters
 const getters: GetterTree<ShowsState, any> = {
@@ -36,9 +36,7 @@ const getters: GetterTree<ShowsState, any> = {
    * @param {ShowsState} state Module state.
    * @returns {Record<string, IShow>} Shows by ID.
    */
-  getShows: (state): Record<string, IShow> => {
-    return state.shows;
-  },
+  getShows: (state): Record<string, IShow> => state.shows,
 };
 
 // Module mutations
@@ -49,7 +47,7 @@ const mutations: MutationTree<ShowsState> = {
    * @param {ShowsState} state Module state.
    * @param {IShow} show Show to add.
    */
-  addShow (
+  addShow(
     state: ShowsState,
     show: IShow,
   ): void {
@@ -61,11 +59,12 @@ const mutations: MutationTree<ShowsState> = {
    *
    * @param {NavigationState} state Module state.
    */
-   reset(state: ShowsState): void {
+  reset(state: ShowsState): void {
     const nextState = defaultState();
+    const fields = Object.keys(nextState);
 
-    for (let field in nextState) {
-      state[field] = nextState[field];
+    for (let i = 0; i < fields.length; i += 1) {
+      state[fields[i]] = nextState[fields[i]];
     }
   },
 };
@@ -77,7 +76,7 @@ const actions: ActionTree<ShowsState, any> = {
    *
    * @param {ActionContext<ShowsState, any>} context Vuex action context.
    */
-  getSavedShows ({
+  getSavedShows({
     commit,
     dispatch,
   }): void {
@@ -87,7 +86,7 @@ const actions: ActionTree<ShowsState, any> = {
 // Module
 const shows: Module<ShowsState, Record<string, any>> = {
   namespaced: true,
-  state,
+  state: moduleState,
   getters,
   mutations,
   actions,

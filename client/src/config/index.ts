@@ -1,3 +1,8 @@
+/**
+ * Base URL to the API.
+ */
+export const API_BASE_URL = process.env.VUE_APP_ENVIRONMENT === 'production' ? 'https://consumed-content.vercel.app/api' : 'http://localhost:3000/api';
+
 export const FEATURE = {
   title: 'Spider-Man: No Way Home',
   duration: '2h 28m',

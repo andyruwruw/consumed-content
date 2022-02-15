@@ -19,19 +19,19 @@ import router from '../../router';
   The navigation module will manage the current page and provide getters
   to turn on and off various styles.
 */
-  
+
 // State interface
 export interface NavigationState {
   currentPage: string;
 }
-  
+
 // Default state
 export const defaultState = (): NavigationState => ({
   currentPage: '',
 });
-  
+
 // Module state
-const state: NavigationState = defaultState();
+const moduleState: NavigationState = defaultState();
 
 // Module getters
 const getters: GetterTree<NavigationState, any> = {
@@ -41,13 +41,11 @@ const getters: GetterTree<NavigationState, any> = {
    * @param {NavigationState} state Module state.
    * @returns {boolean} Whether the base layout should be used.
    */
-  isBaseLayout: (state): boolean => {
-    return (![
-      'Login',
-      '404',
-      '503',
-    ].includes(state.currentPage));
-  },
+  isBaseLayout: (state): boolean => (![
+    'Login',
+    '404',
+    '503',
+  ].includes(state.currentPage)),
 };
 
 // Module mutations
@@ -58,7 +56,7 @@ const mutations: MutationTree<NavigationState> = {
    * @param {NavigationState} state Module state.
    * @param {string} page Page name.
    */
-  setCurrentPage (
+  setCurrentPage(
     state: NavigationState,
     page: string,
   ): void {
@@ -76,7 +74,7 @@ const actions: ActionTree<NavigationState, any> = {
    * @param {string} payload.page Page name.
    * @param {Record<string, any>} payload.params Additional Parameters.
    */
-  setPage ({
+  setPage({
     commit,
     dispatch,
   }, {
@@ -92,10 +90,10 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Automatically routes user to Login page if not logged in.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-  goToLoginPage ({
+  goToLoginPage({
     commit,
     state,
   }) {
@@ -112,7 +110,7 @@ const actions: ActionTree<NavigationState, any> = {
   /**
    * Routes to Login page if user is not logged in.
    */
-  needsToBeLoggedIn ({ commit, rootGetters }) {
+  needsToBeLoggedIn({ commit, rootGetters }) {
     try {
       if (!rootGetters['user/isLoggedIn']) {
         router.push('/');
@@ -126,7 +124,7 @@ const actions: ActionTree<NavigationState, any> = {
   /**
    * Routes the user to their feed
    */
-  goToMyFeed ({ commit, rootGetters, state }) {
+  goToMyFeed({ commit, rootGetters, state }) {
     try {
       if (state.currentPage !== 'Home' && rootGetters['user/isLoggedIn']) {
         router.push('/home');
@@ -139,54 +137,9 @@ const actions: ActionTree<NavigationState, any> = {
   },
 
   /**
-   * Routes the user to their profile page
-   */
-  goToMyProfile ({ commit, dispatch, rootGetters }) {
-    try {
-      if (!rootGetters['user/isLoggedIn']) {
-        dispatch('navigation/goToLoginPage', undefined, { root: true });
-        return;
-      }
-
-      const alias = rootGetters['user/alias'];
-
-      if (state.currentPage === 'Profile' && alias === rootGetters['profile/alias']) {
-        return;
-      }
-
-      dispatch('profile/getProfile', alias, { root: true });
-      router.push(`/profile/${alias}`);
-
-      commit('setCurrentPage', 'Profile');
-    } catch (error) {
-      this.dispatch('goTo404');
-    }
-  },
-
-  /**
-   * Routes the user to another user's profile page
-   *
-   * @param {string} alias Other user's alias
-   */
-  goToProfile ({ commit, dispatch, rootGetters, state }, alias) {
-    try {
-      if (state.currentPage === 'Profile' && alias === rootGetters['profile/alias']) {
-        return;
-      }
-
-      dispatch('profile/getProfile', alias, { root: true });
-
-      router.push(`/profile/${alias}`);
-      commit('setCurrentPage', 'Profile');
-    } catch (error) {
-      this.dispatch('goTo404');
-    }
-  },
-
-  /**
    * Routes the user to error page
    */
-  goTo404 ({ commit, state }) {
+  goTo404({ commit, state }) {
     try {
       if (state.currentPage !== '404') {
         router.push('/not-found');
@@ -203,7 +156,7 @@ const actions: ActionTree<NavigationState, any> = {
   /**
    * Routes the user to error page
    */
-  goTo503 ({ commit, state }) {
+  goTo503({ commit, state }) {
     try {
       if (state.currentPage !== '503') {
         router.push('/503');
@@ -221,7 +174,7 @@ const actions: ActionTree<NavigationState, any> = {
 // Module
 const navigation: Module<NavigationState, Record<string, any>> = {
   namespaced: true,
-  state,
+  state: moduleState,
   getters,
   mutations,
   actions,

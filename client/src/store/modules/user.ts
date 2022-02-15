@@ -30,7 +30,7 @@ const defaultState = (): AuthModuleState => ({
 });
 
 // Module state
-const state: AuthModuleState = defaultState();
+const moduleState: AuthModuleState = defaultState();
 
 // Module getters
 const getters: GetterTree<AuthModuleState, any> = {
@@ -77,9 +77,10 @@ const mutations: MutationTree<AuthModuleState> = {
    */
   reset(state: AuthModuleState): void {
     const nextState = defaultState();
+    const fields = Object.keys(nextState);
 
-    for (let field in nextState) {
-      state[field] = nextState[field];
+    for (let i = 0; i < fields.length; i += 1) {
+      state[fields[i]] = nextState[fields[i]];
     }
   },
 };
@@ -94,7 +95,7 @@ const actions: ActionTree<AuthModuleState, any> = {
    * @param {string} payload.username User's username.
    * @param {string} payload.password User's password.
    */
-  login ({
+  login({
     commit,
     dispatch,
   }, {
@@ -108,7 +109,7 @@ const actions: ActionTree<AuthModuleState, any> = {
    *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-   logout ({ commit }): void {
+  logout({ commit }): void {
     commit('reset');
     commit(
       'shows/reset',
@@ -121,7 +122,7 @@ const actions: ActionTree<AuthModuleState, any> = {
 // Module
 const user: Module<AuthModuleState, Record<string, any>> = {
   namespaced: true,
-  state,
+  state: moduleState,
   getters,
   mutations,
   actions,

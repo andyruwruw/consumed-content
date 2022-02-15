@@ -16,7 +16,7 @@ const login = async (
   password: string,
 ): Promise<IUser | null> => {
   try {
-    const response = await request.get('/auth/login', {
+    const response = await request.get('/login', {
       params: {
         username,
         password,

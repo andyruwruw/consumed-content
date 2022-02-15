@@ -7,7 +7,7 @@ import {
 // Local Imports
 import { Handler } from './handler';
 
-export class CheckUserHandler extends Handler {
+export class RegisterHandler extends Handler {
   /**
    * Executes the handler.
    *

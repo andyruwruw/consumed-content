@@ -1,23 +1,27 @@
 export interface IUser {
   id: number;
   name: string;
-  password?: string;
-  private: boolean;
-  image: string;
   username: string;
+  password?: string;
+  salt?: string;
+  private: boolean;
+  imageUrl: string;
 }
 
 export interface IShow {
   id: number;
-  title: string;
+  name: string;
   type: string;
-  genre: string;
-  imageUrl: string;
+  posterUrl: string;
+  backdropUrl: string;
+  releaseDate: string;
+  overview: string;
 }
 
 export interface IPlatform {
   id: number;
   name: string;
+  imageUrl: string;
   cost: number;
 }
 
@@ -27,14 +31,33 @@ export interface ICategory {
   name: string;
 }
 
-// export interface IReview {
+export interface IReview {
+  id: number;
+  showId: number;
+  userId: number;
+  name: string;
+  rating: number;
+  description: string;
+}
 
-// }
+export interface ICategoryItem {
+  categoryId: number;
+  showId: number;
+  index: number;
+  addedDate: string;
+}
 
-// export interface ICategoryItem {
+export interface IFollow {
+  userId: number;
+  followingUserId: number;
+}
 
-// }
+export interface IGenre {
+  id: number;
+  name: string;
+}
 
-// export interface IFollow {
-
-// }
+export interface IShowGenre {
+  showId: number;
+  genreId: string;
+}

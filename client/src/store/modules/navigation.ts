@@ -42,6 +42,7 @@ const getters: GetterTree<NavigationState, any> = {
    * @returns {boolean} Whether the base layout should be used.
    */
   isBaseLayout: (state): boolean => (![
+    'Landing',
     'Login',
     '404',
     '503',
@@ -67,106 +68,314 @@ const mutations: MutationTree<NavigationState> = {
 // Module actions
 const actions: ActionTree<NavigationState, any> = {
   /**
-   * Hard sets page on loading of website.
+   * On each page change, update the current page.
    *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
-   * @param {Record<string, any>} payload Action payload.
-   * @param {string} payload.page Page name.
-   * @param {Record<string, any>} payload.params Additional Parameters.
+   * @param {Record<string, string>} payload Incoming payload.
+   * @param {string} payload.name Name of the new page.
    */
-  setPage({
-    commit,
+  handlePageLoad(
+    { commit },
+    { name },
+  ): void {
+    commit('setCurrentPage', name);
+  },
+
+  /**
+   * Checks if user is logged in, and reroutes to landing if not.
+   *
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+  requiresLogin({
+    rootGetters,
     dispatch,
-  }, {
-    page,
-    params,
   }): void {
-    commit('setCurrentPage', page);
-
-    if (page === 'Profile') {
-      dispatch('profile/getProfile', params.alias, { root: true });
-    }
-  },
-
-  /**
-   * Automatically routes user to Login page if not logged in.
-   *
-   * @param {ActionContext<NavigationState, any>} context Vuex action context.
-   */
-  goToLoginPage({
-    commit,
-    state,
-  }) {
-    try {
-      if (state.currentPage !== 'Login') {
-        router.push('/');
-        commit('setCurrentPage', 'Login');
-      }
-    } catch (error) {
-      this.dispatch('goTo503');
-    }
-  },
-
-  /**
-   * Routes to Login page if user is not logged in.
-   */
-  needsToBeLoggedIn({ commit, rootGetters }) {
     try {
       if (!rootGetters['user/isLoggedIn']) {
         router.push('/');
-        commit('setCurrentPage', 'Login');
       }
     } catch (error) {
-      this.dispatch('goTo503');
+      dispatch('goTo404');
     }
   },
 
   /**
-   * Routes the user to their feed
+   * Routes the user to Login page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-  goToMyFeed({ commit, rootGetters, state }) {
+  goToLogin({
+    dispatch,
+    rootGetters,
+    state,
+  }): void {
     try {
-      if (state.currentPage !== 'Home' && rootGetters['user/isLoggedIn']) {
+      if (state.currentPage !== 'Login' && !rootGetters['user/isLoggedIn']) {
+        router.push('/login');
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to Categories page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+  goToCategories({
+    dispatch,
+    state,
+  }): void {
+    try {
+      if (state.currentPage !== 'Categories') {
+        router.push('/category');
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to a Category page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.id ID of the category.
+   */
+  goToCategory(
+    {
+      dispatch,
+      state,
+    },
+    { id }): void {
+    try {
+      if (state.currentPage !== 'Category') {
+        router.push(`/category/${id}`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to Home page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+  goToHome({
+    dispatch,
+    state,
+  }): void {
+    try {
+      if (state.currentPage !== 'Home') {
         router.push('/home');
-
-        commit('setCurrentPage', 'Home');
       }
     } catch (error) {
-      this.dispatch('goTo404');
+      dispatch('goTo404');
     }
   },
 
   /**
-   * Routes the user to error page
+   * Routes the user to Landing page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-  goTo404({ commit, state }) {
+  goToLanding({
+    dispatch,
+    state,
+  }): void {
     try {
-      if (state.currentPage !== '404') {
-        router.push('/not-found');
-
-        commit('setCurrentPage', 'NotFound');
+      if (state.currentPage !== 'Landing') {
+        router.push('/');
       }
     } catch (error) {
-      router.push('/503');
-
-      commit('setCurrentPage', '503');
+      dispatch('goTo404');
     }
   },
 
   /**
-   * Routes the user to error page
+   * Routes the user to a Platform page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.id ID of the platform.
    */
-  goTo503({ commit, state }) {
+  goToPlatform(
+    {
+      dispatch,
+      state,
+    },
+    { id }): void {
     try {
-      if (state.currentPage !== '503') {
-        router.push('/503');
-
-        commit('setCurrentPage', '503');
+      if (state.currentPage !== 'Platform') {
+        router.push(`/platform/${id}`);
       }
     } catch (error) {
-      router.push('/not-found');
+      dispatch('goTo404');
+    }
+  },
 
-      commit('setCurrentPage', 'NotFound');
+  /**
+   * Routes the user to a Profile page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.id ID of the user.
+   */
+  goToProfile(
+    {
+      dispatch,
+      state,
+    },
+    { id }): void {
+    try {
+      if (state.currentPage !== 'Profile') {
+        router.push(`/profile/${id}`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to Reviews page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+  goToReviews({
+    dispatch,
+    state,
+  }): void {
+    try {
+      if (state.currentPage !== 'Reviews') {
+        router.push('/review');
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to a Review page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.reviewId ID of the review.
+   * @param {number} payload.showId ID of the show the review is on.
+   */
+  goToReview(
+    {
+      dispatch,
+      state,
+    },
+    {
+      reviewId,
+      showId,
+    }): void {
+    try {
+      if (state.currentPage !== 'Review') {
+        router.push(`/review/${showId}/${reviewId}`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to an Edit Review page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.reviewId ID of the review to edit.
+   * @param {number} payload.showId ID of the show the review is on.
+   */
+  goToReviewEdit(
+    {
+      dispatch,
+      state,
+    },
+    {
+      reviewId,
+      showId,
+    }): void {
+    try {
+      if (state.currentPage !== 'EditReview') {
+        router.push(`/review/${showId}/${reviewId}/edit`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to a Create Review page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, number>} payload Incoming payload.
+   * @param {number} payload.id ID of the show to review.
+   */
+   goToReviewCreate(
+    {
+      dispatch,
+      state,
+    },
+    { showId }): void {
+    try {
+      if (state.currentPage !== 'CreateReview') {
+        router.push(`/review/${showId}`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to Shows page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+   goToShows(
+    {
+      dispatch,
+      state,
+    }): void {
+    try {
+      if (state.currentPage !== 'Shows') {
+        router.push(`/show`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to a Show page.
+   * 
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {number} payload.id ID of the show to review.
+   */
+  goToShow(
+    {
+      dispatch,
+      state,
+    },
+    { id }): void {
+    try {
+      if (state.currentPage !== 'Show') {
+        router.push(`/show/${id}`);
+      }
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
+   * Routes the user to error page.
+   */
+  goTo404({ state }) {
+    if (state.currentPage !== '404') {
+      router.push('/404');
     }
   },
 };

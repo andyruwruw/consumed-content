@@ -1,16 +1,21 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 
-import Landing from '../views/Landing.vue';
-import Home from '../views/Home.vue';
+import Landing from '../views/landing/landing.vue';
+import Home from '../views/home/home.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
-    name: 'Landing',
-    component: Landing,
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/auth/login.vue'),
+  },
+  {
+    path: '/category/:id',
+    name: 'Category',
+    component: () => import('../views/category/category.vue'),
   },
   {
     path: '/home',
@@ -18,64 +23,54 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/category',
-    name: 'Categories',
-    component: () => import('../views/Categories.vue'),
+    path: '/',
+    name: 'Landing',
+    component: Landing,
   },
   {
-    path: '/category/:id',
-    name: 'Category',
-    component: () => import('../views/Category.vue'),
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login.vue'),
-  },
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: () => import('../views/Logout.vue'),
+    path: '/platform/:id',
+    name: 'Platform',
+    component: () => import('../views/platform/platform.vue'),
   },
   {
     path: '/profile/:id',
     name: 'Profile',
-    component: () => import('../views/Profile.vue'),
+    component: () => import('../views/profile/profile.vue'),
   },
   {
-    path: '/review',
+    path: '/profile/:id/category',
+    name: 'Categories',
+    component: () => import('../views/category/categories.vue'),
+  },
+  {
+    path: '/profile/:id/review',
     name: 'Reviews',
-    component: () => import('../views/Reviews.vue'),
+    component: () => import('../views/review/reviews.vue'),
   },
   {
-    path: '/review/:showId/:userId',
-    name: 'Review',
-    component: () => import('../views/Review.vue'),
-  },
-  {
-    path: '/movies',
-    name: 'Movies',
-    component: () => import('../views/Movies.vue'),
-  },
-  {
-    path: '/shows',
+    path: '/profile/:id/show',
     name: 'Shows',
-    component: () => import('../views/Shows.vue'),
+    component: () => import('../views/show/shows.vue'),
+  },
+  {
+    path: '/review/:showId/:reviewId',
+    name: 'Review',
+    component: () => import('../views/review/review.vue'),
+  },
+  {
+    path: '/review/:showId/:reviewId/edit',
+    name: 'EditReview',
+    component: () => import('../views/review/edit-review.vue'),
+  },
+  {
+    path: '/review/:showId',
+    name: 'CreateReview',
+    component: () => import('../views/review/create-review.vue'),
   },
   {
     path: '/show/:id',
     name: 'Show',
-    component: () => import('../views/Show.vue'),
-  },
-  {
-    path: '/review/:showId',
-    name: 'WriteReview',
-    component: () => import('../views/WriteReview.vue'),
-  },
-  {
-    path: '/platform/:platformId',
-    name: 'Platform',
-    component: () => import('../views/Platform.vue'),
+    component: () => import('../views/show/show.vue'),
   },
 ];
 

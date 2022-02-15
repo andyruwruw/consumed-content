@@ -78,7 +78,7 @@ export interface IMovieDbMovie extends IMovieDbObject {
 /**
  * The Movie DB representation of a movie's cast or crew member.
  */
-interface IMoveDbMovieParticipant extends IMovieDbObject, IMovieDbNambeableObject {
+interface IMovieDbMovieParticipant extends IMovieDbObject, IMovieDbNambeableObject {
   adult: boolean;
   gender: number | null;
   known_for_department: string;
@@ -90,7 +90,7 @@ interface IMoveDbMovieParticipant extends IMovieDbObject, IMovieDbNambeableObjec
 /**
  * The Movie DB representation of a cast member.
  */
-export interface IMovieDbCastMember extends IMoveDbMovieParticipant {
+export interface IMovieDbMovieCastMember extends IMovieDbMovieParticipant {
   cast_id: number;
   character: string;
   credit_id: string;
@@ -100,7 +100,7 @@ export interface IMovieDbCastMember extends IMoveDbMovieParticipant {
 /**
  * The Movie Db representation of a crew member.
  */
-export interface IMovieDbCrewMember extends IMoveDbMovieParticipant {
+export interface IMovieDbMovieCrewMember extends IMovieDbMovieParticipant {
   credit_id: string;
   department: string;
   job: string;
@@ -110,8 +110,8 @@ export interface IMovieDbCrewMember extends IMoveDbMovieParticipant {
  * The Movie DB representation of a movie's credits.
  */
 export interface IMovieDbMovieCredits extends IMovieDbObject {
-  cast: IMovieDbCastMember[];
-  crew: IMovieDbCrewMember[];
+  cast: IMovieDbMovieCastMember[];
+  crew: IMovieDbMovieCrewMember[];
 }
 
 /**
@@ -142,7 +142,7 @@ export interface IMovieDbPosterImage extends IMovieDbImage {
 /**
  * The Movie DB representation of a movie's images
  */
-export interface IMovieDbMovieImages extends IMovieDbObject {
+export interface IMovieDbItemImages extends IMovieDbObject {
   backdrops: IMovieDbBackdropImage[];
   posters: IMovieDbPosterImage[];
 }
@@ -174,4 +174,167 @@ export interface IMovieDbPageObject<T> {
   results: T[];
   total_results: number;
   total_pages: number;
+}
+
+/**
+ * The Movie DB representation of a TV show creator.
+ */
+interface IMovieDbTvShowCreator extends IMovieDbObject, IMovieDbNambeableObject {
+  credit_id: string;
+  gender: number;
+  profile_path: string | null;
+}
+
+/**
+ * The Movie DB representation of a TV show episode air date.
+ */
+interface IMovieDbTvShowEpisodeAirDate extends IMovieDbObject, IMovieDbNambeableObject {
+  air_date: string;
+  episode_number: number;
+  overview: string;
+  production_code: string;
+  season: number;
+  still_path: string | null;
+  vote_average: number;
+  vote_count: number;
+}
+
+/**
+ * The Movie DB representation of a TV show network.
+ */
+interface IMovieDbTvShowNetwork extends IMovieDbObject, IMovieDbNambeableObject {
+  logo_path: string | null;
+  origin_country: string;
+}
+
+/**
+ * The Movie DB representation of a TV show season.
+ */
+interface IMovieDbTvShowSeason extends IMovieDbObject, IMovieDbNambeableObject {
+  air_date: string;
+  episode_count: number;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+}
+
+/**
+ * The Movie DB representation of a TV shwo spoken language.
+ */
+interface IMovieDbTvShowSpokenLanguage extends IMovieDbNationalityObject {
+  english_name: string;
+}
+
+/**
+ * The Movie DB representation of a TV show.
+ */
+export interface IMovieDbTvShow {
+  backdrop_path: string | null;
+  created_by: IMovieDbTvShowCreator[];
+  episode_run_time: number[];
+  first_air_date: string;
+  genres: IMovieDbGenre[];
+  homepage: string;
+  in_production: boolean;
+  languages: string[];
+  last_air_date: string;
+  last_episode_to_air: IMovieDbTvShowEpisodeAirDate;
+  next_episode_to_air: null;
+  networks: IMovieDbTvShowNetwork[];
+  number_of_episodes: number;
+  number_of_seasons: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  production_companies: IMovieDbProductionCompany[];
+  production_countries: IMovieDbProductionCountry[];
+  seasons: IMovieDbTvShowSeason[];
+  spoken_languages: IMovieDbTvShowSpokenLanguage[];
+  status: string;
+  tagline: string;
+  type: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+/**
+ * The Movie DB representation of a TV show cast or crew member.
+ */
+interface IMovieDbTvShowParticipant extends IMovieDbObject, IMovieDbNambeableObject {
+  adult: boolean;
+  gender: number | null;
+  known_for_department: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+  total_episode_count: number;
+}
+
+/**
+ * The Movie DB representation of a TV show cast member's role.
+ */
+interface IMovieDbTvShowCastMemberRole {
+  credit_id: string;
+  character: string;
+  episode_count: number;
+}
+
+/**
+ * The Movie DB representation of a TV show crew member's job.
+ */
+interface IMovieDbTvShowCrewMemberJob {
+  credit_id: string;
+  character: string;
+  episode_count: number;
+}
+
+/**
+ * The Movie DB representation of a TV show cast member.
+ */
+export interface IMovieDbTvShowCastMember extends IMovieDbTvShowParticipant {
+  roles: IMovieDbTvShowCastMemberRole[],
+  order: number;
+}
+
+/**
+ * The Movie DB representation of a TV show crew member.
+ */
+export interface IMovieDbTvShowCrewMember extends IMovieDbTvShowParticipant {
+  jobs: IMovieDbTvShowCrewMemberJob[],
+  department: string;
+}
+
+/**
+ * The Movie DB representation of a TV show's credits.
+ */
+export interface IMovieDbTvShowCredits extends IMovieDbObject {
+  cast: IMovieDbTvShowCastMember[];
+  crew: IMovieDbTvShowCrewMember[];
+}
+
+/**
+ * The Movie DB representation of a TV show simplified.
+ */
+ export interface IMovieDbTvShowSimplified {
+  poster_path: string | null;
+  popularity: number;
+  backdrop_path: string | null;
+  vote_average: number;
+  vote_count: number;
+  overview: string;
+  first_air_date: string;
+  origin_country: string[];
+  genre_ids: number[];
+  original_language: string;
+  original_name: string;
+}
+
+/**
+ * The Movie DB return of a genre list.
+ */
+export interface IMovieDbGenreList {
+  genres: IMovieDbGenre[];
 }

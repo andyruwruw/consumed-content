@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS UserShow (
   FOREIGN key (\`userId\`) REFERENCES \`User\` (\`id\`),
   FOREIGN key (\`showId\`) REFERENCES \`Show\` (\`id\`)
 );`;
+
+export const INSERT_USER_SHOW = `INSERT INTO UserShow VALUE (:userId, :showId)`;

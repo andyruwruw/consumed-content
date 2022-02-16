@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS Show (
   \`overview\` text NOT NULL,
   PRIMARY KEY (\`id\`),
 );`;
+
+export const INSERT_SHOW = `INSERT INTO Show VALUE (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview)`;

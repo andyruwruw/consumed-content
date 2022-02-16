@@ -1,5 +1,5 @@
 export interface IUser {
-  id: number;
+  id?: number;
   name: string;
   username: string;
   password?: string;
@@ -8,8 +8,13 @@ export interface IUser {
   imageUrl: string;
 }
 
+export interface IUserFollow {
+  userId: string;
+  followingUserId: string;
+}
+
 export interface IShow {
-  id: number;
+  id?: number;
   name: string;
   type: string;
   posterUrl: string;
@@ -19,20 +24,20 @@ export interface IShow {
 }
 
 export interface IPlatform {
-  id: number;
+  id?: number;
   name: string;
   imageUrl: string;
   cost: number;
 }
 
 export interface ICategory {
-  id: number;
+  id?: number;
   userId: number;
   name: string;
 }
 
 export interface IReview {
-  id: number;
+  id?: number;
   showId: number;
   userId: number;
   name: string;
@@ -40,7 +45,7 @@ export interface IReview {
   description: string;
 }
 
-export interface ICategoryItem {
+export interface ICategoryShow {
   categoryId: number;
   showId: number;
   index: number;
@@ -53,11 +58,28 @@ export interface IFollow {
 }
 
 export interface IGenre {
-  id: number;
+  id?: number;
   name: string;
 }
 
 export interface IShowGenre {
   showId: number;
   genreId: string;
+}
+
+export interface IUserShow {
+  userId: number;
+  showId: number;
+  added: number;
+}
+
+export interface IUserToken {
+  id?: number;
+  userId: number;
+  token: string;
+}
+
+export interface IShowPlatform {
+  showId: number;
+  platformId: number;
 }

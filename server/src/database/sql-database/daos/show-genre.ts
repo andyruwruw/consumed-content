@@ -1,24 +1,24 @@
 // Local Imports
 import {
-  CREATE_SHOW_TABLE,
-  INSERT_SHOW,
-} from '../queries/show';
+  CREATE_SHOW_GENRE_TABLE,
+  INSERT_SHOW_GENRE,
+} from '../queries/show-genre';
 import { DataAccessObject } from './dao';
 
 // Types
-import { IShow } from '../../../../../shared/types';
+import { IShowGenre } from '../../../../../shared/types';
 
 /**
- * Data Access Object for Show.
+ * Data Access Object for ShowGenre.
  */
-export class Show extends DataAccessObject<IShow> {
+export class ShowGenre extends DataAccessObject<IShowGenre> {
   /**
    * Retrieves create table query for object.
    * 
    * @returns {string} SQL query for create table.
    */
   _getCreateTableQuery(): string {
-    return CREATE_SHOW_TABLE;
+    return CREATE_SHOW_GENRE_TABLE;
   }
 
   /**
@@ -27,6 +27,6 @@ export class Show extends DataAccessObject<IShow> {
    * @returns {string} SQL query for insert.
    */
   _getInsertQuery(): string {
-    return INSERT_SHOW;
+    return INSERT_SHOW_GENRE;
   }
 }

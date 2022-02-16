@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS ShowPlatform (
   FOREIGN key (\`showId\`) REFERENCES \`Show\` (\`id\`),
   FOREIGN key (\`platformId\`) REFERENCES \`Platform\` (\`id\`)
 );`;
+
+export const INSERT_SHOW_PLATFORM = `INSERT INTO ShowPlatform VALUE (:showId, :platformId)`;

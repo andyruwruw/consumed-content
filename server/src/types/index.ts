@@ -1,3 +1,6 @@
+// Packages
+import { Connection } from 'mariadb';
+
 /**
  * Shared properties for all The Movie DB objects.
  */
@@ -337,4 +340,12 @@ export interface IMovieDbTvShowCredits extends IMovieDbObject {
  */
 export interface IMovieDbGenreList {
   genres: IMovieDbGenre[];
+}
+
+export interface IDataAccessObject<T> {
+  createTable: (connection: Connection) => Promise<void>;
+  insert: (
+    connection: Connection,
+    item: T,
+  ) => Promise<void>;
 }

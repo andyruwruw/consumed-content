@@ -4,3 +4,5 @@ CREATE TABLE IF NOT EXISTS Genre (
   \`name\` varchar(64) NOT NULL,
   PRIMARY KEY (\`id\`)
 );`;
+
+export const INSERT_GENRE = `INSERT INTO Genre VALUE (:id, :name)`;

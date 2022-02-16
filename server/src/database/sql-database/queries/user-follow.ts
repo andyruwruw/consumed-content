@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS UserFollow (
   FOREIGN key (\`userId\`) REFERENCES \`User\` (\`id\`),
   FOREIGN key (\`followingUserId\`) REFERENCES \`User\` (\`id\`)
 );`;
+
+export const INSERT_USER_FOLLOW = `INSERT INTO UserFollow VALUE (:userId, :followingUserId)`;

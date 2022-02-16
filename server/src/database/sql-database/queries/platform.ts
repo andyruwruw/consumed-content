@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS Platform (
   \`cost\` decimal(10,2) NOT NULL,
   PRIMARY KEY (\`id\`)
 );`;
+
+export const INSERT_PLATFORM = `INSERT INTO Platform VALUE (:name, :imageUrl, :cost)`;

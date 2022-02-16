@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS CategoryShow (
   \`categoryId\` int(11) NOT NULL,
   \`showId\` int(11) NOT NULL,
   PRIMARY KEY (\`categoryId\`, \`showId\`),
-  FOREIGN key (\`categoryId\`) REFERENCES \`Category\` (\`id\`),
-  FOREIGN key (\`showId\`) REFERENCES \`Show\` (\`id\`)
-);`;
+  FOREIGN KEY (\`categoryId\`) REFERENCES \`Category\` (\`id\`),
+  FOREIGN KEY (\`showId\`) REFERENCES \`Show\` (\`id\`)
+)`;
+
+export const INSERT_CATEGORY_SHOW = `INSERT INTO CategoryShow VALUE (:categoryId, :showId)`;

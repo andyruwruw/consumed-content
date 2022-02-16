@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS UserToken (
   PRIMARY KEY (\`id\`),
   FOREIGN key (\`userId\`) REFERENCES \`User\` (\`id\`)
 );`;
+
+export const INSERT_USER_TOKEN = `INSERT INTO UserToken VALUE (:userId, :token)`;

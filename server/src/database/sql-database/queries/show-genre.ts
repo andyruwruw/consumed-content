@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS ShowGenre (
   \`showId\` int(11) NOT NULL,
   \`genreId\` int(11) NOT NULL,
   PRIMARY KEY (\`showId\`, \`genreId\`),
-  FOREIGN key (\`showId\`) REFERENCES \`Show\` (\`id\`),
-  FOREIGN key (\`genreId\`) REFERENCES \`Genre\` (\`id\`)
+  FOREIGN KEY (\`showId\`) REFERENCES \`Show\` (\`id\`),
+  FOREIGN KEY (\`genreId\`) REFERENCES \`Genre\` (\`id\`)
 );`;
+
+export const INSERT_SHOW_GENRE = `INSERT INTO ShowGenre VALUE (:showId, :genreId)`;

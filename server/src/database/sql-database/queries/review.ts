@@ -10,3 +10,5 @@ CREATE TABLE IF NOT EXISTS Review (
   FOREIGN KEY (\`showId\`) REFERENCES \`Show\` (\`id\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`User\` (\`id\`)
 );`;
+
+export const INSERT_REVIEW = `INSERT INTO Review VALUE (:showId, :userId, :name, :rating, :description)`;

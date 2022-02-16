@@ -1,19 +1,13 @@
 export class Category {
-
-  constructor(
-    userId: number,
-    name: string,
-  ) {
+  createTable() {
 
   }
 
-  static create({
-    userId,
-    name,
-  }): Category {
-    return new Category(
-      userId,
-      name,
-    );
+  insert() {
+
+  }
+
+  update() {
+
   }
 }

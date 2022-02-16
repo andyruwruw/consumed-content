@@ -3,7 +3,6 @@ export interface IUser {
   name: string;
   username: string;
   password?: string;
-  salt?: string;
   private: boolean;
   imageUrl: string;
 }
@@ -83,3 +82,5 @@ export interface IShowPlatform {
   showId: number;
   platformId: number;
 }
+
+export type IDatabaseColumnTypes = string | number | boolean | null;

@@ -1,13 +1,8 @@
-export class Category {
-  createTable() {
+// Local Imports
+import { DataAccessObject } from './dao';
 
-  }
+// Types
+import { ICategory } from '../../../../../shared/types';
 
-  insert() {
-
-  }
-
-  update() {
-
-  }
+export class Category extends DataAccessObject<ICategory> {
 }

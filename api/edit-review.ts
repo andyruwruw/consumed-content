@@ -13,6 +13,12 @@ import { EditReviewHandler } from '../server/src/handlers';
  * @param {VercelRequest} req Request for login URL.
  * @param {VercelResponse} res Response to request.
  */
-export default async function (req: VercelRequest, res: VercelResponse) {
-  return await EditReviewHandler.execute(req, res);
+export default async function (
+  req: VercelRequest,
+  res: VercelResponse,
+): Promise<void> {
+  return await EditReviewHandler.execute(
+    req,
+    res,
+  );
 }

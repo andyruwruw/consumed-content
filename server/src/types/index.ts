@@ -1,5 +1,6 @@
 // Packages
 import { Connection } from 'mariadb';
+import { IDatabaseColumnTypes } from '../../../shared/types';
 
 /**
  * Shared properties for all The Movie DB objects.
@@ -231,7 +232,7 @@ interface IMovieDbTvShowSpokenLanguage extends IMovieDbNationalityObject {
 /**
  * The Movie DB representation of a TV show.
  */
-export interface IMovieDbTvShow {
+export interface IMovieDbTvShow extends IMovieDbObject, IMovieDbNambeableObject {
   backdrop_path: string | null;
   created_by: IMovieDbTvShowCreator[];
   episode_run_time: number[];
@@ -321,7 +322,7 @@ export interface IMovieDbTvShowCredits extends IMovieDbObject {
 /**
  * The Movie DB representation of a TV show simplified.
  */
- export interface IMovieDbTvShowSimplified {
+ export interface IMovieDbTvShowSimplified extends IMovieDbObject, IMovieDbNambeableObject {
   poster_path: string | null;
   popularity: number;
   backdrop_path: string | null;
@@ -342,10 +343,40 @@ export interface IMovieDbGenreList {
   genres: IMovieDbGenre[];
 }
 
+/**
+ * Data Access Object interface.
+ */
 export interface IDataAccessObject<T> {
-  createTable: (connection: Connection) => Promise<void>;
-  insert: (
-    connection: Connection,
-    item: T,
-  ) => Promise<void>;
+  createTable: () => Promise<void>;
+  insert: (item: T) => Promise<number>;
+  find: (
+    conditions: IQueryConditions,
+    projection: IQueryProjection,
+  ) => Promise<Record<string, IDatabaseColumnTypes>[]>;
+  delete: (conditions: IQueryConditions) =>Promise<number>
+  update: (
+    conditions: IQueryConditions,
+    update: IQueryUpdate,
+  ) => Promise<number>;
+}
+
+/**
+ * Object defining a query filter.
+ */
+export interface IQueryConditions {
+  [key: string]: string | number | boolean | null;
+}
+
+/**
+ * Object defining a query update.
+ */
+export interface IQueryUpdate {
+  [key: string]: string | number | boolean | null;
+}
+
+/**
+ * Update defining a query projection.
+ */
+export interface IQueryProjection {
+  [key: string]: boolean;
 }

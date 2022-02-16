@@ -18,6 +18,14 @@ export class GetUserShowsHandler extends Handler {
     req: VercelRequest,
     res: VercelResponse,
   ): void {
-    
+    try {
+
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).send({
+        error: 'Internal Server Error',
+      });
+    }
   }
 }

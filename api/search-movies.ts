@@ -5,10 +5,10 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { GetUserCategoriesHandler } from '../server/src/handlers';
+import { SearchMoviesHandler } from '../server/src/handlers';
 
 /**
- * Get a user's categories.
+ * Searches for movies.
  *
  * @param {VercelRequest} req Request for login URL.
  * @param {VercelResponse} res Response to request.
@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await GetUserCategoriesHandler.execute(
+  return await SearchMoviesHandler.execute(
     req,
     res,
   );

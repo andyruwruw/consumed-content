@@ -51,4 +51,13 @@ export class Environment {
   static getTheMovieDBAPIKey(): string {
     return process.env.THE_MOVIE_DB_API_KEY;
   }
+
+  /**
+   * Retrieves server secret.
+   *
+   * @returns {string} Server secret.
+   */
+   static getSecret(): string {
+    return process.env.SECRET;
+  }
 }

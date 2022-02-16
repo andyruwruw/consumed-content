@@ -1,7 +1,8 @@
 // Packages
-import mariadb from 'mariadb';
+import { createPool } from 'mariadb';
 
 // Local Imports
+import { ConnectionManager } from './connection-manager';
 import { Database } from '../database';
 import { Environment } from '../../helpers/environment';
 import {
@@ -24,22 +25,17 @@ import {
  */
 export class SQLDatabase extends Database {
   /**
-   * Connection to database.
-   */
-  _connection: mariadb.Connection;
-
-  /**
    * Connects to the database.
    */
   async connect(): Promise<void> {
-    const pool = await mariadb.createPool({
+    const pool = await createPool({
       host: Environment.getDatabaseHost(),
       user: Environment.getDatabaseUser(),
       password: Environment.getDatabasePassword(),
       database: 'consumed-content',
     });
 
-    this._connection = await pool.getConnection();
+    ConnectionManager.setConnection(await pool.getConnection());
   }
 
   /**
@@ -48,7 +44,7 @@ export class SQLDatabase extends Database {
    * @returns {boolean} Whether the database instance is connected.
    */
   isConnected(): boolean {
-    return this._connection !== undefined;
+    return ConnectionManager.connection !== undefined;
   }
 
   /**

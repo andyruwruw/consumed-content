@@ -12,6 +12,8 @@ import { GetUserShowsHandler as GetUserShowsHandlerClass } from './get-user-show
 import { LoginHandler as LoginHandlerClass } from './login-handler';
 import { LogoutHandler as LogoutHandlerClass } from './logout-handler';
 import { RegisterHandler as RegisterHandlerClass } from './register-handler';
+import { SearchMoviesHandler as SearchMoviesHandlerClass } from './search-movies-handler';
+import { SearchTvShowsHandler as SearchTvShowsHandlerClass } from './search-tv-shows-handler';
 
 // Export instances.
 export const CheckUserHandler = new CheckUserHandlerClass();
@@ -27,3 +29,5 @@ export const GetUserShowsHandler = new GetUserShowsHandlerClass();
 export const LoginHandler = new LoginHandlerClass();
 export const LogoutHandler = new LogoutHandlerClass();
 export const RegisterHandler = new RegisterHandlerClass();
+export const SearchMoviesHandler = new SearchMoviesHandlerClass();
+export const SearchTvShowsHandler = new SearchTvShowsHandlerClass();

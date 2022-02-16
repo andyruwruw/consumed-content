@@ -25,7 +25,15 @@ export class RegisterHandler extends Handler {
       const username = req.query.username as string;
       const password = req.query.password as string;
 
-      // Check if exists
+      const existing = await this._database.user.find({
+        username,
+      });
+
+      if (existing.length) {
+        res.status(409).send({
+          error: 'Username already exists.',
+        });
+      }
 
       const hashedPassword = await hashPassword(password);
 
@@ -37,8 +45,9 @@ export class RegisterHandler extends Handler {
         imageUrl: '',
       });
 
-      // Retrieve made row and send back.
-      const user = {};
+      const user = await this._database.user.find({
+        username,
+      });
 
       const token = generateToken({
         userId: 1,

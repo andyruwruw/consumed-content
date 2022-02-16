@@ -48,8 +48,8 @@ export class DataAccessObject<T> {
    * @returns {Promise<Record<string, IDatabaseColumnTypes>[]>} Items that fit the conditions with projection.
    */
   async find(
-    conditions: IQueryConditions,
-    projection: IQueryProjection,
+    conditions: IQueryConditions = {},
+    projection: IQueryProjection = {},
   ): Promise<Record<string, IDatabaseColumnTypes>[]> {
     const items = this._applyConditions(conditions);
 
@@ -62,7 +62,7 @@ export class DataAccessObject<T> {
    * @param {IQueryConditions} conditions Conditions items should fit.
    * @returns {Promise<number>} The number of items deleted.
    */
-  async delete(conditions: IQueryConditions): Promise<number> {
+  async delete(conditions: IQueryConditions = {}): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
       if ('id' in item) {
         return item['id'];
@@ -88,8 +88,8 @@ export class DataAccessObject<T> {
    * @returns {Promise<number>} The number of items updated.
    */
   async update(
-    conditions: IQueryConditions,
-    update: IQueryUpdate,
+    conditions: IQueryConditions = {},
+    update: IQueryUpdate = {},
   ): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
       if ('id' in item) {

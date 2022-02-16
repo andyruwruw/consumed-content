@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { Handler } from './handler';
+import { validate } from '../helpers/auth-helpers';
 
 export class CheckUserHandler extends Handler {
   /**
@@ -19,7 +20,16 @@ export class CheckUserHandler extends Handler {
     res: VercelResponse,
   ): void {
     try {
+      const user = validate(
+        req,
+        this._database,
+      );
 
+      if (!user) {
+        res.status(204).send({});
+      }
+
+      res.status(200).send(user);
     } catch (error) {
       console.log(error);
 

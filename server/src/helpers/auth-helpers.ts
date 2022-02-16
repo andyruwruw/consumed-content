@@ -1,8 +1,17 @@
 // Packages
+import { VercelRequest } from '@vercel/node';
 import bcrypt from 'bcrypt';
 
 // Local Imports
 import { SALT_WORK_FACTOR } from '../config';
+import { Database } from '../database/database';
+import {
+  getCookie,
+  decodeToken,
+} from './cookie-helpers';
+
+// Types
+import { IUser } from '../../../shared/types';
 
 /**
  * Salts and hashes passwords.
@@ -34,4 +43,45 @@ export const comparePassword = async (
     subject,
     valid,
   );
+}
+
+/**
+ * Validates a request and returns user.
+ *
+ * @param {VercelRequest} req Incoming request.
+ * @param {Database} database Database instance.
+ * @returns {Promise<IUser | null>} User if valid, null otherwise.
+ */
+export const validate = async (
+  req: VercelRequest,
+  database: Database,
+): Promise<IUser | null> => {
+  const cookie = getCookie(req);
+
+  if (!cookie || cookie === '') {
+    return null;
+  }
+
+  const {
+    userId,
+  } = decodeToken(cookie);
+
+  if (!userId || userId === '') {
+    return null;
+  }
+
+  const token = await database.userToken.find({
+    userId: userId,
+    token: cookie,
+  });
+
+  if (!token || !token.length) {
+    return null;
+  }
+  
+  const user = database.user.find({
+    id: userId,
+  });
+
+  return user[0];
 }

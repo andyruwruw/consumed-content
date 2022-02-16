@@ -350,13 +350,13 @@ export interface IDataAccessObject<T> {
   createTable: () => Promise<void>;
   insert: (item: T) => Promise<number>;
   find: (
-    conditions: IQueryConditions,
-    projection: IQueryProjection,
+    conditions?: IQueryConditions,
+    projection?: IQueryProjection,
   ) => Promise<Record<string, IDatabaseColumnTypes>[]>;
-  delete: (conditions: IQueryConditions) =>Promise<number>
+  delete: (conditions?: IQueryConditions) =>Promise<number>
   update: (
-    conditions: IQueryConditions,
-    update: IQueryUpdate,
+    conditions?: IQueryConditions,
+    update?: IQueryUpdate,
   ) => Promise<number>;
 }
 

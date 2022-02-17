@@ -57,6 +57,28 @@ export class DataAccessObject<T> {
   }
 
   /**
+   * Finds an item that fit the conditions and applies projection.
+   *
+   * @param {IQueryConditions} conditions Conditions the item should fit.
+   * @param {IQueryProjection} projection Projection to be applied.
+   * @returns {Promise<Record<string, IDatabaseColumnTypes> | null>} An item that fit the conditions with projection.
+   */
+  async findOne(
+    conditions: IQueryConditions = {},
+    projection: IQueryProjection = {},
+  ): Promise<Record<string, IDatabaseColumnTypes> | null> {
+    const items = await this.find(
+      conditions,
+      projection,
+    );
+
+    if (!items || !items.length) {
+      return null;
+    }
+    return items[0];
+  }
+
+  /**
    * Deletes items that fit a set of conditions.
    *
    * @param {IQueryConditions} conditions Conditions items should fit.

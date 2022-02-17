@@ -15,9 +15,9 @@ import {
 } from '../../../shared/types';
 
 /**
- * Handler for fetching a set of reviews for a user.
+ * Handler for fetching a set of reviews for a show.
  */
-export class GetUserReviewsHandler extends Handler {
+export class GetShowReviewsHandler extends Handler {
   /**
    * Executes the handler.
    *
@@ -29,11 +29,11 @@ export class GetUserReviewsHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
-      const userId = parseInt(req.query.userId as string, 10);
+      const showId = parseInt(req.query.showId as string, 10);
 
-      if (!(typeof(userId) === 'number')) {
+      if (!(typeof(showId) === 'number')) {
         res.status(400).send({
-          error: 'User ID not set.',
+          error: 'Show ID not set.',
         });
         return;
       }
@@ -43,25 +43,30 @@ export class GetUserReviewsHandler extends Handler {
         this._database,
       );
 
-      if (!user || user.id !== userId) {
-        const requestedUser = await this._database.user.findOne({
-          id: userId,
+      const reviews = (await this._database.review.find({
+        showId,
+      })) as IReview[];
+
+      const filteredReviews = [];
+      let averageRating = 0;
+
+      for (let i = 0; i < reviews.length; i += 1) {
+        averageRating += reviews[i].rating;
+
+        const writingUser = await this._database.user.findOne({
+          id: reviews[i].userId,
         }) as IUser;
 
-        if (requestedUser.private) {
-          res.status(401).send({
-            error: 'User is private.',
-          });
-          return;
+        if (!writingUser.private || writingUser.id === user.id) {
+          filteredReviews.push(reviews[i]);
         }
       }
 
-      const reviews = (await this._database.review.find({
-        userId,
-      })) as IReview[];
+      averageRating /= reviews.length;
 
       res.status(200).send({
         reviews,
+        averageRating,
       });
     } catch (error) {
       console.log(error);

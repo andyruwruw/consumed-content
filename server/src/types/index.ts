@@ -1,5 +1,4 @@
 // Packages
-import { Connection } from 'mariadb';
 import { IDatabaseColumnTypes } from '../../../shared/types';
 
 /**
@@ -358,6 +357,10 @@ export interface IDataAccessObject<T> {
     conditions?: IQueryConditions,
     update?: IQueryUpdate,
   ) => Promise<number>;
+  findOne: (
+    conditions?: IQueryConditions,
+    projection?: IQueryProjection,
+  ) => Promise<Record<string, IDatabaseColumnTypes> | null>;
 }
 
 /**

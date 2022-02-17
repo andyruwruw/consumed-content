@@ -12,9 +12,9 @@ import { validate } from '../helpers/auth-helpers';
 import { IReview } from '../../../shared/types';
 
 /**
- * Handler for creating reviews.
+ * Handler for deleting reviews
  */
-export class CreateReviewHandler extends Handler {
+export class DeleteReviewHandler extends Handler {
   /**
    * Executes the handler.
    *
@@ -26,14 +26,11 @@ export class CreateReviewHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
-      const showId = parseInt(req.query.showId as string, 10);
-      const name = req.query.review as string || 'Review';
-      const rating = parseInt(req.query.rating as string, 10) || 0;
-      const description = req.query.description as string || '';
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(showId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
-          error: 'Show ID not set.',
+          error: 'Review ID not set.',
         });
         return;
       }
@@ -51,23 +48,18 @@ export class CreateReviewHandler extends Handler {
       }
 
       const existing = await this._database.review.findOne({
-        userId: user['id'],
-        showId,
+        id,
       }) as IReview | null;
 
-      if (existing) {
+      if (!existing) {
         res.status(401).send({
-          error: 'Edit the existing review.',
+          error: 'Could not find review.',
         });
         return;
       }
 
-      const completed = await this._database.review.insert({
-        showId,
-        userId: user['id'],
-        name,
-        rating,
-        description,
+      const completed = await this._database.review.delete({
+        id,
       }) !== 0;
 
       if (!completed) {
@@ -77,13 +69,8 @@ export class CreateReviewHandler extends Handler {
         return;
       }
 
-      const review = await this._database.review.findOne({
-        showId,
-        userId: user['id'],
-      }) as IReview;
-
       res.status(201).send({
-        review,
+        completed,
       });
     } catch (error) {
       console.log(error);

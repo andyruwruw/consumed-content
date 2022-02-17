@@ -3,21 +3,17 @@ import {
   VercelRequest,
   VercelResponse,
 } from '@vercel/node';
-import { validate } from '../helpers/auth-helpers';
 
 // Local Imports
 import { Handler } from './handler';
 
 // Types
-import {
-  ICategory,
-  IUser,
-} from '../../../shared/types';
+import { IUserFollow } from '../../../shared/types';
 
 /**
- * Handler for getting a user's categories.
+ * Handler for getting the people following a user.
  */
-export class GetUserCategoriesHandler extends Handler {
+export class GetUserFollowersHandler extends Handler {
   /**
    * Executes the handler.
    *
@@ -38,30 +34,26 @@ export class GetUserCategoriesHandler extends Handler {
         return;
       }
 
-      const user = await validate(
-        req,
-        this._database,
-      );
+      const follows = await this._database.userFollow.find({
+        followingUserId: userId,
+      }) as IUserFollow[];
 
-      if (!user || user.id !== userId) {
-        const requestedUser = await this._database.user.findOne({
-          id: userId,
-        }) as IUser;
+      const users = [];
 
-        if (requestedUser.private) {
-          res.status(401).send({
-            error: 'User is private.',
-          });
-          return;
+      for (let i = 0; i < follows.length; i += 1) {
+        const follow = follows[i];
+
+        const user = await this._database.user.findOne({
+          id: follow.userId,
+        });
+
+        if (user) {
+          users.push(user);
         }
       }
 
-      const categories = (await this._database.category.find({
-        userId,
-      })) as ICategory[];
-
       res.status(200).send({
-        categories,
+        users,
       });
     } catch (error) {
       console.log(error);

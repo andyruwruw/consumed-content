@@ -12,9 +12,9 @@ import { validate } from '../helpers/auth-helpers';
 import { IUserFollow } from '../../../shared/types';
 
 /**
- * Handler for following other users.
+ * Handler for unfollowing other users.
  */
-export class FollowHandler extends Handler {
+export class UnfollowHandler extends Handler {
   /**
    * Executes the handler.
    *
@@ -47,19 +47,19 @@ export class FollowHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.userFollow.findOne({
+      const follow = await this._database.userFollow.findOne({
         userId: user['id'],
         followingUserId,
       }) as IUserFollow;
 
-      if (existing) {
-        res.status(401).send({
-          error: 'Already following user.',
+      if (!follow) {
+        res.status(200).send({
+          error: 'Not following user.',
         });
         return;
       }
 
-      const completed = (await this._database.userFollow.insert({
+      const completed = (await this._database.userFollow.delete({
         userId: user['id'],
         followingUserId,
       })) === 1;

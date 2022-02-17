@@ -9,6 +9,9 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 import { getCookie } from '../helpers/cookie-helpers';
 
+/**
+ * Handler for logging users out.
+ */
 export class LogoutHandler extends Handler {
   /**
    * Executes the handler.
@@ -16,10 +19,10 @@ export class LogoutHandler extends Handler {
    * @param {VercelRequest} req Request for handler.
    * @param {VercelResponse} res Response to request.
    */
-  execute(
+  async execute(
     req: VercelRequest,
     res: VercelResponse,
-  ): void {
+  ): Promise<void> {
     try {
       const user = validate(
         req,
@@ -28,20 +31,24 @@ export class LogoutHandler extends Handler {
 
       if (!user) {
         res.status(204).send({});
+        return;
       }
 
       const token = getCookie(req);
 
       if (!token) {
         res.status(204).send({});
+        return;
       }
 
-      this._database.userToken.delete({
+      const completed = await this._database.userToken.delete({
         userId: user['id'],
         token,
       });
 
-      res.status(204).send({});
+      res.status(200).send({
+        completed,
+      });
     } catch (error) {
       console.log(error);
 

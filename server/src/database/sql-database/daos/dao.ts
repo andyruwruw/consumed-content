@@ -70,6 +70,30 @@ export class DataAccessObject<T> {
 
       return await ConnectionManager.connection.query(query);
     }
+    return [];
+  }
+
+  /**
+   * Finds an item that fit the conditions and applies projection.
+   *
+   * @param {IQueryConditions} conditions Conditions items should fit.
+   * @param {IQueryProjection} projection Projection to be applied.
+   * @returns {Promise<Record<string, IDatabaseColumnTypes> | null>} Items that fit the conditions with projection.
+   */
+   async findOne(
+    conditions: IQueryConditions = {},
+    projection: IQueryProjection = {},
+  ): Promise<Record<string, IDatabaseColumnTypes> | null> {
+    const items = await this.find(
+      conditions,
+      projection,
+    );
+
+    if (!items || !items.length) {
+      return null;
+    }
+
+    return items[0];
   }
 
   /**
@@ -84,6 +108,7 @@ export class DataAccessObject<T> {
 
       return (await ConnectionManager.connection.query(query)).affectedRows;
     }
+    return 0;
   }
 
   /**

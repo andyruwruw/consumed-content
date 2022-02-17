@@ -11,7 +11,10 @@ import {
 } from './cookie-helpers';
 
 // Types
-import { IUser } from '../../../shared/types';
+import {
+  IUser,
+  IUserToken,
+} from '../../../shared/types';
 
 /**
  * Salts and hashes passwords.
@@ -70,18 +73,18 @@ export const validate = async (
     return null;
   }
 
-  const token = await database.userToken.find({
+  const token = await database.userToken.findOne({
     userId: userId,
     token: cookie,
-  });
+  }) as IUserToken | null;
 
-  if (!token || !token.length) {
+  if (!token) {
     return null;
   }
   
-  const user = database.user.find({
+  const user = await database.user.findOne({
     id: userId,
-  });
+  }) as IUser | null;
 
-  return user[0];
+  return user;
 }

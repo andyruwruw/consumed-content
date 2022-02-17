@@ -9,12 +9,12 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
 // Types
-import { IReview } from '../../../shared/types';
+import { IUserShow } from '../../../shared/types';
 
 /**
- * Handler for creating reviews.
+ * Handler for adding shows to a user's list.
  */
-export class CreateReviewHandler extends Handler {
+export class AddShowHandler extends Handler {
   /**
    * Executes the handler.
    *
@@ -27,9 +27,6 @@ export class CreateReviewHandler extends Handler {
   ): Promise<void> {
     try {
       const showId = parseInt(req.query.showId as string, 10);
-      const name = req.query.review as string || 'Review';
-      const rating = parseInt(req.query.rating as string, 10) || 0;
-      const description = req.query.description as string || '';
 
       if (!(typeof(showId) === 'number')) {
         res.status(400).send({
@@ -50,24 +47,22 @@ export class CreateReviewHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.review.findOne({
+      const existing = await this._database.userShow.findOne({
         userId: user['id'],
         showId,
-      }) as IReview | null;
+      }) as IUserShow | null;
 
       if (existing) {
-        res.status(401).send({
-          error: 'Edit the existing review.',
+        res.status(204).send({
+          completed: true,
         });
         return;
       }
 
-      const completed = await this._database.review.insert({
+      const completed = await this._database.userShow.insert({
         showId,
         userId: user['id'],
-        name,
-        rating,
-        description,
+        added: Date.now(),
       }) !== 0;
 
       if (!completed) {
@@ -77,13 +72,8 @@ export class CreateReviewHandler extends Handler {
         return;
       }
 
-      const review = await this._database.review.findOne({
-        showId,
-        userId: user['id'],
-      }) as IReview;
-
       res.status(201).send({
-        review,
+        completed,
       });
     } catch (error) {
       console.log(error);

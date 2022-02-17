@@ -1,4 +1,8 @@
-export interface IUser {
+export type IDatabaseColumnTypes = string | number | boolean | null;
+
+export type IDatabaseObject = Record<string, IDatabaseColumnTypes>;
+
+export interface IUser extends IDatabaseObject {
   id?: number;
   name: string;
   username: string;
@@ -7,12 +11,12 @@ export interface IUser {
   imageUrl: string;
 }
 
-export interface IUserFollow {
-  userId: string;
-  followingUserId: string;
+export interface IUserFollow extends IDatabaseObject {
+  userId: number;
+  followingUserId: number;
 }
 
-export interface IShow {
+export interface IShow extends IDatabaseObject {
   id?: number;
   name: string;
   type: string;
@@ -22,20 +26,20 @@ export interface IShow {
   overview: string;
 }
 
-export interface IPlatform {
+export interface IPlatform extends IDatabaseObject {
   id?: number;
   name: string;
   imageUrl: string;
   cost: number;
 }
 
-export interface ICategory {
+export interface ICategory extends IDatabaseObject {
   id?: number;
   userId: number;
   name: string;
 }
 
-export interface IReview {
+export interface IReview extends IDatabaseObject {
   id?: number;
   showId: number;
   userId: number;
@@ -44,43 +48,41 @@ export interface IReview {
   description: string;
 }
 
-export interface ICategoryShow {
+export interface ICategoryShow extends IDatabaseObject {
   categoryId: number;
   showId: number;
   index: number;
   addedDate: string;
 }
 
-export interface IFollow {
+export interface IFollow extends IDatabaseObject {
   userId: number;
   followingUserId: number;
 }
 
-export interface IGenre {
+export interface IGenre extends IDatabaseObject {
   id?: number;
   name: string;
 }
 
-export interface IShowGenre {
+export interface IShowGenre extends IDatabaseObject {
   showId: number;
   genreId: string;
 }
 
-export interface IUserShow {
+export interface IUserShow extends IDatabaseObject {
   userId: number;
   showId: number;
   added: number;
 }
 
-export interface IUserToken {
+export interface IUserToken extends IDatabaseObject {
   id?: number;
   userId: number;
   token: string;
 }
 
-export interface IShowPlatform {
+export interface IShowPlatform extends IDatabaseObject {
   showId: number;
   platformId: number;
 }
-
-export type IDatabaseColumnTypes = string | number | boolean | null;

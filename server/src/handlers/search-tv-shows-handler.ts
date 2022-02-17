@@ -9,6 +9,9 @@ import { convertSimplifiedTvShows } from '../helpers/themoviedb-helpers';
 import { Handler } from './handler';
 import api from '../api';
 
+/**
+ * Handler for searching TV shows.
+ */
 export class SearchTvShowsHandler extends Handler {
   /**
    * Executes the handler.
@@ -31,7 +34,9 @@ export class SearchTvShowsHandler extends Handler {
 
       const shows = convertSimplifiedTvShows(response.results);
 
-      res.status(200).send(shows);
+      res.status(200).send({
+        shows,
+      });
     } catch (error) {
       console.log(error);
 

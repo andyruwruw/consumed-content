@@ -3,12 +3,21 @@ import {
   VercelRequest,
   VercelResponse,
 } from '@vercel/node';
-import { comparePassword } from '../helpers/auth-helpers';
-import { attatchCookie, generateToken } from '../helpers/cookie-helpers';
 
 // Local Imports
+import {
+  attatchCookie,
+  generateToken,
+} from '../helpers/cookie-helpers';
+import { comparePassword } from '../helpers/auth-helpers';
 import { Handler } from './handler';
 
+// Types
+import { IUser } from '../../../shared/types';
+
+/**
+ * Handler for logging a user in.
+ */
 export class LoginHandler extends Handler {
   /**
    * Executes the handler.
@@ -24,18 +33,19 @@ export class LoginHandler extends Handler {
       const username = req.query.username as string;
       const password = req.query.password as string;
 
-      const user = await this._database.user.find({
+      const user = await this._database.user.findOne({
         username,
-      });
+      }) as IUser | null;
 
-      if (!user.length) {
+      if (!user) {
         res.status(400).send({
           error: 'Username not found.',
         });
+        return;
       }
 
       const passwordsMatch = await comparePassword(
-        user[0]['password'] as string,
+        user['password'] as string,
         password,
       );
 
@@ -43,23 +53,33 @@ export class LoginHandler extends Handler {
         res.status(400).send({
           error: 'Username or password don\'t match.',
         });
+        return;
       }
 
       const token = generateToken({
-        userId: user['id'] || 'no-id',
+        userId: user['id'] || -1,
       });
 
-      await this._database.userToken.insert({
-        userId: user['id'] || 'no-id',
+      const completed = await this._database.userToken.insert({
+        userId: user['id'] || -1,
         token,
       });
+
+      if (!completed) {
+        res.status(500).send({
+          error: 'Internal Server Error',
+        });
+        return;
+      }
 
       attatchCookie(
         res,
         token,
       );
 
-      res.status(200).send(user);
+      res.status(200).send({
+        user,
+      });
     } catch (error) {
       console.log(error);
 

@@ -1,4 +1,4 @@
-export type IDatabaseColumnTypes = string | number | boolean | null;
+export type IDatabaseColumnTypes = string | number | boolean | null | undefined;
 
 export type IDatabaseObject = Record<string, IDatabaseColumnTypes>;
 

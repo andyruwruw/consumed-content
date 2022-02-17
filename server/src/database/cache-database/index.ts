@@ -20,6 +20,13 @@ import {
  */
 export class CacheDatabase extends Database {
   /**
+   * Connects to the database.
+   */
+  async connect(): Promise<void> {
+    return;
+  }
+
+  /**
    * Whether the database instance is connected.
    *
    * @returns {boolean} Whether the database instance is connected.

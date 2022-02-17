@@ -17,6 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  console.log('hi');
   return await SearchMoviesHandler.execute(
     req,
     res,

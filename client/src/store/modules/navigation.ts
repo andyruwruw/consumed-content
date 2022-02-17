@@ -101,7 +101,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Login page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
   goToLogin({
@@ -120,7 +120,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Categories page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
   goToCategories({
@@ -138,7 +138,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Category page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.id ID of the category.
@@ -148,7 +148,8 @@ const actions: ActionTree<NavigationState, any> = {
       dispatch,
       state,
     },
-    { id }): void {
+    { id },
+  ): void {
     try {
       if (state.currentPage !== 'Category') {
         router.push(`/category/${id}`);
@@ -160,7 +161,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Home page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
   goToHome({
@@ -178,7 +179,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Landing page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
   goToLanding({
@@ -196,7 +197,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Platform page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.id ID of the platform.
@@ -206,7 +207,8 @@ const actions: ActionTree<NavigationState, any> = {
       dispatch,
       state,
     },
-    { id }): void {
+    { id },
+  ): void {
     try {
       if (state.currentPage !== 'Platform') {
         router.push(`/platform/${id}`);
@@ -218,7 +220,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Profile page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.id ID of the user.
@@ -228,7 +230,8 @@ const actions: ActionTree<NavigationState, any> = {
       dispatch,
       state,
     },
-    { id }): void {
+    { id },
+  ): void {
     try {
       if (state.currentPage !== 'Profile') {
         router.push(`/profile/${id}`);
@@ -240,7 +243,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Reviews page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
   goToReviews({
@@ -258,7 +261,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Review page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.reviewId ID of the review.
@@ -272,7 +275,8 @@ const actions: ActionTree<NavigationState, any> = {
     {
       reviewId,
       showId,
-    }): void {
+    },
+  ): void {
     try {
       if (state.currentPage !== 'Review') {
         router.push(`/review/${showId}/${reviewId}`);
@@ -284,7 +288,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to an Edit Review page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.reviewId ID of the review to edit.
@@ -298,7 +302,8 @@ const actions: ActionTree<NavigationState, any> = {
     {
       reviewId,
       showId,
-    }): void {
+    },
+  ): void {
     try {
       if (state.currentPage !== 'EditReview') {
         router.push(`/review/${showId}/${reviewId}/edit`);
@@ -310,17 +315,18 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Create Review page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {Record<string, number>} payload Incoming payload.
    * @param {number} payload.id ID of the show to review.
    */
-   goToReviewCreate(
+  goToReviewCreate(
     {
       dispatch,
       state,
     },
-    { showId }): void {
+    { showId },
+  ): void {
     try {
       if (state.currentPage !== 'CreateReview') {
         router.push(`/review/${showId}`);
@@ -332,17 +338,18 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to Shows page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-   goToShows(
+  goToShows(
     {
       dispatch,
       state,
-    }): void {
+    },
+  ): void {
     try {
       if (state.currentPage !== 'Shows') {
-        router.push(`/show`);
+        router.push('/show');
       }
     } catch (error) {
       dispatch('goTo404');
@@ -351,7 +358,7 @@ const actions: ActionTree<NavigationState, any> = {
 
   /**
    * Routes the user to a Show page.
-   * 
+   *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    * @param {number} payload.id ID of the show to review.
    */
@@ -360,7 +367,8 @@ const actions: ActionTree<NavigationState, any> = {
       dispatch,
       state,
     },
-    { id }): void {
+    { id },
+  ): void {
     try {
       if (state.currentPage !== 'Show') {
         router.push(`/show/${id}`);

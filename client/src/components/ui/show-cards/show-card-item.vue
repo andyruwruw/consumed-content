@@ -72,7 +72,34 @@
 <script lang="ts">
 import Vue from 'vue';
 
-export default Vue.extend({
+interface IData {
+  isAdded: boolean;
+}
+
+interface IMethods {
+  goToShow: () => void;
+  writeReview: () => void;
+  interact: () => void;
+  unlike: () => void;
+  like: () => void;
+}
+
+interface IComputed {
+  isSaved: boolean;
+}
+
+interface IProps {
+  id: number;
+  title: string;
+  duration: string;
+  genres: string[];
+  released: string;
+  imageUrl: string;
+  padding: boolean;
+  saved: boolean;
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'ShowCardItem',
 
   props: {
@@ -122,15 +149,15 @@ export default Vue.extend({
   }),
 
   methods: {
-    goToShow() {
+    goToShow(): void {
       this.$router.push(`/show/${this.id}`);
     },
 
-    writeReview() {
+    writeReview(): void {
       this.$router.push(`/review/${this.id}`);
     },
 
-    interact() {
+    interact(): void {
       if (this.saved) {
         this.unlike();
       } else {
@@ -139,17 +166,17 @@ export default Vue.extend({
       this.isAdded = !this.isAdded;
     },
 
-    unlike() {
+    unlike(): void {
       this.$emit('unlike', this.id);
     },
 
-    like() {
+    like(): void {
       console.log('If we had any features like that I\'d add it for you');
     },
   },
 
   computed: {
-    isSaved() {
+    isSaved(): boolean {
       return this.saved || this.isAdded;
     },
   },

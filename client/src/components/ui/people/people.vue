@@ -191,20 +191,18 @@ export default Vue.extend({
     },
   },
 
-  data: () => ({
-    name: NAMES,
-    images: IMAGES,
-  }),
-
   computed: {
     people() {
       const count = Math.ceil(Math.random() * 5);
       const people = [];
 
       for (let i = 0; i < count; i += 1) {
+        const nameIndex = Math.floor(Math.random() * NAMES.length);
+        const imageIndex = Math.floor(Math.random() * IMAGES.length);
+
         people.push({
-          name: this.name[Math.floor(Math.random() * this.name.length)],
-          image: this.images[Math.floor(Math.random() * this.images.length)],
+          name: NAMES[nameIndex],
+          image: IMAGES[imageIndex],
         });
       }
 

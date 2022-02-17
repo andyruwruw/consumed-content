@@ -21,7 +21,19 @@
       outlined
       dense
       hide-details
-      placeholder="Search..." />
+      placeholder="Search..."
+      @focus="open"
+      @blur="close" />
+
+    <div
+      v-if="searchOpen"
+      :class="$style['search-results']">
+      <h1>
+        Search Results for 'Spiderman'
+      </h1>
+
+      <show-list />
+    </div>
 
     <v-spacer></v-spacer>
 
@@ -50,8 +62,14 @@
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 
+import ShowList from '../show-list/show-list.vue';
+
 export default Vue.extend({
   name: 'AppBar',
+
+  components: {
+    ShowList,
+  },
 
   computed: {
     ...mapGetters('user', [
@@ -62,6 +80,10 @@ export default Vue.extend({
       return this.$route.name === 'Landing';
     },
   },
+
+  data: () => ({
+    searchOpen: false,
+  }),
 
   methods: {
     ...mapActions('user', [
@@ -79,6 +101,14 @@ export default Vue.extend({
     loginPage() {
       this.$router.push('/login');
     },
+
+    open() {
+      this.searchOpen = true;
+    },
+
+    close() {
+      this.searchOpen = false;
+    },
   },
 });
 </script>
@@ -94,5 +124,17 @@ export default Vue.extend({
   color: #E6B31D;
   cursor: pointer;
   margin-right: 2rem;
+}
+
+.search-results {
+  position: fixed;
+  display: block;
+  top: 64px;
+  left: 0;
+  width: calc(100% - 2rem);
+  max-width: 800px;
+  height: 50vh;
+  background: rgba(0, 0, 0, 0.822);
+  padding: 1rem;
 }
 </style>

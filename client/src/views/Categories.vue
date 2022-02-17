@@ -1,5 +1,9 @@
 <template>
   <div :class="$style.component">
+    <v-btn dark outline>
+      Add Category
+    </v-btn>
+
     <category-cards
       title="Your Categories" />
   </div>

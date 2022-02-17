@@ -4,6 +4,13 @@
       Andrew's Category: Horror
     </h1>
 
+    <v-btn
+      dark
+      outlined
+      @click="deleteCategory">
+      Delete
+    </v-btn>
+
     <show-list />
   </div>
 </template>
@@ -18,6 +25,12 @@ export default Vue.extend({
 
   components: {
     ShowList,
+  },
+
+  methods: {
+    deleteCategory() {
+      this.$router.push('/home');
+    },
   },
 });
 </script>

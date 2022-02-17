@@ -17,12 +17,37 @@
           </v-icon>
         </v-btn>
 
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="#E6B31D"
+              icon
+              v-bind="attrs"
+              v-on="on">
+              <v-icon large>
+                mdi-folder-table-outline
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title style="cursor: pointer">Add to 'Horror' Category</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title style="cursor: pointer">Add to 'Favorites' Category</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title style="cursor: pointer">Add to 'Oldies' Category</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <v-btn
           color="#E6B31D"
           icon
           @click="interact">
           <v-icon large>
-            {{ saved ? 'mdi-minus' : 'mdi-plus' }}
+            {{ isSaved ? 'mdi-minus' : 'mdi-plus' }}
           </v-icon>
         </v-btn>
       </div>
@@ -92,6 +117,10 @@ export default Vue.extend({
     },
   },
 
+  data: () => ({
+    isAdded: false,
+  }),
+
   methods: {
     goToShow() {
       this.$router.push(`/show/${this.id}`);
@@ -107,6 +136,7 @@ export default Vue.extend({
       } else {
         this.like();
       }
+      this.isAdded = !this.isAdded;
     },
 
     unlike() {
@@ -115,6 +145,12 @@ export default Vue.extend({
 
     like() {
       console.log('If we had any features like that I\'d add it for you');
+    },
+  },
+
+  computed: {
+    isSaved() {
+      return this.saved || this.isAdded;
     },
   },
 });

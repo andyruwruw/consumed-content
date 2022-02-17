@@ -42,6 +42,13 @@
     <v-btn dark color="#E6B31D" tile @click="writeReview">
       Write Review
     </v-btn>
+
+    <v-text-field
+      style="margin-top: 1rem"
+      dark
+      outlined
+      color="#E6B31D"
+      placeholder="Share what platform you viewed this on" />
   </div>
 </template>
 

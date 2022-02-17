@@ -6,32 +6,62 @@
         :class="$style.image" />
 
       <div :class="$style.details">
-        <span :class="$style.name">
-          {{ getUser.name }}
-        </span>
+        <div>
+          <span :class="$style.name">
+            {{ getUser.name }}
+          </span>
 
-        <span :class="$style.username">
-          {{ getUser.username }}
-        </span>
+          <span :class="$style.username">
+            {{ getUser.username }}
+          </span>
 
-        <v-spacer />
+          <v-spacer />
 
-        <span :class="$style.stats">
-          84 Movies, 22 TV Shows
-        </span>
+          <span :class="$style.stats">
+            84 Movies, 22 TV Shows
+          </span>
+        </div>
+
+        <v-tabs
+          v-model="tab"
+          dark>
+          <v-tab>
+            Overview
+          </v-tab>
+
+          <v-tab>
+            Followers
+          </v-tab>
+
+          <v-tab>
+            Following
+          </v-tab>
+        </v-tabs>
       </div>
     </div>
 
-    <show-cards
-      title="Favorite Movies"
-      :shows="movies"
-      :limit="10"
-      :rows="false" />
+    <div v-if="tab === 0">
+      <show-cards
+        title="Favorite Movies"
+        :shows="movies"
+        :limit="10"
+        :rows="false" />
 
-    <category-cards
-      title="Andrew's Categories"
-      :limit="10"
-      :rows="false" />
+      <category-cards
+        title="Andrew's Categories"
+        :limit="10"
+        :rows="false" />
+    </div>
+
+    <div v-if="tab === 1">
+      <people id="followers" />
+    </div>
+
+    <div v-if="tab === 2">
+      <div>
+        <people id="followering" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +72,7 @@ import { mapGetters } from 'vuex';
 import { FAKE_MOVIES } from '../config';
 import ShowCards from '../components/ui/show-cards/show-cards.vue';
 import CategoryCards from '../components/ui/category-cards/category-cards.vue';
+import People from '../components/ui/people/people.vue';
 
 export default Vue.extend({
   name: 'Profile',
@@ -49,10 +80,12 @@ export default Vue.extend({
   components: {
     CategoryCards,
     ShowCards,
+    People,
   },
 
   data: () => ({
     movies: FAKE_MOVIES,
+    tab: 0,
   }),
 
   computed: {
@@ -81,7 +114,7 @@ export default Vue.extend({
 .details {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   padding: 2rem 0;
 
   .name {

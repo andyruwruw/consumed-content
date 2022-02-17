@@ -77,7 +77,7 @@ export default Vue.extend({
 .component {
   display: flex;
   margin: 1rem;
-  width: 800px;
+  width: 100%;
   background: #2E2E2E;
   padding: 1rem;
   cursor: pointer;

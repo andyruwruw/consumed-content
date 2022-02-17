@@ -19,6 +19,8 @@
     ></v-slider>
     <v-btn elevation="2" @click="goToReview">Submit</v-btn>
     &nbsp;
+    <v-btn elevation="2" @click="goToReview">Submit Anonymous</v-btn>
+    &nbsp;
     <v-btn elevation="2" @click="goHome">Cancel</v-btn>
   </v-container>
 </template>

@@ -31,7 +31,7 @@
         </v-btn>
 
         <v-btn dark color="#E6B31D" tile @click="writeReview">
-          Write Review
+          Edit Review
         </v-btn>
       </div>
 

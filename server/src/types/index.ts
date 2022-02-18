@@ -1,5 +1,5 @@
 // Packages
-import { IDatabaseColumnTypes } from '../../../shared/types';
+import { ICategory, IDatabaseColumnTypes, IGenre, IPlatform, IReview, IShow } from '../../../shared/types';
 
 /**
  * Shared properties for all The Movie DB objects.
@@ -362,6 +362,31 @@ export interface IDataAccessObject<T> {
     projection?: IQueryProjection,
   ) => Promise<Record<string, IDatabaseColumnTypes> | null>;
 }
+
+export interface ICategoryDataAccessObject extends IDataAccessObject<ICategory> {
+
+}
+
+export interface IGenreDataAccessObject extends IDataAccessObject<IGenre> {
+
+}
+
+export interface IPlatformDataAccessObject extends IDataAccessObject<IPlatform> {
+
+}
+
+export interface IReviewDataAccessObject extends IDataAccessObject<IReview> {
+
+}
+
+export interface IShowDataAccessObject extends IDataAccessObject<IShow> {
+  
+}
+
+export interface IUserDataAccessObject extends IDataAccessObject<IUser> {
+  
+}
+
 
 /**
  * Object defining a query filter.

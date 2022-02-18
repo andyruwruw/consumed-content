@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { CheckUserHandler } from '../server/src/handlers';
+import { CheckUserHandler } from '../src/handlers';
 
 /**
  * Adds a show to a user's list.

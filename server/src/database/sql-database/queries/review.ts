@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS Review (
   \`rating\` int(11) NOT NULL,
   \`description\` text NOT NULL,
   PRIMARY KEY (\`id\`),
-  FOREIGN KEY (\`showId\`) REFERENCES \`Show\` (\`id\`),
-  FOREIGN KEY (\`userId\`) REFERENCES \`User\` (\`id\`)
+  FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`),
+  FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`)
 );`;
 
 export const INSERT_REVIEW = `INSERT INTO Review VALUE (:showId, :userId, :name, :rating, :description)`;

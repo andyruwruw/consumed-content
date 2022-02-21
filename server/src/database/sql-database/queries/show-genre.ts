@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS ShowGenre (
   \`showId\` int(11) NOT NULL,
   \`genreId\` int(11) NOT NULL,
   PRIMARY KEY (\`showId\`, \`genreId\`),
-  FOREIGN KEY (\`showId\`) REFERENCES \`Show\` (\`id\`),
+  FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`),
   FOREIGN KEY (\`genreId\`) REFERENCES \`Genre\` (\`id\`)
 );`;
 

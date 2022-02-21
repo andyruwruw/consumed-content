@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Category (
   \`userId\` int(11) NOT NULL,
   \`name\` varchar(64) NOT NULL,
   PRIMARY KEY (\`id\`),
-  FOREIGN KEY (\`userId\`) REFERENCES \`User\` (\`id\`)
+  FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`)
 );`;
 
 export const INSERT_CATEGORY = `INSERT INTO CategoryShow VALUE (:userId, :name)`;

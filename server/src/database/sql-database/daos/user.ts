@@ -36,6 +36,6 @@ export class User extends DataAccessObject<IUser> {
    * @returns {string} Name of the table.
    */
   _getTableName(): string {
-    return 'User';
+    return 'Users';
   }
 }

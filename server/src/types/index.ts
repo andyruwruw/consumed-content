@@ -408,3 +408,14 @@ export interface IQueryUpdate {
 export interface IQueryProjection {
   [key: string]: boolean;
 }
+
+interface IMariaDBQuery {
+  namedPlaceholders: boolean;
+  sql: string;
+}
+
+interface IMariaDbParams {
+  [key: string]: string | number | boolean | null;
+}
+
+export type IMariaDbQuery = Array<IMariaDBQuery | IMariaDbParams>;

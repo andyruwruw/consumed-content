@@ -29,4 +29,13 @@ export class UserToken extends DataAccessObject<IUserToken> {
   _getInsertQuery(): string {
     return INSERT_USER_TOKEN;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'UserToken';
+  }
 }

@@ -29,4 +29,13 @@ export class UserShow extends DataAccessObject<IUserShow> {
   _getInsertQuery(): string {
     return INSERT_USER_SHOW;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'UserShow';
+  }
 }

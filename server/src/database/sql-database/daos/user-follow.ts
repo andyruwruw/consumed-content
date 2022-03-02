@@ -29,4 +29,13 @@ export class UserFollow extends DataAccessObject<IUserFollow> {
   _getInsertQuery(): string {
     return INSERT_USER_FOLLOW;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'UserFollow';
+  }
 }

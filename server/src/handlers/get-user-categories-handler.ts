@@ -30,7 +30,7 @@ export class GetUserCategoriesHandler extends Handler {
   ): Promise<void> {
     try {
       await this._connectDatabase();
-  
+
       const userId = parseInt(req.query.userId as string, 10);
 
       if (!(typeof(userId) === 'number')) {

@@ -29,4 +29,13 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> {
   _getInsertQuery(): string {
     return INSERT_SHOW_PLATFORM;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'ShowPlatform';
+  }
 }

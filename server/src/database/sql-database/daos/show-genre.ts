@@ -29,4 +29,13 @@ export class ShowGenre extends DataAccessObject<IShowGenre> {
   _getInsertQuery(): string {
     return INSERT_SHOW_GENRE;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'ShowGenre';
+  }
 }

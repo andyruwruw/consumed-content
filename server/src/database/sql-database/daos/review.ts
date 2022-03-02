@@ -29,4 +29,13 @@ export class Review extends DataAccessObject<IReview> {
   _getInsertQuery(): string {
     return INSERT_REVIEW;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'Review';
+  }
 }

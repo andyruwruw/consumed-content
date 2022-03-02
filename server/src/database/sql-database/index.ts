@@ -28,15 +28,35 @@ export class SQLDatabase extends Database {
    * Connects to the database.
    */
   async connect(): Promise<void> {
-    const connection = await createConnection({
+    ConnectionManager.setConnection(await createConnection({
       host: Environment.getDatabaseHost(),
       user: Environment.getDatabaseUser(),
       password: Environment.getDatabasePassword(),
       port: 3306,
-      database: 'consumed-content',
-    });
+    }));
 
-    ConnectionManager.setConnection(connection);
+    await ConnectionManager.connection.query('CREATE DATABASE IF NOT EXISTS consumedcontent');
+
+    await ConnectionManager.connection.query('USE consumedcontent');
+
+    await Promise.all([
+      this.genre.createTable(),
+      this.platform.createTable(),
+      this.show.createTable(),
+      this.user.createTable(),
+    ]);
+
+    await Promise.all([
+      this.category.createTable(),
+      this.review.createTable(),
+      this.showGenre.createTable(),
+      this.showPlatform.createTable(),
+      this.userFollow.createTable(),
+      this.userShow.createTable(),
+      this.userToken.createTable(),
+    ]);
+
+    await this.categoryShow.createTable();
   }
 
   /**

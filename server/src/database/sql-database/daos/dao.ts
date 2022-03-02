@@ -26,7 +26,7 @@ export class DataAccessObject<T> {
    */
   async createTable(): Promise<void> {
     if (ConnectionManager.connection) {
-      return await ConnectionManager.connection.query(this._getCreateTableQuery());
+      return ConnectionManager.connection.query(this._getCreateTableQuery());
     }
   }
 
@@ -47,7 +47,10 @@ export class DataAccessObject<T> {
 
     if (ConnectionManager.connection) {
       return (await ConnectionManager.connection.query(
-        this._getInsertQuery(),
+        {
+          namedPlaceholders: true,
+          sql: this._getInsertQuery(),
+        },
         item,
       )).affectedRows;
     }
@@ -142,7 +145,12 @@ export class DataAccessObject<T> {
     }
 
     return ` WHERE ${Object.keys(conditions).map(key => {
-      return `${key} = ${conditions[key]}`;
+      let value = conditions[key];
+      if (typeof(value) === 'string') {
+        value = `\"${value}\"`;
+      }
+
+      return `${value} = \`${key}\``;
     }).join(' AND ')}`;
   }
 

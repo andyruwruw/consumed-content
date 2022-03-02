@@ -29,4 +29,13 @@ export class Show extends DataAccessObject<IShow> {
   _getInsertQuery(): string {
     return INSERT_SHOW;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'Shows';
+  }
 }

@@ -31,8 +31,8 @@ export class DataAccessObject<T> {
    * @returns {Promise<number>} Number of items added.
    */
   async insert(item: T): Promise<number> {
-    if (!('id' in item)) {
-      item['id'] = this._items.length;
+    if (!('id' in (item as unknown as Record<string, IDatabaseColumnTypes>))) {
+      (item as unknown as Record<string, IDatabaseColumnTypes>)['id'] = this._items.length;
     }
 
     this._items.push(item);
@@ -86,15 +86,15 @@ export class DataAccessObject<T> {
    */
   async delete(conditions: IQueryConditions = {}): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
-      if ('id' in item) {
-        return item['id'];
+      if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
+        return (item as unknown as Record<string, IDatabaseColumnTypes>)['id'];
       }
       return 'no-id';
     });
 
     this._items = this._items.filter((item) => {
-      if ('id' in item) {
-        return !itemIds.includes(item['id']);
+      if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
+        return !itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>)['id']);
       }
       return false;
     });
@@ -114,16 +114,16 @@ export class DataAccessObject<T> {
     update: IQueryUpdate = {},
   ): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
-      if ('id' in item) {
-        return item['id'];
+      if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
+        return (item as unknown as Record<string, IDatabaseColumnTypes>)['id'];
       }
       return 'no-id';
     });
 
     for (let i = 0; i < this._items.length; i += 1) {
-      const item = this._items[i];
+      const item = this._items[i] as unknown as Record<string, IDatabaseColumnTypes>;
 
-      if ('id' in item && itemIds.includes(item['id'])) {
+      if ('id' in item && itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>)['id'])) {
         this._updateItem(
           i,
           update,

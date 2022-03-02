@@ -1,13 +1,59 @@
+// Types
+import { IMariaDbQuery } from '../../../types';
+
+/**
+ * Creates the Shows table.
+ */
 export const CREATE_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS Shows (
   \`id\` int(11) NOT NULL AUTO_INCREMENT,
   \`name\` varchar(64) NOT NULL,
-  \`showType\` varchar(64) NOT NULL,
+  \`type\` varchar(64) NOT NULL,
   \`posterUrl\` varchar(255) NOT NULL,
   \`backdropUrl\` varchar(255) NOT NULL,
   \`releaseDate\` varchar(255) NOT NULL,
   \`overview\` text NOT NULL,
-  PRIMARY KEY (\`id\`),
-);`;
+  PRIMARY KEY (\`id\`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;`;
 
-export const INSERT_SHOW = `INSERT INTO Show VALUE (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview)`;
+/**
+ * Deletes the Shows table.
+ */
+export const DROP_SHOW_TABLE = `
+DROP TABLE Shows;
+`;
+
+/**
+ * Inserts a new show.
+ *
+ * @param {string} name Name of the show.
+ * @param {string} type Type, tv-show or movie
+ * @param {string} posterUrl URL to poster image.
+ * @param {string} backdropUrl URL to backdrop image.
+ * @param {string} releaseDate Release date.
+ * @param {string} overview Overview of the show.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const INSERT_SHOW = (
+  name: string,
+  type: string,
+  posterUrl: string,
+  backdropUrl: boolean,
+  releaseDate: string,
+  overview: string,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview)
+VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
+  },
+  {
+    name,
+    type,
+    posterUrl,
+    backdropUrl,
+    releaseDate,
+    overview,
+  },
+]);

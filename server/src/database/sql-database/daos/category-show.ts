@@ -29,4 +29,13 @@ export class CategoryShow extends DataAccessObject<ICategoryShow> {
   _getInsertQuery(): string {
     return INSERT_CATEGORY_SHOW;
   }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'CategoryShow';
+  }
 }

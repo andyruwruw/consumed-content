@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_CATEGORY_TABLE,
+  DROP_CATEGORY_TABLE,
   INSERT_CATEGORY,
 } from '../queries/category';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class Category extends DataAccessObject<ICategory> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_CATEGORY;
+  _getDropTableQuery(): string {
+    return DROP_CATEGORY_TABLE;
   }
 
   /**

@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS UserToken (
   \`token\` text NOT NULL,
   PRIMARY KEY (\`id\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the UserToken table.
@@ -23,12 +24,12 @@ DROP TABLE UserToken;
 /**
  * Inserts a new user token.
  *
- * @param {string} userId User's Id.
+ * @param {number} userId User's Id.
  * @param {string} token Login token.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_USER_TOKEN = (
-  userId: string,
+  userId: number,
   token: string,
 ): IMariaDbQuery => ([
   {
@@ -40,5 +41,70 @@ VALUES (:userId, :token);`,
   {
     userId,
     token,
+  },
+]);
+
+/**
+ * Selects a UserToken based on userId and token values.
+ *
+ * @param {number} userId User's Id.
+ * @param {string} token Login token.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_TOKEN = (
+  userId: number,
+  token: string,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM UserToken
+WHERE \`userId\` = :userId AND \`token\` = :token;`,
+  },
+  {
+    userId,
+    token,
+  },
+])
+
+/**
+ * Deletes a UserToken by it's userId and token value.
+ *
+ * @param {number} userId User's Id.
+ * @param {string} token Login token.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_TOKEN = (
+  userId: number,
+  token: string,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM UserToken
+WHERE \`userId\` = :userId AND \`token\` = :token;`,
+  },
+  {
+    userId,
+    token,
+  },
+]);
+
+/**
+ * Deletes UserTokens for a userId.
+ *
+ * @param {number} userId User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_USERS_TOKENS = (userId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM UserToken
+WHERE \`userId\` = :userId;`,
+  },
+  {
+    userId,
   },
 ]);

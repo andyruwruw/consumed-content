@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_SHOW_GENRE_TABLE,
+  DROP_SHOW_GENRE_TABLE,
   INSERT_SHOW_GENRE,
 } from '../queries/show-genre';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class ShowGenre extends DataAccessObject<IShowGenre> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_SHOW_GENRE;
+  _getDropTableQuery(): string {
+    return DROP_SHOW_GENRE_TABLE;
   }
 
   /**

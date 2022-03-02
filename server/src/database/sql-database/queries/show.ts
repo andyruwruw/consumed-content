@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS Shows (
   \`releaseDate\` varchar(255) NOT NULL,
   \`overview\` text NOT NULL,
   PRIMARY KEY (\`id\`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the Shows table.

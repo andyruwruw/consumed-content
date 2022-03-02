@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_USER_FOLLOW_TABLE,
+  DROP_USER_FOLLOW_TABLE,
   INSERT_USER_FOLLOW,
 } from '../queries/user-follow';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class UserFollow extends DataAccessObject<IUserFollow> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_USER_FOLLOW;
+  _getDropTableQuery(): string {
+    return DROP_USER_FOLLOW_TABLE;
   }
 
   /**

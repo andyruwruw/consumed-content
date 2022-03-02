@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS Genre (
   \`id\` int(11) NOT NULL,
   \`name\` varchar(64) NOT NULL,
   PRIMARY KEY (\`id\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the Genre table.

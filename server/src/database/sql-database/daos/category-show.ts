@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_CATEGORY_SHOW_TABLE,
+  DROP_CATEGORY_SHOW_TABLE,
   INSERT_CATEGORY_SHOW,
 } from '../queries/category-show';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class CategoryShow extends DataAccessObject<ICategoryShow> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_CATEGORY_SHOW;
+  _getDropTableQuery(): string {
+    return DROP_CATEGORY_SHOW_TABLE;
   }
 
   /**

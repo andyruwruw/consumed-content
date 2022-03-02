@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_SHOW_TABLE,
+  DROP_SHOW_TABLE,
   INSERT_SHOW,
 } from '../queries/show';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class Show extends DataAccessObject<IShow> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_SHOW;
+  _getDropTableQuery(): string {
+    return DROP_SHOW_TABLE;
   }
 
   /**

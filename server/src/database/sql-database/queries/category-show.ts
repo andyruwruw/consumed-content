@@ -12,12 +12,13 @@ CREATE TABLE IF NOT EXISTS CategoryShow (
   PRIMARY KEY (\`categoryId\`, \`showId\`),
   FOREIGN KEY (\`categoryId\`) REFERENCES \`Category\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the CategoryShow table.
  */
-export const DROP_CATEGORY_TABLE = `
+export const DROP_CATEGORY_SHOW_TABLE = `
 DROP TABLE CategoryShow;
 `;
 
@@ -41,5 +42,28 @@ VALUES (:categoryId, :showId);`,
   {
     categoryId,
     showId,
+  },
+]);
+
+/**
+ * Retrieves shows in a category.
+ *
+ * @param {string} categoryId Category's Id.
+ */
+export const SELECT_CATEGORY_SHOWS = (categoryId: string): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT Shows.id, Shows.name, Shows.type, Shows.posterUrl, Shows.releaseDate, Shows.overview, CategoryShow.added
+FROM (
+  SELECT *
+  FROM CategoryShow
+  WHERE CategoryShow.categoryId = :categoryId
+) as CategorysShows
+JOIN Shows ON Shows.id = CategorysShows.showId;
+`,
+  },
+  {
+    categoryId,
   },
 ]);

@@ -25,7 +25,7 @@ DROP TABLE Users;
 `;
 
 /**
- * Finds a User based off a username.
+ * Finds an User based off a username.
  *
  * @param {string} username User's username.
  * @returns {IMariaDbQuery} MariaDB query.
@@ -45,7 +45,7 @@ WHERE username = :username;
 ]);
 
 /**
- * Finds a User based off a username. Projects only public information.
+ * Finds an User based off a username. Projects only public information.
  *
  * @param {string} username User's username.
  * @returns {IMariaDbQuery} MariaDB query.
@@ -61,6 +61,46 @@ WHERE username = :username;
   },
   {
     username,
+  },
+]);
+
+/**
+ * Finds an User based off a Id.
+ *
+ * @param {number} id User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_PRIVATE_USER_BY_ID = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+SELECT *
+FROM Users
+WHERE id = :id;
+    `,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Finds an User based off a Id. Projects only public information.
+ *
+ *  @param {number} id User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_PUBLIC_USER_BY_ID = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+SELECT name, username, private, imageUrl
+FROM Users
+WHERE id = :id;
+    `,
+  },
+  {
+    id,
   },
 ]);
 

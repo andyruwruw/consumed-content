@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS ShowPlatform (
   PRIMARY KEY (\`showId\`, \`platformId\`),
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`platformId\`) REFERENCES \`Platform\` (\`id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the ShowPlatform table.

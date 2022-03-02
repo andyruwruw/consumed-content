@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS UserFollow (
   PRIMARY KEY (\`userId\`, \`followingUserId\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`followingUserId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the UserFollow table.

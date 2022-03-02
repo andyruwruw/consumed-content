@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_PLATFORM_TABLE,
+  DROP_PLATFORM_TABLE,
   INSERT_PLATFORM,
 } from '../queries/platform';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class Platform extends DataAccessObject<IPlatform> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_PLATFORM;
+  _getDropTableQuery(): string {
+    return DROP_PLATFORM_TABLE;
   }
 
   /**

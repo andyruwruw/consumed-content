@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_SHOW_PLATFORM_TABLE,
+  DROP_SHOW_PLATFORM_TABLE,
   INSERT_SHOW_PLATFORM,
 } from '../queries/show-platform';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_SHOW_PLATFORM;
+  _getDropTableQuery(): string {
+    return DROP_SHOW_PLATFORM_TABLE;
   }
 
   /**

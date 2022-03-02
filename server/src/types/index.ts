@@ -409,13 +409,16 @@ export interface IQueryProjection {
   [key: string]: boolean;
 }
 
-interface IMariaDBQuery {
+export interface IMariaDBQuery {
   namedPlaceholders: boolean;
   sql: string;
 }
 
-interface IMariaDbParams {
+export interface IMariaDbParams {
   [key: string]: string | number | boolean | null;
 }
 
-export type IMariaDbQuery = Array<IMariaDBQuery | IMariaDbParams>;
+export type IMariaDbQuery = [
+  IMariaDBQuery,
+  IMariaDbParams,
+];

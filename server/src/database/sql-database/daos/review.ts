@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_REVIEW_TABLE,
+  DROP_REVIEW_TABLE,
   INSERT_REVIEW,
 } from '../queries/review';
 import { DataAccessObject } from './dao';
@@ -22,12 +23,12 @@ export class Review extends DataAccessObject<IReview> {
   }
 
   /**
-   * Retrieves insert query for object.
+   * Retrieves drop table query for object.
    * 
-   * @returns {string} SQL query for insert.
+   * @returns {string} SQL query for drop table.
    */
-  _getInsertQuery(): string {
-    return INSERT_REVIEW;
+  _getDropTableQuery(): string {
+    return DROP_REVIEW_TABLE;
   }
 
   /**

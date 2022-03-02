@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS Platform (
   \`imageUrl\` varchar(255) NOT NULL,
   \`cost\` decimal(10,2) NOT NULL,
   PRIMARY KEY (\`id\`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the Platform table.

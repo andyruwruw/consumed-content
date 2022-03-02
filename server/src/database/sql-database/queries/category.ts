@@ -48,3 +48,25 @@ VALUES (:userId, :name, :description);`,
     description,
   },
 ]);
+
+/**
+ * Selects all a user's categories.
+ *
+ * @param {string} userId User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_USER_CATEGORIES = (
+  userId: string,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Category
+WHERE Category.userId = :userId;
+ORDER BY name ASC;`,
+  },
+  {
+    userId,
+  },
+]);

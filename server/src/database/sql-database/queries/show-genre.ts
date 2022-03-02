@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS ShowGenre (
   PRIMARY KEY (\`showId\`, \`genreId\`),
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`genreId\`) REFERENCES \`Genre\` (\`id\`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;`;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+`;
 
 /**
  * Deletes the ShowGenre table.

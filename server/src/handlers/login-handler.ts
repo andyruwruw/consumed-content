@@ -30,6 +30,8 @@ export class LoginHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const username = req.query.username as string;
       const password = req.query.password as string;
 

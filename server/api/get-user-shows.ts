@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { GetUserShowsHandler } from '../server/src/handlers';
+import { GetUserShowsHandler } from '../src/handlers';
 
 /**
  * Get a user's shows.

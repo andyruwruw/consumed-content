@@ -2,7 +2,7 @@
 import {
   CREATE_USER_TABLE,
   INSERT_USER,
-} from '../queries/user';
+} from '../queries/users';
 import { DataAccessObject } from './dao';
 
 // Types
@@ -28,5 +28,14 @@ export class User extends DataAccessObject<IUser> {
    */
   _getInsertQuery(): string {
     return INSERT_USER;
+  }
+
+  /**
+   * Retrieves table name.
+   * 
+   * @returns {string} Name of the table.
+   */
+  _getTableName(): string {
+    return 'User';
   }
 }

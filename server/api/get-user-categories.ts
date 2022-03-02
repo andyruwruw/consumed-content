@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { GetUserCategoriesHandler } from '../server/src/handlers';
+import { GetUserCategoriesHandler } from '../src/handlers';
 
 /**
  * Get a user's categories.

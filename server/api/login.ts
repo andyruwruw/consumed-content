@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { LoginHandler } from '../server/src/handlers';
+import { LoginHandler } from '../src/handlers';
 
 /**
  * Log a user in.

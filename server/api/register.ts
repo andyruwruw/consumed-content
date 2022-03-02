@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { RegisterHandler } from '../server/src/handlers';
+import { RegisterHandler } from '../src/handlers';
 
 /**
  * Registers a user.

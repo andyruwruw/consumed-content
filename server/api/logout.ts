@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { LogoutHandler } from '../server/src/handlers';
+import { LogoutHandler } from '../src/handlers';
 
 /**
  * Logout a user.

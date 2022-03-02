@@ -1,5 +1,5 @@
 // Packages
-import { createPool } from 'mariadb';
+import { createConnection } from 'mariadb';
 
 // Local Imports
 import { ConnectionManager } from './connection-manager';
@@ -28,14 +28,15 @@ export class SQLDatabase extends Database {
    * Connects to the database.
    */
   async connect(): Promise<void> {
-    const pool = await createPool({
+    const connection = await createConnection({
       host: Environment.getDatabaseHost(),
       user: Environment.getDatabaseUser(),
       password: Environment.getDatabasePassword(),
+      port: 3306,
       database: 'consumed-content',
     });
 
-    ConnectionManager.setConnection(await pool.getConnection());
+    ConnectionManager.setConnection(connection);
   }
 
   /**

@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { SearchTvShowsHandler } from '../server/src/handlers';
+import { SearchTvShowsHandler } from '../src/handlers';
 
 /**
  * Searches for TV shows.

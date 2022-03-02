@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { FollowHandler } from '../server/src/handlers';
+import { FollowHandler } from '../src/handlers';
 
 /**
  * Follows another user.

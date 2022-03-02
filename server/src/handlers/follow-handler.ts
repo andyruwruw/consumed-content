@@ -26,6 +26,8 @@ export class FollowHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const followingUserId = parseInt(req.query.followingUserId as string, 10);
 
       if (!(typeof(followingUserId) === 'number')) {

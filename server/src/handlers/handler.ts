@@ -28,7 +28,6 @@ export class Handler {
    */
   constructor() {
     this._database = getDatabase();
-    this._connectDatabase();
   }
 
   /**

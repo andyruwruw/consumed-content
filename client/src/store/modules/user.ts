@@ -102,6 +102,27 @@ const actions: ActionTree<AuthModuleState, any> = {
     username,
     password,
   }): void {
+    console.log(username, password);
+  },
+
+  /**
+   * Registers a user in with the website.
+   *
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   * @param {Record<string, any>} payload Action payload.
+   * @param {string} payload.name User's name.
+   * @param {string} payload.username User's username.
+   * @param {string} payload.password User's password.
+   */
+  register({
+    commit,
+    dispatch,
+  }, {
+    name,
+    username,
+    password,
+  }): void {
+    console.log(name, username, password);
   },
 
   /**

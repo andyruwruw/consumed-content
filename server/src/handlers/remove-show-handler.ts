@@ -26,6 +26,8 @@ export class RemoveShowHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const showId = parseInt(req.query.showId as string, 10);
 
       if (!(typeof(showId) === 'number')) {

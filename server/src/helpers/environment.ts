@@ -13,7 +13,7 @@ export class Environment {
    * @returns {string} The current environment.
    */
   static getEnvironment(): string {
-    return process.env.ENVIRONEMNT;
+    return process.env.ENVIRONMENT;
   }
 
   /**

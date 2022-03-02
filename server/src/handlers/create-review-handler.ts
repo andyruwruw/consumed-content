@@ -26,6 +26,8 @@ export class CreateReviewHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const showId = parseInt(req.query.showId as string, 10);
       const name = req.query.review as string || 'Review';
       const rating = parseInt(req.query.rating as string, 10) || 0;

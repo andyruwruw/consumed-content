@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.component">
     <h1>
-      Login or Join
+      {{ title}}
     </h1>
 
     <p>
@@ -23,15 +23,15 @@
 
     <v-btn
       elevation="2"
-      @click="goHome">
-      Login
+      @click="toggleLoginRegister">
+      {{ toggleButtonText }}
     </v-btn>
 
     &nbsp;
 
     <v-btn
       elevation="2"
-      @click="goHome">
+      @click="execute">
       Join
     </v-btn>
   </div>
@@ -39,14 +39,55 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'Login',
 
+  data: () => ({
+    login: true,
+  }),
+
   methods: {
-    goHome() {
-      this.$router.push('/home');
+    ...mapActions('user', [
+      'login',
+      'register',
+    ]),
+
+    execute() {
+      if (this.login) {
+        this.login({
+          username,
+          password,
+        });
+      } else {
+        this.register({
+          name, 
+          username,
+          password
+        });
+      }
     },
+
+    toggleLoginRegister() {
+      this.login = !this.login;
+    },
+  },
+
+  computed: {
+    title() {
+      if (this.login) {
+        return 'Login';
+      }
+      return 'Join!';
+    },
+
+    toggleButtonText() {
+      if (this.login) {
+        return 'Register Instead';
+      }
+      return 'Login Instead';
+    }
   },
 });
 </script>

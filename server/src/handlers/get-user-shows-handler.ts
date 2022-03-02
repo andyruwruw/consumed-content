@@ -29,6 +29,8 @@ export class GetUserShowsHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const userId = parseInt(req.query.userId as string, 10);
 
       if (!(typeof(userId) === 'number')) {

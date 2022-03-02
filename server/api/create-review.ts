@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { CreateReviewHandler } from '../server/src/handlers';
+import { CreateReviewHandler } from '../src/handlers';
 
 /**
  * Creates a new review.

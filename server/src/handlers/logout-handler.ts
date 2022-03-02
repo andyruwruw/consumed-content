@@ -24,6 +24,8 @@ export class LogoutHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const user = validate(
         req,
         this._database,

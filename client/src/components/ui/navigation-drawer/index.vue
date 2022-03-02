@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    v-if="isLoggedIn"
     :value="isOpen"
     color="#343434"
     app
@@ -34,7 +35,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters('user', [
       'getUser',
-      'isNavBarOpen',
+      'isLoggedIn',
     ]),
 
     isOpen() {

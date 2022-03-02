@@ -1,5 +1,5 @@
 // Packages
-import { ICategory, IDatabaseColumnTypes, IGenre, IPlatform, IReview, IShow } from '../../../shared/types';
+import { ICategory, IDatabaseColumnTypes, IGenre, IPlatform, IReview, IShow, IUser } from '../../../shared/types';
 
 /**
  * Shared properties for all The Movie DB objects.

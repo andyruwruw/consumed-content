@@ -26,6 +26,8 @@ export class DeleteReviewHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const id = parseInt(req.query.id as string, 10);
 
       if (!(typeof(id) === 'number')) {

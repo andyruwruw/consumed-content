@@ -27,6 +27,8 @@ export class RegisterHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const name = req.query.name as string;
       const username = req.query.username as string;
       const password = req.query.password as string;
@@ -47,7 +49,7 @@ export class RegisterHandler extends Handler {
         username,
       }) as IUser;
 
-      if (existing.length) {
+      if (existing) {
         res.status(409).send({
           error: 'Username already exists.',
         });
@@ -66,7 +68,7 @@ export class RegisterHandler extends Handler {
 
       if (!completedUserInsert) {
         res.status(500).send({
-          error: 'Internal Server Error',
+          error: 'Internal Server Error, Completed User insert failed',
         });
         return;
       }

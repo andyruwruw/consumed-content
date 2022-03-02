@@ -5,7 +5,7 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { GetUserReviewsHandler } from '../server/src/handlers';
+import { GetUserReviewsHandler } from '../src/handlers';
 
 /**
  * Get a user's reviews.

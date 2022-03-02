@@ -23,6 +23,8 @@ export class CheckUserHandler extends Handler {
     res: VercelResponse,
   ): Promise<void> {
     try {
+      await this._connectDatabase();
+
       const user = await validate(
         req,
         this._database,

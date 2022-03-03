@@ -2,8 +2,13 @@
 import { DataAccessObject } from './dao';
 
 // Types
-import { ICategory } from '../../../../../shared/types';
+import {
+  ICategory,
+  IUser,
+  IUserCategoryObject,
+} from '../../../../../shared/types';
 import { ICategoryDAO } from '../../../types';
+import { User } from '.';
 
 export class Category extends DataAccessObject<ICategory> implements ICategoryDAO {
   /**
@@ -103,15 +108,30 @@ export class Category extends DataAccessObject<ICategory> implements ICategoryDA
    * Selects items from user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<ICategory[]>} Categories from user..
+   * @returns {Promise<IUserCategoryObject[]>} Categories from user..
    */
-  async selectUserCategories(userId: number): Promise<ICategory[]>{
+  async selectUserCategories(userId: number): Promise<IUserCategoryObject[]>{
     try {
-      const response = await this._find({
+      const categories = await this._find({
         userId,
-      });
+      }) as ICategory[];
 
-      return response as ICategory[];
+      const user = await User._findOne({
+        id: userId,
+      }) as IUser;
+
+      const userCategories = [] as IUserCategoryObject[];
+
+      for (let i = 0; i < categories.length; i += 1) {
+        userCategories.push({
+          id: categories[i].id || 0,
+          ...categories[i],
+          username: user.username,
+          imageUrl: user.imageUrl,
+        });
+      }
+
+      return userCategories;
     } catch (error) {
       console.log(error);
     }

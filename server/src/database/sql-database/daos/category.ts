@@ -12,7 +12,10 @@ import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
 
 // Types
-import { ICategory } from '../../../../../shared/types';
+import {
+  ICategory,
+  IUserCategoryObject,
+} from '../../../../../shared/types';
 import { ICategoryDAO } from '../../../types';
 
 /**
@@ -114,9 +117,9 @@ export class Category extends DataAccessObject<ICategory> implements ICategoryDA
    * Selects items from user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<ICategory[]>} Categories from user..
+   * @returns {Promise<IUserCategoryObject[]>} Categories from user..
    */
-  async selectUserCategories(userId: number): Promise<ICategory[]> {
+  async selectUserCategories(userId: number): Promise<IUserCategoryObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USER_CATEGORIES(
         userId,

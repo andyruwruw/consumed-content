@@ -13,8 +13,8 @@ import { DataAccessObject } from './dao';
 
 // Types
 import {
-  IUser,
   IUserFollow,
+  IUserFollowObject,
 } from '../../../../../shared/types';
 import { IUserFollowDAO } from '../../../types';
 
@@ -74,9 +74,9 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
    * Retrieves a User's followers.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IUser[]>} Array of users.
+   * @returns {Promise<IUserFollowObject[]>} Array of users.
    */
-  async getFollowers(userId: number): Promise<IUser[]> {
+  async getFollowers(userId: number): Promise<IUserFollowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USER_FOLLOWERS(
         userId,
@@ -93,9 +93,9 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
    * Retrieves who a User follows..
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IUser[]>} Array of users.
+   * @returns {Promise<IUserFollowObject[]>} Array of users.
    */
-  async getFollowings(userId: number): Promise<IUser[]> {
+  async getFollowings(userId: number): Promise<IUserFollowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USER_FOLLOWINGS(
         userId,

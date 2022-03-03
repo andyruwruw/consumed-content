@@ -12,9 +12,9 @@ import { DataAccessObject } from './dao';
 
 // Types
 import {
-  IGenre,
-  IShow,
+  IGenreShowObject,
   IShowGenre,
+  IShowGenreObject,
 } from '../../../../../shared/types';
 import { IShowGenreDAO } from '../../../types';
 
@@ -50,9 +50,9 @@ export class ShowGenre extends DataAccessObject<IShowGenre> implements IShowGenr
    * Gets a show's genres.
    * 
    * @param {number} showId Show's Id.
-   * @returns {Promise<IGenre[]>} Show's genres.
+   * @returns {Promise<IShowGenreObject[]>} Show's genres.
    */
-  async getShowGenres(showId: number): Promise<IGenre[]> {
+  async getShowGenres(showId: number): Promise<IShowGenreObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOWS_GENRES(
         showId,
@@ -69,9 +69,9 @@ export class ShowGenre extends DataAccessObject<IShowGenre> implements IShowGenr
    * Gets shows with a genre.
    *
    * @param {number} genreId Genre's Id.
-   * @returns {Promise<IShow[]>} Shows with the genre.
+   * @returns {Promise<IGenreShowObject[]>} Shows with the genre.
    */
-  async getGenreShows(genreId: number): Promise<IShow[]> {
+  async getGenreShows(genreId: number): Promise<IGenreShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_GENRES_SHOWS(
         genreId,

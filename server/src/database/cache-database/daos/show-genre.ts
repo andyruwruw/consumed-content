@@ -8,8 +8,10 @@ import { DataAccessObject } from './dao';
 // Types
 import {
   IGenre,
+  IGenreShowObject,
   IShow,
   IShowGenre,
+  IShowGenreObject,
 } from '../../../../../shared/types';
 import { IShowGenreDAO } from '../../../types';
 
@@ -42,23 +44,28 @@ export class ShowGenre extends DataAccessObject<IShowGenre> implements IShowGenr
    * Gets a show's genres.
    * 
    * @param {number} showId Show's Id.
-   * @returns {Promise<IGenre[]>} Show's genres.
+   * @returns {Promise<IShowGenreObject[]>} Show's genres.
    */
-  async getShowGenres(showId: number): Promise<IGenre[]> {
+  async getShowGenres(showId: number): Promise<IShowGenreObject[]> {
     try {
       const response = await this._find({
         showId,
       });
 
-      const genres = [] as IGenre[];
+      const showGenres = [] as IShowGenreObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        genres.push(await Genre._findOne({
+        const genre = await Genre._findOne({
           id: response[i].genreId,
-        }) as IGenre);
+        }) as IGenre;
+
+        showGenres.push({
+          genreId: response[i].genreId,
+          name: genre.name,
+        } as IShowGenreObject);
       }
 
-      return genres;
+      return showGenres;
     } catch (error) {
       console.log(error);
     }
@@ -69,23 +76,33 @@ export class ShowGenre extends DataAccessObject<IShowGenre> implements IShowGenr
    * Gets shows with a genre.
    *
    * @param {number} genreId Genre's Id.
-   * @returns {Promise<IShow[]>} Shows with the genre.
+   * @returns {Promise<IGenreShowObject[]>} Shows with the genre.
    */
-  async getGenreShows(genreId: number): Promise<IShow[]> {
+  async getGenreShows(genreId: number): Promise<IGenreShowObject[]> {
     try {
       const response = await this._find({
         genreId,
       });
 
-      const shows = [] as IShow[];
+      const genreShows = [] as IGenreShowObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        shows.push(await Show._findOne({
+        const show = await Show._findOne({
           id: response[i].showId,
-        }) as IShow);
+        }) as IShow;
+
+        genreShows.push({
+          showId: response[i].showId,
+          name: show.name,
+          type: show.type,
+          posterUrl: show.posterUrl,
+          backdropUrl: show.backdropUrl,
+          releaseDate: show.releaseDate,
+          overview: show.overview,
+        } as IGenreShowObject);
       }
 
-      return shows;
+      return genreShows;
     } catch (error) {
       console.log(error);
     }

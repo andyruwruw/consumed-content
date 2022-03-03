@@ -13,7 +13,11 @@ import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
 
 // Types
-import { IReview } from '../../../../../shared/types';
+import {
+  IReview,
+  IShowReviewObject,
+  IUserReviewObject,
+} from '../../../../../shared/types';
 import { IReviewDAO } from '../../../types';
 
 /**
@@ -106,9 +110,9 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
    * Retrieves reviews from a user.
    * 
    * @param {number} userId User's Id.
-   * @returns {Promise<IReview[]>} Reviews for the user.
+   * @returns {Promise<IUserReviewObject[]>} Reviews for the user.
    */
-  async getUserReviews(userId: number): Promise<IReview[]> {
+  async getUserReviews(userId: number): Promise<IUserReviewObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USERS_REVIEWS(
         userId,
@@ -125,9 +129,9 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
    * Retrieves a show's reviews.
    * 
    * @param {number} showId Show's Id.
-   * @returns {Promise<IReview[]>} Reviews for the user.
+   * @returns {Promise<IShowReviewObject[]>} Reviews for the user.
    */
-  async getShowReviews(showId: number): Promise<IReview[]> {
+  async getShowReviews(showId: number): Promise<IShowReviewObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOWS_REVIEWS(
         showId,

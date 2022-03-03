@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "outDir": "./dist/",
     "target": "es6",
     "allowJs": true,
     "typeRoots": [
@@ -10,5 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "composite": true
   },
+  "include": [
+    "./types/**/*",
+  ],
   "references": []
 }

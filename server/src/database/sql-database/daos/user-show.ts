@@ -15,9 +15,9 @@ import { DataAccessObject } from './dao';
 
 // Types
 import {
-  IShow,
-  IUser,
+  IShowUserObject,
   IUserShow,
+  IUserShowObject,
 } from '../../../../../shared/types';
 import { IUserShowDAO } from '../../../types';
 
@@ -77,9 +77,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all shows for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} Shows for the user.
+   * @returns {Promise<IUserShowObject[]>} Shows for the user.
    */
-  async getUserShows(userId: number): Promise<IShow[]> {
+  async getUserShows(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USERS_SHOWS(
         userId,
@@ -96,9 +96,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all movies for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} Movies for the user.
+   * @returns {Promise<IUserShowObject[]>} Movies for the user.
    */
-  async getUserMovies(userId: number): Promise<IShow[]> {
+  async getUserMovies(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USERS_MOVIES(
         userId,
@@ -115,9 +115,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all TV shows for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} TV shows for the user.
+   * @returns {Promise<IUserShowObject[]>} TV shows for the user.
    */
-  async getUserTvShows(userId: number): Promise<IShow[]> {
+  async getUserTvShows(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_USERS_TV_SHOWS(
         userId,
@@ -134,9 +134,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all Users who added a show.
    *
    * @param {number} showId Show's Id.
-   * @returns {Promise<IUser[]>} Users for the Show.
+   * @returns {Promise<IShowUserObject[]>} Users for the Show.
    */
-  async getShowUsers(showId: number): Promise<IUser[]> {
+  async getShowUsers(showId: number): Promise<IShowUserObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOW_USERS(
         showId,

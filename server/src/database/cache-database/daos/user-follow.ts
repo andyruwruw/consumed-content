@@ -3,7 +3,11 @@ import { User } from './index';
 import { DataAccessObject } from './dao';
 
 // Types
-import { IUser, IUserFollow } from '../../../../../shared/types';
+import {
+  IUser,
+  IUserFollow,
+  IUserFollowObject,
+} from '../../../../../shared/types';
 import { IUserFollowDAO } from '../../../types';
 
 export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFollowDAO {
@@ -59,23 +63,29 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
    * Retrieves a User's followers.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IUser[]>} Array of users.
+   * @returns {Promise<IUserFollowObject[]>} Array of users.
    */
-  async getFollowers(userId: number): Promise<IUser[]> {
+  async getFollowers(userId: number): Promise<IUserFollowObject[]> {
     try {
       const response = await this._find({
         followingUserId: userId,
       });
 
-      const users = [] as IUser[];
+      const userFollowers = [] as IUserFollowObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        users.push(await User._findOne({
+        const user = await User._findOne({
           id: response[i].userId,
-        }) as IUser);
+        }) as IUser;
+
+        userFollowers.push({
+          id: user.id,
+          username: user.username,
+          imageUrl: user.imageUrl,
+        });
       }
 
-      return users;
+      return userFollowers;
     } catch (error) {
       console.log(error);
     }
@@ -86,23 +96,29 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
    * Retrieves who a User follows..
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IUser[]>} Array of users.
+   * @returns {Promise<IUserFollowObject[]>} Array of users.
    */
-  async getFollowings(userId: number): Promise<IUser[]> {
+  async getFollowings(userId: number): Promise<IUserFollowObject[]> {
     try {
       const response = await this._find({
         userId,
       });
 
-      const users = [] as IUser[];
+      const userFollowings = [] as IUserFollowObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        users.push(await User._findOne({
+        const user = await User._findOne({
           id: response[i].followingUserId,
-        }) as IUser);
+        }) as IUser;
+
+        userFollowings.push({
+          id: user.id,
+          username: user.username,
+          imageUrl: user.imageUrl,
+        });
       }
 
-      return users;
+      return userFollowings;
     } catch (error) {
       console.log(error);
     }

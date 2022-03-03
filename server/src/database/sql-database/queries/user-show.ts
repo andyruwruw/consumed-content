@@ -82,7 +82,7 @@ export const SELECT_USERS_MOVIES = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, Shows.name, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM UserShow
 WHERE \`userId\` = :userId
 LEFT JOIN (
@@ -106,7 +106,7 @@ export const SELECT_USERS_TV_SHOWS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, UserShow.showId, Shows.name, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+SELECT UserShow.added, UserShow.showId, Shows.type, Shows.name, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM UserShow
 WHERE \`userId\` = :userId
 LEFT JOIN (

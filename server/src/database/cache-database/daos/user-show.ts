@@ -8,8 +8,10 @@ import { DataAccessObject } from './dao';
 // Types
 import {
   IShow,
+  IShowUserObject,
   IUser,
   IUserShow,
+  IUserShowObject,
 } from '../../../../../shared/types';
 import { IUserShowDAO } from '../../../types';
 
@@ -67,9 +69,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all shows for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} Shows for the user.
+   * @returns {Promise<IUserShowObject[]>} Shows for the user.
    */
-  async getUserShows(userId: number): Promise<IShow[]> {
+  async getUserShows(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await this._find({
         userId,
@@ -86,9 +88,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all movies for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} Movies for the user.
+   * @returns {Promise<IUserShowObject[]>} Movies for the user.
    */
-  async getUserMovies(userId: number): Promise<IShow[]> {
+  async getUserMovies(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await this._find({
         userId,
@@ -106,9 +108,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all TV shows for a user.
    *
    * @param {number} userId User's Id.
-   * @returns {Promise<IShow[]>} TV shows for the user.
+   * @returns {Promise<IUserShowObject[]>} TV shows for the user.
    */
-  async getUserTvShows(userId: number): Promise<IShow[]> {
+  async getUserTvShows(userId: number): Promise<IUserShowObject[]> {
     try {
       const response = await this._find({
         userId,
@@ -126,9 +128,9 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves all Users who added a show.
    *
    * @param {number} showId Show's Id.
-   * @returns {Promise<IUser[]>} TV shows for the user.
+   * @returns {Promise<IShowUserObject[]>} TV shows for the user.
    */
-  async getShowUsers(showId: number): Promise<IUser[]> {
+  async getShowUsers(showId: number): Promise<IShowUserObject[]> {
     try {
       const response = await this._find({
         showId,
@@ -145,15 +147,20 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves shows for UserShows.
    *
    * @param {IUserShow[]} userShows List of UserShows.
-   * @returns {IShow[]} Cooresponding IShows.
+   * @returns {IUserShowObject[]} Cooresponding IUserShowObjects.
    */
-  async _getShowsFromUserShows(userShows: IUserShow[]): Promise<IShow[]> {
-    const shows = [] as IShow[];
+  async _getShowsFromUserShows(userShows: IUserShow[]): Promise<IUserShowObject[]> {
+    const shows = [] as IUserShowObject[];
 
     for (let i = 0; i < userShows.length; i += 1) {
-      shows.push(await Show._findOne({
+      const show = await Show._findOne({
         id: userShows[i].showId,
-      }) as IShow);
+      }) as IShow;
+
+      shows.push({
+        added: userShows[i].added,
+        ...show,
+      });
     }
 
     return shows;
@@ -163,15 +170,22 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
    * Retrieves shows for UserShows.
    *
    * @param {IUserShow[]} userShows List of UserShows.
-   * @returns {IUser[]} Cooresponding IUsers.
+   * @returns {IShowUserObject[]} Cooresponding IShowUserObjects.
    */
-   async _getUsersFromUserShows(userShows: IUserShow[]): Promise<IUser[]> {
-    const users = [] as IUser[];
+   async _getUsersFromUserShows(userShows: IUserShow[]): Promise<IShowUserObject[]> {
+    const users = [] as IShowUserObject[];
 
     for (let i = 0; i < userShows.length; i += 1) {
-      users.push(await User._findOne({
+      const user = await User._findOne({
         id: userShows[i].userId,
-      }) as IUser);
+      }) as IUser;
+
+      users.push({
+        added: userShows[i].added,
+        userId: user.id,
+        username: user.username,
+        imageUrl: user.imageUrl,
+      });
     }
 
     return users;

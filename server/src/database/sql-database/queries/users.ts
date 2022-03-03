@@ -61,7 +61,7 @@ export const SELECT_PUBLIC_USER_BY_USERNAME = (username: string): IMariaDbQuery 
   {
     namedPlaceholders: true,
     sql:`
-SELECT name, username, private, imageUrl
+SELECT id, name, username, private, imageUrl
 FROM Users
 WHERE username = ":username";
     `,
@@ -101,7 +101,7 @@ export const SELECT_PUBLIC_USER_BY_ID = (id: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
-SELECT name, username, private, imageUrl
+SELECT id, name, username, private, imageUrl
 FROM Users
 WHERE id = :id;
     `,

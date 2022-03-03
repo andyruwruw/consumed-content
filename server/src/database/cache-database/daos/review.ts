@@ -2,8 +2,13 @@
 import { DataAccessObject } from './dao';
 
 // Types
-import { IReview } from '../../../../../shared/types';
+import {
+  IReview,
+  IShowReviewObject,
+  IUserReviewObject,
+} from '../../../../../shared/types';
 import { IReviewDAO } from '../../../types';
+import { Show, User } from '.';
 
 export class Review extends DataAccessObject<IReview> implements IReviewDAO {
   /**
@@ -95,15 +100,39 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
    * Retrieves reviews from a user.
    * 
    * @param {number} userId User's Id.
-   * @returns {Promise<IReview[]>} Reviews for the user.
+   * @returns {Promise<IUserReviewObject[]>} Reviews for the user.
    */
-  async getUserReviews(userId: number): Promise<IReview[]> {
+  async getUserReviews(userId: number): Promise<IUserReviewObject[]> {
     try {
-      const response = await this._find({
+      const reviews = await this._find({
         userId,
       });
 
-      return response as IReview[];
+      const userReviews = [] as IUserReviewObject[];
+
+      for (let i = 0; i < reviews.length; i += 1) {
+        const show = await Show._findOne({
+          id: reviews[i].showId,
+        });
+
+        const user = await User._findOne({
+          id: reviews[i].userId,
+        });
+
+        userReviews.push({
+          ...reviews[i],
+          showName: show.name,
+          type: show.type,
+          posterUrl: show.posterUrl,
+          backdropUrl: show.backdropUrl,
+          releaseDate: show.releaseDate,
+          overview: show.overview,
+          username: user.username,
+          imageUrl: user.imageUrl,
+        } as IUserReviewObject);
+      }
+
+      return userReviews;
     } catch (error) {
       console.log(error);
     }
@@ -114,15 +143,30 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
    * Retrieves a show's reviews.
    * 
    * @param {number} showId Show's Id.
-   * @returns {Promise<IReview[]>} Reviews for the user.
+   * @returns {Promise<IShowReviewObject[]>} Reviews for the user.
    */
-  async getShowReviews(showId: number): Promise<IReview[]> {
+  async getShowReviews(showId: number): Promise<IShowReviewObject[]> {
     try {
-      const response = await this._find({
+      const reviews = await this._find({
         showId,
       });
 
-      return response as IReview[];
+      const showReviews = [] as IShowReviewObject[];
+
+      for (let i = 0; i < reviews.length; i += 1) {
+        const user = await User._findOne({
+          id: reviews[i].userId,
+        });
+
+        showReviews.push({
+          ...reviews[i],
+          private: user.private,
+          username: user.username,
+          imageUrl: user.imageUrl,
+        } as IShowReviewObject);
+      }
+
+      return showReviews;
     } catch (error) {
       console.log(error);
     }

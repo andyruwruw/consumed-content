@@ -5,6 +5,7 @@ import { Show } from './index';
 // Types
 import {
   ICategoryShow,
+  ICategoryShowObject,
   IShow,
 } from '../../../../../shared/types';
 import { ICategoryShowDAO } from '../../../types';
@@ -63,20 +64,25 @@ export class CategoryShow extends DataAccessObject<ICategoryShow> implements ICa
    * Get a category's shows.
    *
    * @param {number} categoryId Category's Id.
-   * @returns {Promise<IShow[]>} Shows from category.
+   * @returns {Promise<ICategoryShowObject[]>} Shows from category.
    */
-  async selectCategoryShows(categoryId: number): Promise<IShow[]> {
+  async selectCategoryShows(categoryId: number): Promise<ICategoryShowObject[]> {
     try {
       const response = await this._find({
         categoryId,
       });
 
-      const shows = [] as IShow[];
+      const shows = [] as ICategoryShowObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        shows.push(await Show._findOne({
+        const show = await Show._findOne({
           id: response[i].showId,
-        }) as IShow);
+        }) as IShow;
+
+        shows.push({
+          ...show,
+          added: response[i].added,
+        } as ICategoryShowObject);
       }
 
       return shows;

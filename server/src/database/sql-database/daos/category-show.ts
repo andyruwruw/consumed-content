@@ -13,7 +13,7 @@ import { DataAccessObject } from './dao';
 // Types
 import {
   ICategoryShow,
-  IShow,
+  ICategoryShowObject,
 } from '../../../../../shared/types';
 import { ICategoryShowDAO } from '../../../types';
 
@@ -73,9 +73,9 @@ export class CategoryShow extends DataAccessObject<ICategoryShow> implements ICa
    * Get a category's shows.
    *
    * @param {number} categoryId Category's Id.
-   * @returns {Promise<IShow[]>} Shows from category.
+   * @returns {Promise<ICategoryShowObject[]>} Shows from category.
    */
-  async selectCategoryShows(categoryId: number): Promise<IShow[]> {
+  async selectCategoryShows(categoryId: number): Promise<ICategoryShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_CATEGORY_SHOWS(
         categoryId,

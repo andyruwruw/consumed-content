@@ -1,7 +1,7 @@
 import { DataAccessObject } from './dao';
 
 // Types
-import { IUser } from '../../../../../shared/types';
+import { IPublicUserObject, IUser } from '../../../../../shared/types';
 import { IUserDAO } from '../../../types';
 
 /**
@@ -58,15 +58,22 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
    * Finds an User based off a Id.
    *
    * @param {number} id User's Id.
-   * @returns {Promise<IUser | null>} User public data.
+   * @returns {Promise<IPublicUserObject | null>} User public data.
    */
-  async getUser(id: number): Promise<IUser | null> {
+  async getUser(id: number): Promise<IPublicUserObject | null> {
     try {
       const response = await this._findOne({
         id,
       }, PRIVATE_PROJECTION);
 
-      return response as IUser;
+      return {
+        id: response.id,
+        name: response.name,
+        username: response.username,
+        private: response.private,
+        imageUrl: response.imageUrl,
+        joined: response.joined,
+      } as IPublicUserObject;
     } catch (error) {
       console.log(error);
     }
@@ -96,15 +103,22 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
    * Finds an User based off a username.
    *
    * @param {string} username User's username.
-   * @returns {Promise<IUser | null>} User public data.
+   * @returns {Promise<IPublicUserObject | null>} User public data.
    */
-  async getUserByUsername(username: string): Promise<IUser | null> {
+  async getUserByUsername(username: string): Promise<IPublicUserObject | null> {
     try {
       const response = await this._findOne({
         username,
       }, PRIVATE_PROJECTION);
 
-      return response as IUser;
+      return {
+        id: response.id,
+        name: response.name,
+        username: response.username,
+        private: response.private,
+        imageUrl: response.imageUrl,
+        joined: response.joined,
+      } as IPublicUserObject;
     } catch (error) {
       console.log(error);
     }

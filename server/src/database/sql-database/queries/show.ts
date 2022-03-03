@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Shows (
   \`type\` varchar(64) NOT NULL,
   \`posterUrl\` varchar(255) NOT NULL,
   \`backdropUrl\` varchar(255) NOT NULL,
-  \`releaseDate\` varchar(255) NOT NULL,
+  \`releaseDate\` int(11) NOT NULL,
   \`overview\` text NOT NULL,
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
@@ -38,7 +38,7 @@ DELETE FROM Shows;
  * @param {string} type Type, tv-show or movie
  * @param {string} posterUrl URL to poster image.
  * @param {string} backdropUrl URL to backdrop image.
- * @param {string} releaseDate Release date.
+ * @param {number} releaseDate Release date.
  * @param {string} overview Overview of the show.
  * @returns {IMariaDbQuery} MariaDB query.
  */
@@ -47,14 +47,14 @@ export const INSERT_SHOW = (
   type: string,
   posterUrl: string,
   backdropUrl: string,
-  releaseDate: string,
+  releaseDate: number,
   overview: string,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
 INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview)
-VALUES (":name", ":type", ":posterUrl", ":backdropUrl", ":releaseDate", ":overview");`,
+VALUES (":name", ":type", ":posterUrl", ":backdropUrl", :releaseDate, ":overview");`,
   },
   {
     name,

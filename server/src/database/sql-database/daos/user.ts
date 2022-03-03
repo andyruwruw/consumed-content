@@ -14,7 +14,10 @@ import { DataAccessObject } from './dao';
 import { ConnectionManager } from '../connection-manager';
 
 // Types
-import { IUser } from '../../../../../shared/types';
+import {
+  IPublicUserObject,
+  IUser,
+} from '../../../../../shared/types';
 import { IUserDAO } from '../../../types';
 
 /**
@@ -60,9 +63,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
    * Finds an User based off a Id.
    *
    * @param {number} id User's Id.
-   * @returns {Promise<IUser | null>} User public data.
+   * @returns {Promise<IPublicUserObject | null>} User public data.
    */
-  async getUser(id: number): Promise<IUser | null> {
+  async getUser(id: number): Promise<IPublicUserObject | null> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PUBLIC_USER_BY_ID(id));
 
@@ -94,9 +97,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
    * Finds an User based off a username.
    *
    * @param {string} username User's username.
-   * @returns {Promise<IUser | null>} User public data.
+   * @returns {Promise<IPublicUser | null>} User public data.
    */
-  async getUserByUsername(username: string): Promise<IUser | null> {
+  async getUserByUsername(username: string): Promise<IPublicUserObject | null> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PUBLIC_USER_BY_USERNAME(username));
 

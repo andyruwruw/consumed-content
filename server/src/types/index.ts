@@ -1,5 +1,24 @@
 // Packages
-import { ICategory, IDatabaseColumnTypes, IGenre, IPlatform, IReview, IShow, IUser } from '../../../shared/types';
+import {
+  ICategory,
+  IGenre,
+  IPlatform,
+  IReview,
+  IShow,
+  IUser,
+  ICategoryShowObject,
+  IUserCategoryObject,
+  IShowReviewObject,
+  IUserReviewObject,
+  IShowGenreObject,
+  IGenreShowObject,
+  IShowPlatformObject,
+  IPlatformShowObject,
+  IUserFollowObject,
+  IUserShowObject,
+  IShowUserObject,
+  IPublicUserObject,
+} from '../../../shared/types';
 
 /**
  * Shared properties for all The Movie DB objects.
@@ -360,7 +379,7 @@ export interface ICategoryShowDAO extends IDataAccessObject {
     categoryId: number,
     showId: number,
   ) => Promise<number>;
-  selectCategoryShows: (categoryId: number) => Promise<IShow[]>;
+  selectCategoryShows: (categoryId: number) => Promise<ICategoryShowObject[]>;
 }
 
 export interface ICategoryDAO extends IDataAccessObject {
@@ -376,7 +395,7 @@ export interface ICategoryDAO extends IDataAccessObject {
   ) => Promise<number>;
   delete: (id: number) => Promise<number>;
   select: (id: number) => Promise<ICategory | null>;
-  selectUserCategories: (userId: number) => Promise<ICategory[]>;
+  selectUserCategories: (userId: number) => Promise<IUserCategoryObject[]>;
 }
 
 export interface IGenreDAO extends IDataAccessObject {
@@ -417,8 +436,8 @@ export interface IReviewDAO extends IDataAccessObject {
     rating: number,
     description: string,
   ) => Promise<number>;
-  getUserReviews: (userId: number) => Promise<IReview[]>;
-  getShowReviews: (showId: number) => Promise<IReview[]>;
+  getUserReviews: (userId: number) => Promise<IUserReviewObject[]>;
+  getShowReviews: (showId: number) => Promise<IShowReviewObject[]>;
 }
 
 export interface IShowGenreDAO extends IDataAccessObject {
@@ -426,8 +445,8 @@ export interface IShowGenreDAO extends IDataAccessObject {
     showId: number,
     genreId: number,
   ) => Promise<number>;
-  getShowGenres: (showId: number) => Promise<IGenre[]>;
-  getGenreShows: (genreId: number) => Promise<IShow[]>;
+  getShowGenres: (showId: number) => Promise<IShowGenreObject[]>;
+  getGenreShows: (genreId: number) => Promise<IGenreShowObject[]>;
 }
 
 export interface IShowPlatformDAO extends IDataAccessObject {
@@ -439,8 +458,8 @@ export interface IShowPlatformDAO extends IDataAccessObject {
     showId: number,
     platformId: number,
   ) => Promise<number>;
-  getShowPlatforms: (showId: number) => Promise<IPlatform[]>;
-  getPlatformShows: (platformId: number) => Promise<IShow[]>;
+  getShowPlatforms: (showId: number) => Promise<IShowPlatformObject[]>;
+  getPlatformShows: (platformId: number) => Promise<IPlatformShowObject[]>;
 }
 
 export interface IShowDAO extends IDataAccessObject {
@@ -449,7 +468,7 @@ export interface IShowDAO extends IDataAccessObject {
     type: string,
     posterUrl: string,
     backdropUrl: string,
-    releaseDate: string,
+    releaseDate: number,
     overview: string,
   ) => Promise<number>;
   delete: (id: number) => Promise<number>;
@@ -465,8 +484,8 @@ export interface IUserFollowDAO extends IDataAccessObject {
     userId: number,
     followingUserId: number,
   ) => Promise<number>;
-  getFollowers: (userId: number) => Promise<IUser[]>;
-  getFollowings: (userId: number) => Promise<IUser[]>;
+  getFollowers: (userId: number) => Promise<IUserFollowObject[]>;
+  getFollowings: (userId: number) => Promise<IUserFollowObject[]>;
 }
 
 export interface IUserShowDAO extends IDataAccessObject {
@@ -478,10 +497,10 @@ export interface IUserShowDAO extends IDataAccessObject {
     userId: number,
     showId: number,
   ) => Promise<number>;
-  getUserShows: (userId: number) => Promise<IShow[]>;
-  getUserMovies: (userId: number) => Promise<IShow[]>;
-  getUserTvShows: (userId: number) => Promise<IShow[]>;
-  getShowUsers: (showId: number) => Promise<IUser[]>;
+  getUserShows: (userId: number) => Promise<IUserShowObject[]>;
+  getUserMovies: (userId: number) => Promise<IUserShowObject[]>;
+  getUserTvShows: (userId: number) => Promise<IUserShowObject[]>;
+  getShowUsers: (showId: number) => Promise<IShowUserObject[]>;
 }
 
 export interface IUserTokenDAO extends IDataAccessObject {
@@ -508,9 +527,9 @@ export interface IUserDAO extends IDataAccessObject {
     privateMode: boolean,
     imageUrl: string,
   ) => Promise<number>;
-  getUser: (id: number) => Promise<IUser | null>;
+  getUser: (id: number) => Promise<IPublicUserObject | null>;
   getMe: (id: number) => Promise<IUser | null>;
-  getUserByUsername: (username: string) => Promise<IUser | null>;
+  getUserByUsername: (username: string) => Promise<IPublicUserObject | null>;
   getMeByUsername: (username: string) => Promise<IUser | null>;
   update: (
     id: number,

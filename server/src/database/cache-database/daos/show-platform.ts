@@ -8,8 +8,10 @@ import { DataAccessObject } from './dao';
 // Types
 import {
   IPlatform,
+  IPlatformShowObject,
   IShow,
   IShowPlatform,
+  IShowPlatformObject,
 } from '../../../../../shared/types';
 import { IShowPlatformDAO } from '../../../types';
 
@@ -66,23 +68,30 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> implements ISh
    * Gets the platforms a show is on.
    *
    * @param {number} showId Show's Id.
-   * @returns {Promise<IPlatform[]>} Platforms the show is on.
+   * @returns {Promise<IShowPlatformObject[]>} Platforms the show is on.
    */
-  async getShowPlatforms(showId: number): Promise<IPlatform[]> {
+  async getShowPlatforms(showId: number): Promise<IShowPlatformObject[]> {
     try {
       const response = await this._find({
         showId,
       });
 
-      const platforms = [] as IPlatform[];
+      const showPlatforms = [] as IShowPlatformObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        platforms.push(await Platform._findOne({
+        const platform = await Platform._findOne({
           id: response[i].platformId,
-        }) as IPlatform);
+        }) as IPlatform;
+
+        showPlatforms.push({
+          platformId: response[i].platformId,
+          name: platform.name,
+          imageUrl: platform.imageUrl,
+          cost: platform.cost,
+        } as IShowPlatformObject);
       }
 
-      return platforms;
+      return showPlatforms;
     } catch (error) {
       console.log(error);
     }
@@ -93,23 +102,28 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> implements ISh
    * Gets shows on a platform.
    *
    * @param {number} platformId Platform's Id.
-   * @returns {Promise<IShow[]>} Shows on a platform.
+   * @returns {Promise<IPlatformShowObject[]>} Shows on a platform.
    */
-  async getPlatformShows(platformId: number): Promise<IShow[]> {
+  async getPlatformShows(platformId: number): Promise<IPlatformShowObject[]> {
     try {
       const response = await this._find({
         platformId,
       });
 
-      const shows = [] as IShow[];
+      const platformShows = [] as IPlatformShowObject[];
 
       for (let i = 0; i < response.length; i += 1) {
-        shows.push(await Show._findOne({
+        const show = await Show._findOne({
           id: response[i].showId,
-        }) as IShow);
+        }) as IShow;
+
+        platformShows.push({
+          showId: response[i].showId,
+          ...show,
+        } as IPlatformShowObject);
       }
 
-      return shows;
+      return platformShows;
     } catch (error) {
       console.log(error);
     }

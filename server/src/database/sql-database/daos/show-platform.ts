@@ -13,9 +13,9 @@ import { DataAccessObject } from './dao';
 
 // Types
 import {
-  IPlatform,
-  IShow,
+  IPlatformShowObject,
   IShowPlatform,
+  IShowPlatformObject,
 } from '../../../../../shared/types';
 import { IShowPlatformDAO } from '../../../types';
 
@@ -75,9 +75,9 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> implements ISh
    * Gets the platforms a show is on.
    *
    * @param {number} showId Show's Id.
-   * @returns {Promise<IPlatform[]>} Platforms the show is on.
+   * @returns {Promise<IShowPlatformObject[]>} Platforms the show is on.
    */
-  async getShowPlatforms(showId: number): Promise<IPlatform[]> {
+  async getShowPlatforms(showId: number): Promise<IShowPlatformObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOWS_PLATFORMS(
         showId,
@@ -94,9 +94,9 @@ export class ShowPlatform extends DataAccessObject<IShowPlatform> implements ISh
    * Gets shows on a platform.
    *
    * @param {number} platformId Platform's Id.
-   * @returns {Promise<IShow[]>} Shows on a platform.
+   * @returns {Promise<IPlatformShowObject[]>} Shows on a platform.
    */
-  async getPlatformShows(platformId: number): Promise<IShow[]> {
+  async getPlatformShows(platformId: number): Promise<IPlatformShowObject[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PLATFORMS_SHOWS(
         platformId,

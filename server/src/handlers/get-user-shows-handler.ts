@@ -12,6 +12,7 @@ import { validate } from '../helpers/auth-helpers';
 import {
   IShow,
   IUser,
+  IUserShowObject,
 } from '../../../shared/types';
 
 /**
@@ -31,9 +32,10 @@ export class GetUserShowsHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const userId = parseInt(req.query.userId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
+      const type = req.query.type as string || '';
 
-      if (!(typeof(userId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User ID not set.',
         });
@@ -45,22 +47,24 @@ export class GetUserShowsHandler extends Handler {
         this._database,
       );
 
-      if (!user || user.id !== userId) {
-        const requestedUser = await this._database.user.findOne({
-          id: userId,
-        }) as IUser;
+      const userInQuestion = await this._database.user.getUser(id);
 
-        if (requestedUser.private) {
-          res.status(401).send({
-            error: 'User is private.',
-          });
-          return;
-        }
+      if (userInQuestion.private && user.id !== id) {
+        res.status(401).send({
+          error: 'User is private.',
+        });
+        return;
       }
 
-      const shows = (await this._database.show.find({
-        userId,
-      })) as IShow[];
+      let shows;
+
+      if (type === 'movie') {
+        shows = (await this._database.userShow.getUserMovies(id)) as IUserShowObject[];
+      } else if (type === 'tv-show') {
+        shows = (await this._database.userShow.getUserTvShows(id)) as IUserShowObject[];
+      } else {
+        shows = (await this._database.userShow.getUserShows(id)) as IUserShowObject[];
+      }
 
       res.status(200).send({
         shows,

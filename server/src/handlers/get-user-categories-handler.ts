@@ -31,9 +31,9 @@ export class GetUserCategoriesHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const userId = parseInt(req.query.userId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(userId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User ID not set.',
         });
@@ -45,22 +45,16 @@ export class GetUserCategoriesHandler extends Handler {
         this._database,
       );
 
-      if (!user || user.id !== userId) {
-        const requestedUser = await this._database.user.findOne({
-          id: userId,
-        }) as IUser;
+      const categories = (await this._database.category.selectUserCategories(
+        id,
+      )) as ICategory[];
 
-        if (requestedUser.private) {
-          res.status(401).send({
-            error: 'User is private.',
-          });
-          return;
-        }
+      if ((!user || user.id !== id) && categories[0].private) {
+        res.status(401).send({
+          error: 'This account is private.',
+        });
+        return;
       }
-
-      const categories = (await this._database.category.find({
-        userId,
-      })) as ICategory[];
 
       res.status(200).send({
         categories,

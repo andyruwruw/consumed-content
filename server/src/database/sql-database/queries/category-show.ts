@@ -80,6 +80,28 @@ WHERE categoryId = \`:categoryId\` AND showId = \`:showId\`;`,
  *
  * @param {number} categoryId Category's Id.
  */
+export const SELECT_CATEGORY_SHOW = (
+  categoryId: number,
+  showId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM CategoryShow
+WHERE categoryId = \`:categoryId\` AND showId = \`:showId\`;`,
+  },
+  {
+    categoryId,
+    showId,
+  },
+]);
+
+/**
+ * Retrieves shows in a category.
+ *
+ * @param {number} categoryId Category's Id.
+ */
 export const SELECT_CATEGORY_SHOWS = (categoryId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,

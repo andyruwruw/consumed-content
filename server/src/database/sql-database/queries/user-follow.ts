@@ -75,6 +75,30 @@ WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
 ]);
 
 /**
+ * Selects a user following.
+ *
+ * @param {number} userId User's Id.
+ * @param {number} followingUserId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_USER_FOLLOW = (
+  userId: number,
+  followingUserId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM UserFollow
+WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
+  },
+  {
+    userId,
+    followingUserId,
+  },
+]);
+
+/**
  * Retrieves Users a User is following.
  *
  * @param {number} userId User's Id.

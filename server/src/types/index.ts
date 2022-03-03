@@ -18,6 +18,7 @@ import {
   IUserShowObject,
   IShowUserObject,
   IPublicUserObject,
+  IUserFollow,
 } from '../../../shared/types';
 
 /**
@@ -436,6 +437,7 @@ export interface IReviewDAO extends IDataAccessObject {
     rating: number,
     description: string,
   ) => Promise<number>;
+  getById: (id: number) => Promise<IUserReviewObject>;
   getUserShowReview: (
     userId: number,
     showId: number,
@@ -488,6 +490,10 @@ export interface IUserFollowDAO extends IDataAccessObject {
     userId: number,
     followingUserId: number,
   ) => Promise<number>;
+  getFollow: (
+    userId: number,
+    followingUserId: number,
+  ) => Promise<IUserFollow>
   getFollowers: (userId: number) => Promise<IUserFollowObject[]>;
   getFollowings: (userId: number) => Promise<IUserFollowObject[]>;
 }

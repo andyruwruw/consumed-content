@@ -105,8 +105,32 @@ export const INSERT_SHOW_PLATFORM = (
   {
     namedPlaceholders: true,
     sql: `
-INSERT INTO UserFollow (showId, platformId)
+INSERT INTO ShowPlatform (showId, platformId)
 VALUES (:showId, :platformId);`,
+  },
+  {
+    showId,
+    platformId,
+  },
+]);
+
+/**
+ * Selects a show platform.
+ *
+ * @param {number} showId Show's Id.
+ * @param {number} platformId Platform's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_SHOW_PLATFORM = (
+  showId: number,
+  platformId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM ShowPlatform
+WHERE \`showId\` = :showId AND \`platformId\` = :platformId;`,
   },
   {
     showId,

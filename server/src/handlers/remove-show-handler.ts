@@ -28,9 +28,9 @@ export class RemoveShowHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const showId = parseInt(req.query.showId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(showId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'Show ID not set.',
         });
@@ -49,10 +49,10 @@ export class RemoveShowHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.userShow.findOne({
-        userId: user.id,
-        showId,
-      }) as IUserShow | null;
+      const existing = await this._database.userShow.isShowAdded(
+        user.id,
+        id,
+      ) as boolean;
 
       if (!existing) {
         res.status(204).send({
@@ -61,10 +61,10 @@ export class RemoveShowHandler extends Handler {
         return;
       }
 
-      const completed = await this._database.userShow.delete({
-        showId,
-        userId: user.id,
-      }) !== 0;
+      const completed = await this._database.userShow.remove(
+        user.id,
+        id,
+      ) !== 0;
 
       if (!completed) {
         res.status(500).send({

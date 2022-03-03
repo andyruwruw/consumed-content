@@ -28,9 +28,9 @@ export class FollowHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const followingUserId = parseInt(req.query.followingUserId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(followingUserId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User to follow not set.',
         });
@@ -49,22 +49,22 @@ export class FollowHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.userFollow.findOne({
-        userId: user.id,
-        followingUserId,
-      }) as IUserFollow;
+      const existing = await this._database.userFollow.getFollow(
+        user.id,
+        id,
+      ) as IUserFollow;
 
       if (existing) {
-        res.status(401).send({
+        res.status(200).send({
           error: 'Already following user.',
         });
         return;
       }
 
-      const completed = (await this._database.userFollow.insert({
-        userId: user.id,
-        followingUserId,
-      })) === 1;
+      const completed = (await this._database.userFollow.follow(
+        user.id,
+        id,
+      )) === 1;
 
       res.status(200).send({
         completed,

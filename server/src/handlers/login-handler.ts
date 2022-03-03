@@ -35,9 +35,7 @@ export class LoginHandler extends Handler {
       const username = req.query.username as string;
       const password = req.query.password as string;
 
-      const user = await this._database.user.findOne({
-        username,
-      }) as IUser | null;
+      const user = await this._database.user.getMeByUsername(username) as IUser | null;
 
       if (!user) {
         res.status(400).send({
@@ -59,13 +57,13 @@ export class LoginHandler extends Handler {
       }
 
       const token = generateToken({
-        userId: user.id || -1,
+        userId: user.id,
       });
 
-      const completed = await this._database.userToken.insert({
-        userId: user.id || -1,
+      const completed = await this._database.userToken.register(
+        user.id,
         token,
-      });
+      );
 
       if (!completed) {
         res.status(500).send({
@@ -80,7 +78,13 @@ export class LoginHandler extends Handler {
       );
 
       res.status(200).send({
-        user,
+        user: {
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          private: user.private,
+          imageUrl: user.imageUrl,
+        },
       });
     } catch (error) {
       console.log(error);

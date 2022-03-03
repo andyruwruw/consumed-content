@@ -9,7 +9,7 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
 // Types
-import { IReview } from '../../../shared/types';
+import { IUserReviewObject } from '../../../shared/types';
 
 /**
  * Handler for deleting reviews
@@ -49,20 +49,27 @@ export class DeleteReviewHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.review.findOne({
+      const existing = await this._database.review.getById(
         id,
-      }) as IReview | null;
+      ) as IUserReviewObject | null;
 
-      if (!existing) {
+      if (existing === null) {
         res.status(401).send({
           error: 'Could not find review.',
         });
         return;
       }
 
-      const completed = await this._database.review.delete({
+      if (existing.userId !== user.id) {
+        res.status(401).send({
+          error: 'You don\'t have permission to delete that.',
+        });
+        return;
+      }
+
+      const completed = await this._database.review.delete(
         id,
-      }) !== 0;
+      ) !== 0;
 
       if (!completed) {
         res.status(500).send({

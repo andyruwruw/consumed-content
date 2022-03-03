@@ -131,6 +131,45 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
         overview: show.overview,
         username: user.username,
         imageUrl: user.imageUrl,
+        private: user.private,
+      } as IUserReviewObject;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /**
+   * Retrieves a review by ID.
+   *
+   * @param {number} id Review Id.
+   * @returns {IUserReviewObject}
+   */
+   async getById(id: number): Promise<IUserReviewObject> {
+    try {
+      const review = await this._findOne({
+        id,
+      });
+
+      const show = await Show._findOne({
+        id: review.showId,
+      });
+
+      const user = await User._findOne({
+        id: review.userId,
+      });
+
+      return {
+        ...review,
+        showName: show.name,
+        type: show.type,
+        posterUrl: show.posterUrl,
+        backdropUrl: show.backdropUrl,
+        releaseDate: show.releaseDate,
+        overview: show.overview,
+        username: user.username,
+        imageUrl: user.imageUrl,
+        private: user.private,
       } as IUserReviewObject;
     } catch (error) {
       console.log(error);
@@ -171,6 +210,7 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
           overview: show.overview,
           username: user.username,
           imageUrl: user.imageUrl,
+          private: user.private,
         } as IUserReviewObject);
       }
 

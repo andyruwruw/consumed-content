@@ -7,6 +7,8 @@ import { EditReviewHandler as EditReviewHandlerClass } from './edit-review-handl
 import { FollowHandler as FollowHandlerClass } from './follow-handler';
 import { GetShowReviewsHandler as GetShowReviewsHandlerClass } from './get-show-reviews-handler';
 import { GetUserCategoriesHandler as GetUserCategoriesHandlerClass } from './get-user-categories-handler';
+import { GetUserFollowersHandler as GetUserFollowersHandlerClass } from './get-user-followers-handler';
+import { GetUserFollowingHandler as GetUserFollowingHandlerClass } from './get-user-following-handler';
 import { GetUserHandler as GetUserHandlerClass } from './get-user-handler';
 import { GetUserReviewsHandler as GetUserReviewsHandlerClass } from './get-user-reviews-handler';
 import { GetUserShowsHandler as GetUserShowsHandlerClass } from './get-user-shows-handler';
@@ -27,6 +29,8 @@ export const EditReviewHandler = new EditReviewHandlerClass();
 export const FollowHandler = new FollowHandlerClass();
 export const GetShowReviewsHandler = new GetShowReviewsHandlerClass();
 export const GetUserCategoriesHandler = new GetUserCategoriesHandlerClass();
+export const GetUserFollowersHandler = new GetUserFollowersHandlerClass();
+export const GetUserFollowingHandler = new GetUserFollowingHandlerClass();
 export const GetUserHandler = new GetUserHandlerClass();
 export const GetUserReviewsHandler = new GetUserReviewsHandlerClass();
 export const GetUserShowsHandler = new GetUserShowsHandlerClass();

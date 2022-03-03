@@ -5,10 +5,10 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { SearchMoviesHandler } from '../src/handlers';
+import { GetShowReviewsHandler } from '../src/handlers';
 
 /**
- * Searches for movies.
+ * Deletes a review
  *
  * @param {VercelRequest} req Request for login URL.
  * @param {VercelResponse} res Response to request.
@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return SearchMoviesHandler.execute(
+  return GetShowReviewsHandler.execute(
     req,
     res,
   );

@@ -9,8 +9,7 @@ import { validate } from '../helpers/auth-helpers';
 import { Handler } from './handler';
 
 // Types
-import { IQueryUpdate } from '../types';
-import { IReview } from '../../../shared/types';
+import { IUserReviewObject } from '../../../shared/types';
 
 /**
  * Handler for editing reviews.
@@ -53,34 +52,30 @@ export class EditReviewHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.review.findOne({
+      const existing = await this._database.review.getById(
         id,
-      }) as IReview;
+      ) as IUserReviewObject;
 
-      if (!existing) {
+      if (existing === null) {
         res.status(401).send({
           error: 'The review does not exist!',
         });
         return;
       }
 
-      const update = {} as IQueryUpdate;
-
-      if ('name' in existing && existing.name !== name) {
-        update.name = name;
+      if (existing.userId !== user.id) {
+        res.status(401).send({
+          error: 'You don\'t have permission to edit that.',
+        });
+        return;
       }
 
-      if ('rating' in existing && existing.rating !== rating) {
-        update.rating = rating;
-      }
-
-      if ('description' in existing && existing.description !== description) {
-        update.description = description;
-      }
-
-      const completed = await this._database.review.update({
+      const completed = await this._database.review.update(
         id,
-      }, update);
+        name,
+        rating,
+        description,
+      );
 
       if (!completed) {
         res.status(500).send({
@@ -89,9 +84,9 @@ export class EditReviewHandler extends Handler {
         return;
       }
 
-      const review = await this._database.review.findOne({
+      const review = await this._database.review.getById(
         id,
-      }) as IReview;
+      ) as IUserReviewObject;
 
       res.status(200).send({
         review,

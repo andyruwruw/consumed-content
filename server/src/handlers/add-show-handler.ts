@@ -25,9 +25,9 @@ export class AddShowHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const showId = parseInt(req.query.showId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(showId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'Show ID not set.',
         });
@@ -48,7 +48,7 @@ export class AddShowHandler extends Handler {
 
       if (await this._database.userShow.isShowAdded(
         user.id,
-        showId,
+        id,
       )) {
         res.status(204).send({
           completed: true,
@@ -58,7 +58,7 @@ export class AddShowHandler extends Handler {
 
       const completed = (await this._database.userShow.add(
         user.id,
-        showId,
+        id,
       ) !== 0);
 
       if (!completed) {

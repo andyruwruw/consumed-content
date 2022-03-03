@@ -10,7 +10,7 @@ import { validate } from '../helpers/auth-helpers';
 
 // Types
 import {
-  IReview,
+  IShowReviewObject,
   IUser,
 } from '../../../shared/types';
 
@@ -31,9 +31,9 @@ export class GetShowReviewsHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const showId = parseInt(req.query.showId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(showId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'Show ID not set.',
         });
@@ -45,9 +45,9 @@ export class GetShowReviewsHandler extends Handler {
         this._database,
       );
 
-      const reviews = (await this._database.review.find({
-        showId,
-      })) as IReview[];
+      const reviews = (await this._database.review.getShowReviews(
+        id,
+      )) as IShowReviewObject[];
 
       const filteredReviews = [];
       let averageRating = 0;
@@ -55,11 +55,7 @@ export class GetShowReviewsHandler extends Handler {
       for (let i = 0; i < reviews.length; i += 1) {
         averageRating += reviews[i].rating;
 
-        const writingUser = await this._database.user.findOne({
-          id: reviews[i].userId,
-        }) as IUser;
-
-        if (!writingUser.private || writingUser.id === user.id) {
+        if (!reviews[i].private || reviews[i].userId === user.id) {
           filteredReviews.push(reviews[i]);
         }
       }
@@ -69,6 +65,7 @@ export class GetShowReviewsHandler extends Handler {
       res.status(200).send({
         reviews,
         averageRating,
+        reviewCount: reviews.length,
       });
     } catch (error) {
       console.log(error);

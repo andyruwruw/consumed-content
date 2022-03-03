@@ -109,10 +109,10 @@ export const SELECT_CATEGORY = (id: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT Category.id, Category.userId, Category.name, Category.description, Category.created, User.username, User.imageUrl
+SELECT *
 FROM Category
 WHERE \`id\` = :id
-LEFT JOIN Users ON Category.userId = Users.id;`,
+ORDER BY Category.name ASC;`,
   },
   {
     id,
@@ -129,10 +129,11 @@ export const SELECT_USER_CATEGORIES = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT *
+SELECT Category.id, Category.userId, Category.name, Category.description, Category.created, User.username, User.imageUrl, User.private
 FROM Category
 WHERE Category.userId = :userId
-ORDER BY name ASC;`,
+LEFT JOIN Users ON Category.userId = Users.id
+ORDER BY Category.name ASC;`,
   },
   {
     userId,

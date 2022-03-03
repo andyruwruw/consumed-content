@@ -5,6 +5,7 @@ import {
   DELETE_REVIEW,
   DROP_REVIEW_TABLE,
   INSERT_REVIEW,
+  SELECT_REVIEW,
   SELECT_SHOWS_REVIEWS,
   SELECT_USERS_REVIEWS,
   SELECT_USER_REVIEW,
@@ -105,6 +106,27 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
       console.log(error);
     }
     return 0;
+  }
+
+  /**
+   * Retrieves a review by ID.
+   *
+   * @param {number} id Review Id.
+   * @returns {IUserReviewObject}
+   */
+  async getById(id: number): Promise<IUserReviewObject> {
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_REVIEW(
+        id,
+      ));
+ 
+      console.log(response);
+ 
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
   }
 
   /**

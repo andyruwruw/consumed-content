@@ -45,9 +45,7 @@ export class RegisterHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.user.findOne({
-        username,
-      }) as IUser;
+      const existing = await this._database.user.getUserByUsername(username) as IUser;
 
       if (existing) {
         res.status(409).send({
@@ -58,33 +56,35 @@ export class RegisterHandler extends Handler {
 
       const hashedPassword = await hashPassword(password);
 
-      const completedUserInsert = await this._database.user.insert({
+      const completedUserInsert = await this._database.user.register(
         name,
         username,
-        password: hashedPassword,
-        private: true,
-        imageUrl: '',
-      }) !== 0;
+        hashedPassword,
+        true,
+        '',
+      ) !== 0;
 
       if (!completedUserInsert) {
         res.status(500).send({
-          error: 'Internal Server Error, Completed User insert failed',
+          error: 'Internal Server Error',
         });
         return;
       }
 
-      const user = await this._database.user.findOne({
+      const user = await this._database.user.getUserByUsername(
         username,
-      });
+      );
 
       const token = generateToken({
-        userId: 1,
+        id: user.id,
+        you: 'are super cool',
+        here: 'is a free cookie',
       });
 
-      const completedTokenInsert = await this._database.userToken.insert({
-        userId: 1,
+      const completedTokenInsert = await this._database.userToken.register(
+        user.id,
         token,
-      }) !== 0;
+      ) !== 0;
 
       if (!completedTokenInsert) {
         res.status(500).send({

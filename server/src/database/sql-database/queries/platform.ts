@@ -77,6 +77,27 @@ WHERE \`id\` = :id;`,
 ]);
 
 /**
+ * Selects a platform.
+ *
+ * @param {number} id Platform's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_PLATFORM = (
+  id: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Platform
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
  * Inserts a new platform.
  *
  * @param {string} name Platform's name.

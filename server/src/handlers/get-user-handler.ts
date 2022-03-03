@@ -6,10 +6,9 @@ import {
 
 // Local Imports
 import { Handler } from './handler';
-import { validate } from '../helpers/auth-helpers';
 
 // Types
-import { IUser } from '../../../shared/types';
+import { IPublicUserObject } from '../../../shared/types';
 
 /**
  * Handler for getting a user's info.
@@ -28,18 +27,18 @@ export class GetUserHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const userId = parseInt(req.query.userId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(userId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User ID not set.',
         });
         return;
       }
 
-      const user = await this._database.user.findOne({
-        id: userId,
-      }) as IUser;
+      const user = await this._database.user.getUser(
+        id,
+      ) as IPublicUserObject;
 
       if (!user) {
         res.status(400).send({
@@ -48,32 +47,9 @@ export class GetUserHandler extends Handler {
         return;
       }
 
-      let restricted = false;
-
-      if (user.private) {
-        const currentUser = await validate(
-          req,
-          this._database,
-        );
-
-        if (user.id !== currentUser.id) {
-          restricted = true;
-        }
-      }
-
-      if (!restricted) {
-        res.status(200).send({
-          user,
-        });
-        return;
-      } else {
-        res.status(200).send({
-          username: user.username,
-          private: true,
-          imageUrl: user.imageUrl,
-        });
-        return;
-      }
+      res.status(200).send({
+        user,
+      });
     } catch (error) {
       console.log(error);
 

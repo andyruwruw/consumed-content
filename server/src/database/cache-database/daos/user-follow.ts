@@ -60,6 +60,30 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
   }
 
   /**
+   * Retrieves a user follow.
+   *
+   * @param {number} userId User following another.
+   * @param {number} followingUserId User being followed.
+   * @returns {Promise<IUserFollow>} User follow.
+   */
+   async getFollow(
+    userId: number,
+    followingUserId: number,
+  ): Promise<IUserFollow> {
+    try {
+      const response = await this._findOne({
+        userId,
+        followingUserId,
+      });
+
+      return response as IUserFollow;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /**
    * Retrieves a User's followers.
    *
    * @param {number} userId User's Id.

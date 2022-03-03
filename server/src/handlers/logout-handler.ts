@@ -26,27 +26,31 @@ export class LogoutHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const user = validate(
+      const user = await validate(
         req,
         this._database,
       );
 
       if (!user) {
-        res.status(204).send({});
+        res.status(200).send({
+          completed: true,
+        });
         return;
       }
 
       const token = getCookie(req);
 
       if (!token) {
-        res.status(204).send({});
+        res.status(200).send({
+          completed: true,
+        });
         return;
       }
 
-      const completed = await this._database.userToken.delete({
-        userId: user.id,
+      const completed = await this._database.userToken.revoke(
+        user.id,
         token,
-      });
+      );
 
       res.status(200).send({
         completed,

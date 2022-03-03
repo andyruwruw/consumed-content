@@ -8,7 +8,7 @@ import {
 import { Handler } from './handler';
 
 // Types
-import { IUserFollow } from '../../../shared/types';
+import { IUserFollowObject } from '../../../shared/types';
 
 /**
  * Handler for getting the people a user is following.
@@ -27,32 +27,18 @@ export class GetUserFollowingHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const userId = parseInt(req.query.userId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(userId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User ID not set.',
         });
         return;
       }
 
-      const follows = await this._database.userFollow.find({
-        userId,
-      }) as IUserFollow[];
-
-      const users = [];
-
-      for (let i = 0; i < follows.length; i += 1) {
-        const follow = follows[i];
-
-        const user = await this._database.user.findOne({
-          id: follow.userId,
-        });
-
-        if (user) {
-          users.push(user);
-        }
-      }
+      const users = await this._database.userFollow.getFollowings(
+        id,
+      ) as IUserFollowObject[];
 
       res.status(200).send({
         users,

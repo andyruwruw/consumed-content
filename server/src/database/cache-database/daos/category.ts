@@ -128,6 +128,7 @@ export class Category extends DataAccessObject<ICategory> implements ICategoryDA
           ...categories[i],
           username: user.username,
           imageUrl: user.imageUrl,
+          private: user.private,
         });
       }
 

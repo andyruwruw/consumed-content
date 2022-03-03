@@ -49,22 +49,22 @@ export class UnfollowHandler extends Handler {
         return;
       }
 
-      const follow = await this._database.userFollow.findOne({
-        userId: user.id,
+      const existing = await this._database.userFollow.getFollow(
+        user.id,
         followingUserId,
-      }) as IUserFollow;
+      ) as IUserFollow;
 
-      if (!follow) {
+      if (existing === null) {
         res.status(200).send({
           error: 'Not following user.',
         });
         return;
       }
 
-      const completed = (await this._database.userFollow.delete({
-        userId: user.id,
+      const completed = (await this._database.userFollow.unfollow(
+        user.id,
         followingUserId,
-      })) === 1;
+      )) === 1;
 
       res.status(200).send({
         completed,

@@ -5,10 +5,10 @@ import {
 } from '@vercel/node';
 
 // Local Imports
-import { GetCategoriesHandler } from '../src/handlers';
+import { GetUserFollowingHandler } from '../src/handlers';
 
 /**
- * Get a set of categories.
+ * Deletes a review
  *
  * @param {VercelRequest} req Request for login URL.
  * @param {VercelResponse} res Response to request.
@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await GetCategoriesHandler.execute(
+  return GetUserFollowingHandler.execute(
     req,
     res,
   );

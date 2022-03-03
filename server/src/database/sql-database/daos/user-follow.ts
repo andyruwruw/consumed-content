@@ -5,6 +5,7 @@ import {
   DELETE_USER_FOLLOW,
   DROP_USER_FOLLOW_TABLE,
   INSERT_USER_FOLLOW,
+  SELECT_USER_FOLLOW,
   SELECT_USER_FOLLOWERS,
   SELECT_USER_FOLLOWINGS,
 } from '../queries/user-follow';
@@ -68,6 +69,30 @@ export class UserFollow extends DataAccessObject<IUserFollow> implements IUserFo
       console.log(error);
     }
     return 0;
+  }
+
+  /**
+   * Retrieves a user follow.
+   *
+   * @param {number} userId User following another.
+   * @param {number} followingUserId User being followed.
+   * @returns {Promise<IUserFollow>} User follow.
+   */
+  async getFollow(
+    userId: number,
+    followingUserId: number,
+  ): Promise<IUserFollow> {
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_USER_FOLLOW(
+        userId,
+        followingUserId
+      ));
+
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
   }
 
   /**

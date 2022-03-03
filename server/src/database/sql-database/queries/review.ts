@@ -116,6 +116,27 @@ WHERE \`id\` = :id;`,
 ]);
 
 /**
+ * Gets a review.
+ *
+ * @param {number} id Review's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_REVIEW = (id: number): IMariaDbQuery => ([
+ {
+   namedPlaceholders: true,
+   sql:`
+SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
+FROM Review
+WHERE \`userId\` = :userId AND \`showId\` = :showId
+INNER JOIN Shows ON Review.showId = Shows.id
+INNER JOIN Users ON Review.userId = Users.id`,
+ },
+ {
+   id,
+ },
+]);
+
+/**
  * Gets review for a show by a user.
  *
  * @param {number} userId User's Id.
@@ -129,7 +150,7 @@ WHERE \`id\` = :id;`,
   {
     namedPlaceholders: true,
     sql:`
-SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl
+SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
 FROM Review
 WHERE \`userId\` = :userId AND \`showId\` = :showId
 INNER JOIN Shows ON Review.showId = Shows.id
@@ -151,7 +172,7 @@ export const SELECT_USERS_REVIEWS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
-SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl
+SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
 FROM Review
 WHERE \`userId\` = :userId
 INNER JOIN Shows ON Review.showId = Shows.id

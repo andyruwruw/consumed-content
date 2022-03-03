@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Category (
   \`userId\` int(11) NOT NULL,
   \`name\` varchar(64) NOT NULL,
   \`description\` varchar(255) DEFAULT(""),
-  \`created\` DATETIME DEFAULT(GETDATE()),
+  \`created\` int(11) DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -24,15 +24,22 @@ DROP TABLE Category;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM Category;
+`;
+
+/**
  * Inserts a new category.
  *
- * @param {string} userId User's Id.
+ * @param {number} userId User's Id.
  * @param {string} name Categories name.
  * @param {string} description Categories description.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_CATEGORY = (
-  userId: string,
+  userId: number,
   name: string,
   description = '',
 ): IMariaDbQuery => ([
@@ -40,7 +47,7 @@ export const INSERT_CATEGORY = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO CategoryShow (userId, name, description)
-VALUES (:userId, :name, :description);`,
+VALUES (:userId, ":name", ":description");`,
   },
   {
     userId,
@@ -50,20 +57,81 @@ VALUES (:userId, :name, :description);`,
 ]);
 
 /**
- * Selects all a user's categories.
+ * Updates a category
  *
- * @param {string} userId User's Id.
+ * @param {number} id Category's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
- export const SELECT_USER_CATEGORIES = (
-  userId: string,
+export const UPDATE_CATEGORY = (
+  id: number,
+  name: string,
+  description: string,
 ): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+UPDATE Category
+SET name = \`:name\`, description = \`:description\`
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+    name,
+    description,
+  },
+]);
+
+/**
+ * Deletes a category.
+ *
+ * @param {number} id Category's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_CATEGORY = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM Category
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Selects a category
+ *
+ * @param {number} id Category's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_CATEGORY = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT Category.id, Category.userId, Category.name, Category.description, Category.created, User.username, User.imageUrl
+FROM Category
+WHERE \`id\` = :id
+LEFT JOIN Users ON Category.userId = Users.id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Selects all a user's categories.
+ *
+ * @param {number} userId User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_USER_CATEGORIES = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
 SELECT *
 FROM Category
-WHERE Category.userId = :userId;
+WHERE Category.userId = :userId
 ORDER BY name ASC;`,
   },
   {

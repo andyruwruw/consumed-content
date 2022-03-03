@@ -50,7 +50,7 @@ export class AddShowHandler extends Handler {
       }
 
       const existing = await this._database.userShow.findOne({
-        userId: user['id'],
+        userId: user.id,
         showId,
       }) as IUserShow | null;
 
@@ -63,7 +63,7 @@ export class AddShowHandler extends Handler {
 
       const completed = await this._database.userShow.insert({
         showId,
-        userId: user['id'],
+        userId: user.id,
         added: Date.now(),
       }) !== 0;
 

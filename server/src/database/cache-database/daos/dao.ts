@@ -25,14 +25,32 @@ export class DataAccessObject<T> {
   }
 
   /**
+   * Drops a table.
+   *
+   * @returns {Promise<void>} Promise of action.
+   */
+  async dropTable(): Promise<void> {
+    return;
+  }
+
+  /**
+   * Deletes all rows.
+   *
+   * @returns {Promise<void>} Promise of action.
+   */
+  async deleteAll(): Promise<void> {
+    this._items = [];
+  }
+
+  /**
    * Inserts a new item into the database.
    *
    * @param {T} item Item to insert. 
    * @returns {Promise<number>} Number of items added.
    */
-  async insert(item: T): Promise<number> {
+  async _insert(item: T): Promise<number> {
     if (!('id' in (item as unknown as Record<string, IDatabaseColumnTypes>))) {
-      (item as unknown as Record<string, IDatabaseColumnTypes>)['id'] = this._items.length;
+      (item as unknown as Record<string, IDatabaseColumnTypes>).id = this._items.length;
     }
 
     this._items.push(item);
@@ -47,7 +65,7 @@ export class DataAccessObject<T> {
    * @param {IQueryProjection} projection Projection to be applied.
    * @returns {Promise<Record<string, IDatabaseColumnTypes>[]>} Items that fit the conditions with projection.
    */
-  async find(
+  async _find(
     conditions: IQueryConditions = {},
     projection: IQueryProjection = {},
   ): Promise<Record<string, IDatabaseColumnTypes>[]> {
@@ -63,11 +81,11 @@ export class DataAccessObject<T> {
    * @param {IQueryProjection} projection Projection to be applied.
    * @returns {Promise<Record<string, IDatabaseColumnTypes> | null>} An item that fit the conditions with projection.
    */
-  async findOne(
+  async _findOne(
     conditions: IQueryConditions = {},
     projection: IQueryProjection = {},
   ): Promise<Record<string, IDatabaseColumnTypes> | null> {
-    const items = await this.find(
+    const items = await this._find(
       conditions,
       projection,
     );
@@ -84,17 +102,17 @@ export class DataAccessObject<T> {
    * @param {IQueryConditions} conditions Conditions items should fit.
    * @returns {Promise<number>} The number of items deleted.
    */
-  async delete(conditions: IQueryConditions = {}): Promise<number> {
+  async _delete(conditions: IQueryConditions = {}): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
       if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
-        return (item as unknown as Record<string, IDatabaseColumnTypes>)['id'];
+        return (item as unknown as Record<string, IDatabaseColumnTypes>).id;
       }
       return 'no-id';
     });
 
     this._items = this._items.filter((item) => {
       if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
-        return !itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>)['id']);
+        return !itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>).id);
       }
       return false;
     });
@@ -109,13 +127,13 @@ export class DataAccessObject<T> {
    * @param {IQueryUpdate} update Updates to be applied
    * @returns {Promise<number>} The number of items updated.
    */
-  async update(
+  async _update(
     conditions: IQueryConditions = {},
     update: IQueryUpdate = {},
   ): Promise<number> {
     const itemIds = this._applyConditions(conditions).map(item => {
       if ('id' in (item as unknown as Record<string, IDatabaseColumnTypes>)) {
-        return (item as unknown as Record<string, IDatabaseColumnTypes>)['id'];
+        return (item as unknown as Record<string, IDatabaseColumnTypes>).id;
       }
       return 'no-id';
     });
@@ -123,7 +141,7 @@ export class DataAccessObject<T> {
     for (let i = 0; i < this._items.length; i += 1) {
       const item = this._items[i] as unknown as Record<string, IDatabaseColumnTypes>;
 
-      if ('id' in item && itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>)['id'])) {
+      if ('id' in item && itemIds.includes((item as unknown as Record<string, IDatabaseColumnTypes>).id)) {
         this._updateItem(
           i,
           update,

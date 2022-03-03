@@ -50,7 +50,7 @@ export class FollowHandler extends Handler {
       }
 
       const existing = await this._database.userFollow.findOne({
-        userId: user['id'],
+        userId: user.id,
         followingUserId,
       }) as IUserFollow;
 
@@ -62,7 +62,7 @@ export class FollowHandler extends Handler {
       }
 
       const completed = (await this._database.userFollow.insert({
-        userId: user['id'],
+        userId: user.id,
         followingUserId,
       })) === 1;
 

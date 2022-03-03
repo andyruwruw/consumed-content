@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await CreateReviewHandler.execute(
+  return CreateReviewHandler.execute(
     req,
     res,
   );

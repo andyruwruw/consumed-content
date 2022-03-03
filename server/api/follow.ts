@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await FollowHandler.execute(
+  return FollowHandler.execute(
     req,
     res,
   );

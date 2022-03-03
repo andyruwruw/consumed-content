@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_USER_SHOW_TABLE,
+  DELETE_ALL_ROWS,
   DELETE_USERS_SHOW,
   DROP_USER_SHOW_TABLE,
   INSERT_USER_SHOW,
@@ -13,12 +14,17 @@ import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
 
 // Types
-import { IShow, IUserShow } from '../../../../../shared/types';
+import {
+  IShow,
+  IUser,
+  IUserShow,
+} from '../../../../../shared/types';
+import { IUserShowDAO } from '../../../types';
 
 /**
  * Data Access Object for UserShow.
  */
-export class UserShow extends DataAccessObject<IUserShow> {
+export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDAO {
   /**
    * Adds a new user show.
    *
@@ -26,7 +32,7 @@ export class UserShow extends DataAccessObject<IUserShow> {
    * @param {number} showId Show's Id.
    * @returns {Promise<number>} Number of affected rows.
    */
-   async addShow(
+  async add(
     userId: number,
     showId: number,
   ): Promise<number> {
@@ -50,7 +56,7 @@ export class UserShow extends DataAccessObject<IUserShow> {
    * @param {number} showId Show's Id.
    * @returns {Promise<number>} Number of affected rows.
    */
-  async removeShow(
+  async remove(
     userId: number,
     showId: number,
   ): Promise<number> {
@@ -128,9 +134,9 @@ export class UserShow extends DataAccessObject<IUserShow> {
    * Retrieves all Users who added a show.
    *
    * @param {number} showId Show's Id.
-   * @returns {Promise<IShow[]>} TV shows for the user.
+   * @returns {Promise<IUser[]>} Users for the Show.
    */
-  async getShowUsers(showId: number): Promise<IShow[]> {
+  async getShowUsers(showId: number): Promise<IUser[]> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOW_USERS(
         showId,
@@ -159,6 +165,15 @@ export class UserShow extends DataAccessObject<IUserShow> {
    */
   _getDropTableQuery(): string {
     return DROP_USER_SHOW_TABLE;
+  }
+
+  /**
+   * Retrieves delete all rows query for object.
+   * 
+   * @returns {string} SQL query for deleting all rows.
+   */
+  _getDeleteAllQuery(): string {
+    return DELETE_ALL_ROWS;
   }
 
   /**

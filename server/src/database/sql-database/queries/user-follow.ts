@@ -22,15 +22,22 @@ DROP TABLE UserFollow;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM UserFollow;
+`;
+
+/**
  * Inserts a new user follow.
  *
- * @param {string} userId User's Id.
- * @param {string} followingUserId Show's Id.
+ * @param {number} userId User's Id.
+ * @param {number} followingUserId Show's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_USER_FOLLOW = (
-  userId: string,
-  followingUserId: string,
+  userId: number,
+  followingUserId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
@@ -40,6 +47,69 @@ VALUES (:userId, :followingUserId);`,
   },
   {
     userId,
+    followingUserId,
+  },
+]);
+
+/**
+ * Removes a new user follow.
+ *
+ * @param {number} userId User's Id.
+ * @param {number} followingUserId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_USER_FOLLOW = (
+  userId: number,
+  followingUserId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM UserFollow
+WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
+  },
+  {
+    userId,
+    followingUserId,
+  },
+]);
+
+/**
+ * Retrieves Users a User is following.
+ *
+ * @param {number} userId User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_USER_FOLLOWINGS = (userId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT User.id, User.username, User.imageUrl
+FROM UserFollow
+WHERE \`userId\` = :userId
+LEFT JOIN User ON UserFollow.followingUserId = User.id;`,
+  },
+  {
+    userId,
+  },
+]);
+
+/**
+ * Retrieves User's followers.
+ *
+ * @param {number} followingUserId User's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_USER_FOLLOWERS = (followingUserId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT User.id, User.username, User.imageUrl
+FROM UserFollow
+WHERE \`followingUserId\` = :followingUserId
+LEFT JOIN User ON UserFollow.userId = User.id;`,
+  },
+  {
     followingUserId,
   },
 ]);

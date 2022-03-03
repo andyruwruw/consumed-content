@@ -23,13 +23,24 @@ export class DataAccessObject<T> {
   }
 
   /**
-   * Creates the table if not already made.
+   * Drops a table.
    *
    * @returns {Promise<void>} Promise of action.
    */
   async dropTable(): Promise<void> {
     if (ConnectionManager.connection) {
       return ConnectionManager.connection.query(this._getDropTableQuery());
+    }
+  }
+
+  /**
+   * Deletes all rows.
+   *
+   * @returns {Promise<void>} Promise of action.
+   */
+  async deleteAll(): Promise<void> {
+    if (ConnectionManager.connection) {
+      return ConnectionManager.connection.query(this._getDeleteAllQuery());
     }
   }
 
@@ -48,6 +59,15 @@ export class DataAccessObject<T> {
    * @returns {string} SQL query for drop table.
    */
   _getDropTableQuery(): string {
+    throw new UsedAbstractDAOError();
+  }
+
+  /**
+   * Retrieves delete all rows query for object.
+   * 
+   * @returns {string} SQL query for deleting all rows.
+   */
+  _getDeleteAllQuery(): string {
     throw new UsedAbstractDAOError();
   }
 

@@ -20,6 +20,13 @@ DROP TABLE Genre;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM Genre;
+`;
+
+/**
  * Inserts a new genre.
  *
  * @param {number} id Genre's id. The Movies DB provides an ID, so we need to hard set this.
@@ -34,10 +41,29 @@ export const INSERT_GENRE = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Genre (id, name)
-VALUES (:id, :name);`,
+VALUES (:id, ":name");`,
   },
   {
     id,
     name,
+  },
+]);
+
+/**
+ * Selects a new genre.
+ *
+ * @param {number} id Genre's id. The Movies DB provides an ID, so we need to hard set this.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_GENRE = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Genre
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
   },
 ]);

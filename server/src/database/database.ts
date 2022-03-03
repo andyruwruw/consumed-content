@@ -2,21 +2,20 @@
 import { UsedAbstractDatabaseError } from '../errors/used-abstract-database-error';
 
 // Types
-import { IDataAccessObject } from '../types';
 import {
-  ICategory,
-  ICategoryShow,
-  IGenre,
-  IPlatform,
-  IReview,
-  IShow,
-  IShowGenre,
-  IShowPlatform,
-  IUser,
-  IUserFollow,
-  IUserShow,
-  IUserToken,
-} from '../../../shared/types';
+  ICategoryShowDAO,
+  ICategoryDAO,
+  IGenreDAO,
+  IUserDAO,
+  IPlatformDAO,
+  IReviewDAO,
+  IShowGenreDAO,
+  IShowPlatformDAO,
+  IShowDAO,
+  IUserFollowDAO,
+  IUserShowDAO,
+  IUserTokenDAO,
+} from '../types';
 
 /**
  * Abstract Database class.
@@ -25,62 +24,62 @@ export class Database {
   /**
    * Data access object for category show.
    */
-  categoryShow: IDataAccessObject<ICategoryShow>;
+  categoryShow: ICategoryShowDAO;
 
   /**
    * Data access object for category.
    */
-  category: IDataAccessObject<ICategory>;
+  category: ICategoryDAO;
 
   /**
    * Data access object for genre.
    */
-  genre: IDataAccessObject<IGenre>;
+  genre: IGenreDAO;
 
   /**
    * Data access object for platform.
    */
-  platform: IDataAccessObject<IPlatform>;
+  platform: IPlatformDAO;
 
   /**
    * Data access object for review.
    */
-  review: IDataAccessObject<IReview>;
+  review: IReviewDAO;
 
   /**
    * Data access object for show genre.
    */
-  showGenre: IDataAccessObject<IShowGenre>;
+  showGenre: IShowGenreDAO;
 
   /**
    * Data access object for show platform.
    */
-  showPlatform: IDataAccessObject<IShowPlatform>;
+  showPlatform: IShowPlatformDAO;
 
   /**
    * Data access object for show
    */
-  show: IDataAccessObject<IShow>;
+  show: IShowDAO;
 
   /**
    * Data access object for user follow.
    */
-  userFollow: IDataAccessObject<IUserFollow>;
+  userFollow: IUserFollowDAO;
 
   /**
    * Data access object for user show.
    */
-  userShow: IDataAccessObject<IUserShow>;
+  userShow: IUserShowDAO;
 
   /**
    * Data access object for user token.
    */
-  userToken: IDataAccessObject<IUserToken>;
+  userToken: IUserTokenDAO;
 
   /**
    * Data access object for user.
    */
-  user: IDataAccessObject<IUser>;
+  user: IUserDAO;
 
   /**
    * Instantiates a new SQL database instance.

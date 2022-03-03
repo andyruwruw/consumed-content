@@ -1,6 +1,7 @@
 // Local Imports
 import {
   CREATE_USER_TOKEN_TABLE,
+  DELETE_ALL_ROWS,
   DELETE_TOKEN,
   DELETE_USERS_TOKENS,
   DROP_USER_TOKEN_TABLE,
@@ -12,11 +13,12 @@ import { DataAccessObject } from './dao';
 
 // Types
 import { IUserToken } from '../../../../../shared/types';
+import { IUserTokenDAO } from '../../../types';
 
 /**
  * Data Access Object for UserToken.
  */
-export class UserToken extends DataAccessObject<IUserToken> {
+export class UserToken extends DataAccessObject<IUserToken> implements IUserTokenDAO{
   /**
    * Registers a valid token.
    *
@@ -103,7 +105,7 @@ export class UserToken extends DataAccessObject<IUserToken> {
 
       return response.length > 0;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     return false;
   }
@@ -125,6 +127,15 @@ export class UserToken extends DataAccessObject<IUserToken> {
    */
   _getDropTableQuery(): string {
     return DROP_USER_TOKEN_TABLE;
+  }
+
+  /**
+   * Retrieves delete all rows query for object.
+   * 
+   * @returns {string} SQL query for deleting all rows.
+   */
+  _getDeleteAllQuery(): string {
+    return DELETE_ALL_ROWS;
   }
 
   /**

@@ -66,15 +66,15 @@ export class EditReviewHandler extends Handler {
 
       const update = {} as IQueryUpdate;
 
-      if ('name' in existing && existing['name'] !== name) {
+      if ('name' in existing && existing.name !== name) {
         update.name = name;
       }
 
-      if ('rating' in existing && existing['rating'] !== rating) {
+      if ('rating' in existing && existing.rating !== rating) {
         update.rating = rating;
       }
 
-      if ('description' in existing && existing['description'] !== description) {
+      if ('description' in existing && existing.description !== description) {
         update.description = description;
       }
 

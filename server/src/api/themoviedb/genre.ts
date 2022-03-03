@@ -15,7 +15,7 @@ let movieGenres = [] as IMovieDbGenre[];
 /**
  * Cache for TV show genres.
  */
- let tvShowGenres = [] as IMovieDbGenre[];
+let tvShowGenres = [] as IMovieDbGenre[];
 
 /**
  * Gets a list of movie genres.
@@ -30,7 +30,7 @@ const getMovieGenres = async (): Promise<IMovieDbGenreList | null> => {
   }
 
   try {
-    const response =  await request.get(`/genre/movie/list`);
+    const response =  await request.get('/genre/movie/list');
 
     if (response.status === 200) {
       if (!movieGenres.length) {
@@ -43,14 +43,14 @@ const getMovieGenres = async (): Promise<IMovieDbGenreList | null> => {
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a list of TV show genres.
  *
  * @returns {Promise<IMovieDbGenreList | null>} List of TV show genres.
  */
- const getTvShowGenres = async (): Promise<IMovieDbGenreList | null> => {
+const getTvShowGenres = async (): Promise<IMovieDbGenreList | null> => {
   if (tvShowGenres.length) {
     return {
       genres: tvShowGenres,
@@ -58,7 +58,7 @@ const getMovieGenres = async (): Promise<IMovieDbGenreList | null> => {
   }
 
   try {
-    const response =  await request.get(`/genre/tv/list`);
+    const response =  await request.get('/genre/tv/list');
 
     if (response.status === 200) {
       if (!tvShowGenres.length) {
@@ -71,7 +71,7 @@ const getMovieGenres = async (): Promise<IMovieDbGenreList | null> => {
     return null;
   }
   return null;
-}
+};
 
 export default {
   getMovieGenres,

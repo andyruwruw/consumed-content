@@ -22,15 +22,85 @@ DROP TABLE ShowPlatform;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM ShowPlatform;
+`;
+
+/**
+ * Remove a show platform.
+ *
+ * @param {number} showId Show's Id.
+ * @param {number} platformId Platform's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_SHOW_PLATFORM = (
+  showId: number,
+  platformId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM ShowPlatform
+WHERE \`showId\` = :showId AND \`platformId\` = :platformId;`,
+  },
+  {
+    showId,
+    platformId,
+  },
+]);
+
+/**
+ * Selects a Show's platform.
+ *
+ * @param {number} showId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_SHOWS_PLATFORMS = (showId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT ShowPlatform.platformId, Platform.name, Platform.imageUrl, Platform.cost
+FROM ShowPlatform
+WHERE \`showId\` = :showId
+LEFT JOIN Platform ON ShowPlatform.platformId = Platform.id;`,
+  },
+  {
+    showId,
+  },
+]);
+
+/**
+ * Selects a Platforms Shows.
+ *
+ * @param {number} platformId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_PLATFORMS_SHOWS = (platformId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT ShowPlatform.showId, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+FROM ShowPlatform
+WHERE \`platformId\` = :platformId
+LEFT JOIN Shows ON ShowPlatform.showId = Show.id;`,
+  },
+  {
+    platformId,
+  },
+]);
+
+/**
  * Inserts a new show platform.
  *
- * @param {string} showId Show's Id.
- * @param {string} platformId Platform's Id.
+ * @param {number} showId Show's Id.
+ * @param {number} platformId Platform's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_SHOW_PLATFORM = (
-  showId: string,
-  platformId: string,
+  showId: number,
+  platformId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,

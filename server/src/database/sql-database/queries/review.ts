@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS Review (
   \`name\` varchar(64) NOT NULL,
   \`rating\` int(11) NOT NULL,
   \`description\` text NOT NULL,
-  \`created\` DATETIME DEFAULT(GETDATE()),
-  \`updated\` DATETIME DEFAULT(GETDATE()),
+  \`created\` int(11) DEFAULT(UNIX_TIMESTAMP()),
+  \`updated\` int(11) DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`),
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
@@ -28,27 +28,34 @@ DROP TABLE Review;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM Review;
+`;
+
+/**
  * Create a new review.
  *
- * @param {string} showId Show the review is about.
- * @param {string} userId User posting the review.
+ * @param {number} showId Show the review is about.
+ * @param {number} userId User posting the review.
  * @param {string} name Name of the review.
  * @param {number} rating Rating of the show.
  * @param {string} description Description of the show.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_REVIEW = (
-  showId: string,
-  userId: string,
+  showId: number,
+  userId: number,
   name: string,
-  rating: string,
+  rating: number,
   description: string,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
 INSERT INTO Review (showId, userId, name, rating, description)
-VALUE (:showId, :userId, :name, :rating, :description)
+VALUE (:showId, :userId, ":name", :rating, ":description")
     `,
   },
   {
@@ -61,19 +68,87 @@ VALUE (:showId, :userId, :name, :rating, :description)
 ]);
 
 /**
- * Gets reviews from a show.
+ * Deletes a review.
  *
- * @param {string} showId Show the review is about.
+ * @param {number} id Review's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
-export const SELECT_REVIEWS_FROM_SHOW = (
-  showId: string,
+export const DELETE_REVIEW = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+DELETE FROM Review
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Edits a review.
+ *
+ * @param {number} id Review's Id.
+ * @param {string} name Review's name.
+ * @param {number} rating Review's rating.
+ * @param {string} description Review's description.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const UPDATE_REVIEW = (
+  id: number,
+  name: string,
+  rating: number,
+  description: string,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
-SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, User.private FROM Review
-WHERE showId = \":showId\"
+UPDATE Review
+SET \`name\` = ":name", \`rating\` = :rating, \`description\` = ":description", \`updated\` = UNIX_TIMESTAMP()
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+    name,
+    rating,
+    description,
+  },
+]);
+
+/**
+ * Gets reviews from a show.
+ *
+ * @param {number} userId Show the review is about.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_USERS_REVIEWS = (userId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+FROM Review
+WHERE \`userId\` = :userId
+INNER JOIN Shows ON Review.showId = Shows.id
+    `,
+  },
+  {
+    userId,
+  },
+]);
+
+/**
+ * Gets reviews from a show.
+ *
+ * @param {number} showId Show the review is about.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_SHOWS_REVIEWS = (showId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+SELECT Review.userId, Review.showId, Review.name, Review.rating, Review.description, Users.private, Users.username, Users.imageUrl
+FROM Review
+WHERE showId = :showId
 INNER JOIN Users ON Review.userId = Users.id
     `,
   },

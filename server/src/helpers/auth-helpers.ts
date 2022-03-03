@@ -25,11 +25,11 @@ import {
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
 
-  return await bcrypt.hash(
+  return bcrypt.hash(
     password,
     salt,
   );
-}
+};
 
 /**
  * Validates an incoming password against a vaild password.
@@ -42,11 +42,11 @@ export const comparePassword = async (
   valid: string,
   subject: string,
 ): Promise<boolean> => {
-  return await bcrypt.compare(
+  return bcrypt.compare(
     subject,
     valid,
   );
-}
+};
 
 /**
  * Validates a request and returns user.
@@ -87,4 +87,4 @@ export const validate = async (
   }) as IUser | null;
 
   return user;
-}
+};

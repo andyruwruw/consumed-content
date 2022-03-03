@@ -17,7 +17,7 @@ export const getCookie = (req: VercelRequest): string | null => {
     return null;
   }
   return req.cookies[COOKIE_NAME];
-}
+};
 
 /**
  * Attatches a cookie to an outgoing response.
@@ -30,7 +30,7 @@ export const attatchCookie = (
   cookie: string,
 ): void => {
   res.setHeader('Set-Cookie', `${COOKIE_NAME}=${cookie}; HttpOnly`);
-}
+};
 
 /**
  * Generates a signed token.
@@ -47,7 +47,7 @@ export const generateToken = (
     data,
     Environment.getSecret(),
     {
-      expiresIn: expires
+      expiresIn: expires,
     },
   );
 };
@@ -63,4 +63,4 @@ export const decodeToken = (token: string): any => {
     token,
     Environment.getSecret(),
   );
-}
+};

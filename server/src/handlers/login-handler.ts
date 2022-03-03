@@ -47,7 +47,7 @@ export class LoginHandler extends Handler {
       }
 
       const passwordsMatch = await comparePassword(
-        user['password'] as string,
+        user.password as string,
         password,
       );
 
@@ -59,11 +59,11 @@ export class LoginHandler extends Handler {
       }
 
       const token = generateToken({
-        userId: user['id'] || -1,
+        userId: user.id || -1,
       });
 
       const completed = await this._database.userToken.insert({
-        userId: user['id'] || -1,
+        userId: user.id || -1,
         token,
       });
 

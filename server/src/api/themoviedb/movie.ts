@@ -27,7 +27,7 @@ const getMovie = async (id: number): Promise<IMovieDbMovie | null> => {
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a movie's credits.
@@ -46,7 +46,7 @@ const getMoviesCredits = async (id: number): Promise<IMovieDbMovieCredits | null
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a movie's images.
@@ -65,14 +65,14 @@ const getMoviesImages = async (id: number): Promise<IMovieDbItemImages | null> =
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a list of the top rated movies.
  *
  * @returns {Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null>} Top rated movies.
  */
- const getTopRatedMovies = async (): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
+const getTopRatedMovies = async (): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
   try {
     const response =  await request.get('/movie/top_rated');
 
@@ -83,7 +83,7 @@ const getMoviesImages = async (id: number): Promise<IMovieDbItemImages | null> =
     return null;
   }
   return null;
-}
+};
 
 export default {
   getMovie,

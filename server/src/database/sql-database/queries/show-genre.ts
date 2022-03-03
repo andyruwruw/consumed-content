@@ -22,15 +22,62 @@ DROP TABLE ShowGenre;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM ShowGenre;
+`;
+
+/**
+ * Selects a shows genres.
+ *
+ * @param {number} showId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_SHOWS_GENRES = (showId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT ShowGenre.genreId, Genre.name
+FROM ShowGenre
+WHERE \`showId\` = :showId
+LEFT JOIN Genre ON ShowGenre.genreId = Genre.id;`,
+  },
+  {
+    showId,
+  },
+]);
+
+/**
+ * Selects a genres shows.
+ *
+ * @param {number} genreId Genre's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_GENRES_SHOWS = (showId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT ShowGenre.showId, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+FROM ShowGenre
+WHERE \`genreId\` = :genreId
+LEFT JOIN Shows ON ShowGenre.showId = Shows.id;`,
+  },
+  {
+    showId,
+  },
+]);
+
+/**
  * Inserts a new show platform.
  *
- * @param {string} showId Show's Id.
- * @param {string} genreId Genre's Id.
+ * @param {number} showId Show's Id.
+ * @param {number} genreId Genre's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_SHOW_GENRE = (
-  showId: string,
-  genreId: string,
+  showId: number,
+  genreId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,

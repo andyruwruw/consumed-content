@@ -26,7 +26,7 @@ const getTvShow = async (id: number): Promise<IMovieDbTvShow | null> => {
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a TV show's credits.
@@ -34,7 +34,7 @@ const getTvShow = async (id: number): Promise<IMovieDbTvShow | null> => {
  * @param {number} id The Movie DB TV show ID.
  * @returns {Promise<IMovieDbTvShowCredits | null>} The TV show's credits.
  */
- const getTvShowsCredits = async (id: number): Promise<IMovieDbTvShowCredits | null> => {
+const getTvShowsCredits = async (id: number): Promise<IMovieDbTvShowCredits | null> => {
   try {
     const response =  await request.get(`/tv/${id}/credits`);
 
@@ -45,14 +45,14 @@ const getTvShow = async (id: number): Promise<IMovieDbTvShow | null> => {
     return null;
   }
   return null;
-}
+};
 
 /**
  * Gets a list of the top rated TV shows.
  *
  * @returns {Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null>} Top rated TV shows.
  */
- const getTopRatedTvShows = async (): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
+const getTopRatedTvShows = async (): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
   try {
     const response =  await request.get('/tv/top_rated');
 
@@ -63,7 +63,7 @@ const getTvShow = async (id: number): Promise<IMovieDbTvShow | null> => {
     return null;
   }
   return null;
-}
+};
 
 export default {
   getTvShow,

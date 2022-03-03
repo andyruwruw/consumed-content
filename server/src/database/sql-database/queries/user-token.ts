@@ -22,6 +22,13 @@ DROP TABLE UserToken;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM UserToken;
+`;
+
+/**
  * Inserts a new user token.
  *
  * @param {number} userId User's Id.
@@ -36,7 +43,7 @@ export const INSERT_USER_TOKEN = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO UserToken (userId, token)
-VALUES (:userId, :token);`,
+VALUES (:userId, ":token");`,
   },
   {
     userId,
@@ -60,13 +67,13 @@ export const SELECT_TOKEN = (
     sql: `
 SELECT *
 FROM UserToken
-WHERE \`userId\` = :userId AND \`token\` = :token;`,
+WHERE \`userId\` = :userId AND \`token\` = ":token";`,
   },
   {
     userId,
     token,
   },
-])
+]);
 
 /**
  * Deletes a UserToken by it's userId and token value.
@@ -83,7 +90,7 @@ export const DELETE_TOKEN = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserToken
-WHERE \`userId\` = :userId AND \`token\` = :token;`,
+WHERE \`userId\` = :userId AND \`token\` = ":token";`,
   },
   {
     userId,

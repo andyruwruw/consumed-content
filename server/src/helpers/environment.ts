@@ -57,7 +57,7 @@ export class Environment {
    *
    * @returns {string} Server secret.
    */
-   static getSecret(): string {
+  static getSecret(): string {
     return process.env.SECRET;
   }
 }

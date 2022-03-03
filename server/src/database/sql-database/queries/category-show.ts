@@ -8,7 +8,7 @@ export const CREATE_CATEGORY_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS CategoryShow (
   \`categoryId\` int(11) NOT NULL,
   \`showId\` int(11) NOT NULL,
-  \`added\` DATETIME DEFAULT(GETDATE()),
+  \`added\` int(11) DEFAULT(UNIX_TIMESTAMP()()),
   PRIMARY KEY (\`categoryId\`, \`showId\`),
   FOREIGN KEY (\`categoryId\`) REFERENCES \`Category\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE
@@ -23,15 +23,22 @@ DROP TABLE CategoryShow;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM CategoryShow;
+`;
+
+/**
  * Inserts a new category show.
  *
- * @param {string} categoryId Category's Id.
- * @param {string} showId Show's Id.
+ * @param {number} categoryId Category's Id.
+ * @param {number} showId Show's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_CATEGORY_SHOW = (
-  categoryId: string,
-  showId: string,
+  categoryId: number,
+  showId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
@@ -46,15 +53,38 @@ VALUES (:categoryId, :showId);`,
 ]);
 
 /**
- * Retrieves shows in a category.
+ * Deletes a category show.
  *
- * @param {string} categoryId Category's Id.
+ * @param {number} categoryId Category's Id.
+ * @param {number} showId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
  */
-export const SELECT_CATEGORY_SHOWS = (categoryId: string): IMariaDbQuery => ([
+export const DELETE_CATEGORY_SHOW = (
+  categoryId: number,
+  showId: number,
+): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT Shows.id, Shows.name, Shows.type, Shows.posterUrl, Shows.releaseDate, Shows.overview, CategoryShow.added
+DELETE FROM CategoryShow
+WHERE categoryId = \`:categoryId\` AND showId = \`:showId\`;`,
+  },
+  {
+    categoryId,
+    showId,
+  },
+]);
+
+/**
+ * Retrieves shows in a category.
+ *
+ * @param {number} categoryId Category's Id.
+ */
+export const SELECT_CATEGORY_SHOWS = (categoryId: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT Shows.id, Shows.name, Shows.type, Shows.posterUrl, Shows.releaseDate, Shows.overview, CategorysShows.added
 FROM (
   SELECT *
   FROM CategoryShow

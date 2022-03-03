@@ -8,7 +8,7 @@ export const CREATE_USER_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS UserShow (
   \`userId\` int(11) NOT NULL,
   \`showId\` int(11) NOT NULL,
-  \`added\` DATETIME DEFAULT(GETDATE()),
+  \`added\` int(11) DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`userId\`, \`showId\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE
@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS UserShow (
  */
 export const DROP_USER_SHOW_TABLE = `
 DROP TABLE UserShow;
+`;
+
+/**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM UserShow;
 `;
 
 /**
@@ -49,15 +56,15 @@ LEFT JOIN Shows ON UserShow.showId = Show.id;`,
  * @param {number} showId Show's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
- export const DELETE_USERS_SHOW = (
-   userId: number,
-   showId: number,
+export const DELETE_USERS_SHOW = (
+  userId: number,
+  showId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserShow
-WHERE \`userId\` = ":userId" AND \`showId\` = ":showId";`,
+WHERE \`userId\` = :userId AND \`showId\` = :showId;`,
   },
   {
     userId,
@@ -71,7 +78,7 @@ WHERE \`userId\` = ":userId" AND \`showId\` = ":showId";`,
  * @param {number} userId User's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
- export const SELECT_USERS_MOVIES = (userId: number): IMariaDbQuery => ([
+export const SELECT_USERS_MOVIES = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
@@ -95,7 +102,7 @@ LEFT JOIN (
  * @param {number} userId User's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
- export const SELECT_USERS_TV_SHOWS = (userId: number): IMariaDbQuery => ([
+export const SELECT_USERS_TV_SHOWS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `

@@ -53,7 +53,7 @@ export class CreateReviewHandler extends Handler {
       }
 
       const existing = await this._database.review.findOne({
-        userId: user['id'],
+        userId: user.id,
         showId,
       }) as IReview | null;
 
@@ -66,7 +66,7 @@ export class CreateReviewHandler extends Handler {
 
       const completed = await this._database.review.insert({
         showId,
-        userId: user['id'],
+        userId: user.id,
         name,
         rating,
         description,
@@ -81,7 +81,7 @@ export class CreateReviewHandler extends Handler {
 
       const review = await this._database.review.findOne({
         showId,
-        userId: user['id'],
+        userId: user.id,
       }) as IReview;
 
       res.status(201).send({

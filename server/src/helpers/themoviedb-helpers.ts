@@ -24,7 +24,7 @@ export const convertMovies = (movies: IMovieDbMovie[]): IShow[] => {
       overview: movie.overview,
     };
   });
-}
+};
 
 /**
  * Converts The Movie DB simplified movies into our own format.
@@ -43,7 +43,7 @@ export const convertSimplifiedMovies = (movies: IMovieDbMovieSimplified[]): ISho
       overview: movie.overview,
     };
   });
-}
+};
 
 /**
  * Converts The Movie DB TV shows into our own format.
@@ -62,7 +62,7 @@ export const convertTvShows = (tvShows: IMovieDbTvShow[]): IShow[] => {
       overview: tvShow.overview,
     };
   });
-}
+};
 
 /**
  * Converts The Movie DB simplified TV shows into our own format.
@@ -81,4 +81,4 @@ export const convertSimplifiedTvShows = (tvShows: IMovieDbTvShowSimplified[]): I
       overview: movie.overview,
     };
   });
-}
+};

@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await GetUserCategoriesHandler.execute(
+  return GetUserCategoriesHandler.execute(
     req,
     res,
   );

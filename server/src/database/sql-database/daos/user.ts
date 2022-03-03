@@ -1,23 +1,26 @@
 // Local Imports
 import {
   CREATE_USER_TABLE,
+  DELETE_ALL_ROWS,
   DROP_USER_TABLE,
   INSERT_USER,
   SELECT_PRIVATE_USER_BY_ID,
   SELECT_PRIVATE_USER_BY_USERNAME,
   SELECT_PUBLIC_USER_BY_ID,
   SELECT_PUBLIC_USER_BY_USERNAME,
+  UPDATE_USER,
 } from '../queries/users';
 import { DataAccessObject } from './dao';
 import { ConnectionManager } from '../connection-manager';
 
 // Types
 import { IUser } from '../../../../../shared/types';
+import { IUserDAO } from '../../../types';
 
 /**
- * Data Access Object for Genre.
+ * Data Access Object for User.
  */
-export class User extends DataAccessObject<IUser> {
+export class User extends DataAccessObject<IUser> implements IUserDAO {
   /**
    * Inserts a new user. It's expected that the password has been hashed and
    * it's been checked to ensure that another user with the same username
@@ -122,6 +125,42 @@ export class User extends DataAccessObject<IUser> {
   }
 
   /**
+   * Updates a user's information.
+   * 
+   * @param {number} id User's Id.
+   * @param {string} name User's name.
+   * @param {string} username User's username.
+   * @param {string} password User's password.
+   * @param {boolean} privateMode User's privacy settings.
+   * @param {string} imageUrl User's image.
+   * @returns 
+   */
+  async update(
+    id: number,
+    name: string,
+    username: string,
+    password: string,
+    privateMode: boolean,
+    imageUrl: string,
+  ): Promise<number> {
+    try {
+      const response = await ConnectionManager.connection.query(...UPDATE_USER(
+        id,
+        name,
+        username,
+        password,
+        privateMode,
+        imageUrl,
+      ));
+
+      return response.affectedRows;
+    } catch (error) {
+      console.log(error);
+    }
+    return 0;
+  }
+
+  /**
    * Retrieves create table query for object.
    * 
    * @returns {string} SQL query for create table.
@@ -137,6 +176,15 @@ export class User extends DataAccessObject<IUser> {
    */
   _getDropTableQuery(): string {
     return DROP_USER_TABLE;
+  }
+
+  /**
+   * Retrieves delete all rows query for object.
+   * 
+   * @returns {string} SQL query for deleting all rows.
+   */
+  _getDeleteAllQuery(): string {
+    return DELETE_ALL_ROWS;
   }
 
   /**

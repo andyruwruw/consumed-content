@@ -321,7 +321,7 @@ export interface IMovieDbTvShowCredits extends IMovieDbObject {
 /**
  * The Movie DB representation of a TV show simplified.
  */
- export interface IMovieDbTvShowSimplified extends IMovieDbObject, IMovieDbNambeableObject {
+export interface IMovieDbTvShowSimplified extends IMovieDbObject, IMovieDbNambeableObject {
   poster_path: string | null;
   popularity: number;
   backdrop_path: string | null;
@@ -345,48 +345,182 @@ export interface IMovieDbGenreList {
 /**
  * Data Access Object interface.
  */
-export interface IDataAccessObject<T> {
+export interface IDataAccessObject {
   createTable: () => Promise<void>;
-  insert: (item: T) => Promise<number>;
-  find: (
-    conditions?: IQueryConditions,
-    projection?: IQueryProjection,
-  ) => Promise<Record<string, IDatabaseColumnTypes>[]>;
-  delete: (conditions?: IQueryConditions) =>Promise<number>
-  update: (
-    conditions?: IQueryConditions,
-    update?: IQueryUpdate,
+  dropTable: () => Promise<void>;
+  deleteAll: () => Promise<void>;
+}
+
+export interface ICategoryShowDAO extends IDataAccessObject {
+  add: (
+    categoryId: number,
+    showId: number,
   ) => Promise<number>;
-  findOne: (
-    conditions?: IQueryConditions,
-    projection?: IQueryProjection,
-  ) => Promise<Record<string, IDatabaseColumnTypes> | null>;
+  remove: (
+    categoryId: number,
+    showId: number,
+  ) => Promise<number>;
+  selectCategoryShows: (categoryId: number) => Promise<IShow[]>;
 }
 
-export interface ICategoryDataAccessObject extends IDataAccessObject<ICategory> {
-
+export interface ICategoryDAO extends IDataAccessObject {
+  create: (
+    userId: number,
+    name: string,
+    description: string,
+  ) => Promise<number>;
+  update: (
+    id: number,
+    name: string,
+    description: string,
+  ) => Promise<number>;
+  delete: (id: number) => Promise<number>;
+  select: (id: number) => Promise<ICategory | null>;
+  selectUserCategories: (userId: number) => Promise<ICategory[]>;
 }
 
-export interface IGenreDataAccessObject extends IDataAccessObject<IGenre> {
-
+export interface IGenreDAO extends IDataAccessObject {
+  insert: (
+    id: number,
+    name: string,
+  ) => Promise<number>;
+  select: (id: number) => Promise<IGenre | null>;
 }
 
-export interface IPlatformDataAccessObject extends IDataAccessObject<IPlatform> {
-
+export interface IPlatformDAO extends IDataAccessObject {
+  create: (
+    name: string,
+    imageUrl: string,
+    cost: number,
+  ) => Promise<number>;
+  delete: (id: number) => Promise<number>;
+  update: (
+    id: number,
+    name: string,
+    imageUrl: string,
+    cost: number,
+  ) => Promise<number>;
 }
 
-export interface IReviewDataAccessObject extends IDataAccessObject<IReview> {
-
+export interface IReviewDAO extends IDataAccessObject {
+  create: (
+    showId: number,
+    userId: number,
+    name: string,
+    rating: number,
+    description: string,
+  ) => Promise<number>;
+  delete: (id: number) => Promise<number>;
+  update: (
+    id: number,
+    name: string,
+    rating: number,
+    description: string,
+  ) => Promise<number>;
+  getUserReviews: (userId: number) => Promise<IReview[]>;
+  getShowReviews: (showId: number) => Promise<IReview[]>;
 }
 
-export interface IShowDataAccessObject extends IDataAccessObject<IShow> {
-  
+export interface IShowGenreDAO extends IDataAccessObject {
+  add: (
+    showId: number,
+    genreId: number,
+  ) => Promise<number>;
+  getShowGenres: (showId: number) => Promise<IGenre[]>;
+  getGenreShows: (genreId: number) => Promise<IShow[]>;
 }
 
-export interface IUserDataAccessObject extends IDataAccessObject<IUser> {
-  
+export interface IShowPlatformDAO extends IDataAccessObject {
+  add: (
+    showId: number,
+    platformId: number,
+  ) => Promise<number>;
+  remove: (
+    showId: number,
+    platformId: number,
+  ) => Promise<number>;
+  getShowPlatforms: (showId: number) => Promise<IPlatform[]>;
+  getPlatformShows: (platformId: number) => Promise<IShow[]>;
 }
 
+export interface IShowDAO extends IDataAccessObject {
+  add: (
+    name: string,
+    type: string,
+    posterUrl: string,
+    backdropUrl: string,
+    releaseDate: string,
+    overview: string,
+  ) => Promise<number>;
+  delete: (id: number) => Promise<number>;
+  select: (id: number) => Promise<IShow | null>;
+}
+
+export interface IUserFollowDAO extends IDataAccessObject {
+  follow: (
+    userId: number,
+    followingUserId: number,
+  ) => Promise<number>;
+  unfollow: (
+    userId: number,
+    followingUserId: number,
+  ) => Promise<number>;
+  getFollowers: (userId: number) => Promise<IUser[]>;
+  getFollowings: (userId: number) => Promise<IUser[]>;
+}
+
+export interface IUserShowDAO extends IDataAccessObject {
+  add: (
+    userId: number,
+    showId: number,
+  ) => Promise<number>;
+  remove: (
+    userId: number,
+    showId: number,
+  ) => Promise<number>;
+  getUserShows: (userId: number) => Promise<IShow[]>;
+  getUserMovies: (userId: number) => Promise<IShow[]>;
+  getUserTvShows: (userId: number) => Promise<IShow[]>;
+  getShowUsers: (showId: number) => Promise<IUser[]>;
+}
+
+export interface IUserTokenDAO extends IDataAccessObject {
+  register: (
+    userId: number,
+    token: string,
+  ) => Promise<number>;
+  revoke: (
+    userId: number,
+    token: string,
+  ) => Promise<number>;
+  revokeUser: (userId: number) => Promise<number>;
+  validate: (
+    userId: number,
+    token: string,
+  ) => Promise<boolean>;
+}
+
+export interface IUserDAO extends IDataAccessObject {
+  register: (
+    name: string,
+    username: string,
+    password: string,
+    privateMode: boolean,
+    imageUrl: string,
+  ) => Promise<number>;
+  getUser: (id: number) => Promise<IUser | null>;
+  getMe: (id: number) => Promise<IUser | null>;
+  getUserByUsername: (username: string) => Promise<IUser | null>;
+  getMeByUsername: (username: string) => Promise<IUser | null>;
+  update: (
+    id: number,
+    name: string,
+    username: string,
+    password: string,
+    privateMode: boolean,
+    imageUrl: string,
+  ) => Promise<number>;
+}
 
 /**
  * Object defining a query filter.

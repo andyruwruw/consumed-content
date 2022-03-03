@@ -12,7 +12,7 @@ CREATE OR REPLACE TABLE Users (
   \`password\` varchar(255) NOT NULL,
   \`private\` boolean NOT NULL,
   \`imageUrl\` varchar(255) NOT NULL,
-  \`joined\` DATETIME DEFAULT(GETDATE()),
+  \`joined\` int(11) DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 `;
@@ -22,6 +22,13 @@ CREATE OR REPLACE TABLE Users (
  */
 export const DROP_USER_TABLE = `
 DROP TABLE Users;
+`;
+
+/**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM Users;
 `;
 
 /**
@@ -36,7 +43,7 @@ export const SELECT_PRIVATE_USER_BY_USERNAME = (username: string): IMariaDbQuery
     sql:`
 SELECT *
 FROM Users
-WHERE username = :username;
+WHERE username = ":username";
     `,
   },
   {
@@ -56,7 +63,7 @@ export const SELECT_PUBLIC_USER_BY_USERNAME = (username: string): IMariaDbQuery 
     sql:`
 SELECT name, username, private, imageUrl
 FROM Users
-WHERE username = :username;
+WHERE username = ":username";
     `,
   },
   {
@@ -127,9 +134,45 @@ export const INSERT_USER = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Users (name, username, pasword, privateMode, imageUrl)
-VALUES (:name, :username, :password, :private, :imageUrl);`,
+VALUES (":name", ":username", ":password", :private, ":imageUrl");`,
   },
   {
+    name,
+    username,
+    password,
+    private: privateMode,
+    imageUrl,
+  },
+]);
+
+/**
+ * Updates a user.
+ *
+ * @param {number} id User's Id.
+ * @param {string} name User's name.
+ * @param {string} username User's username.
+ * @param {string} password User's password.
+ * @param {boolean} privateMode User's privacy settings.
+ * @param {string} imageUrl User's image.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const UPDATE_USER = (
+  id: number,
+  name: string,
+  username: string,
+  password: string,
+  privateMode: boolean,
+  imageUrl: string,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+UPDATE Users
+SET \`name\` = ":name", \`username\` = ":username", \`password\` = ":password", \`private\` = :private, \`imageUrl\` = ":imageUrl"
+WHERE \`id\` = ":id";`,
+  },
+  {
+    id,
     name,
     username,
     password,

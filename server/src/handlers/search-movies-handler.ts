@@ -19,7 +19,7 @@ export class SearchMoviesHandler extends Handler {
    * @param {VercelRequest} req Request for handler.
    * @param {VercelResponse} res Response to request.
    */
-   async execute(
+  async execute(
     req: VercelRequest,
     res: VercelResponse,
   ): Promise<void> {

@@ -25,6 +25,13 @@ DROP TABLE Shows;
 `;
 
 /**
+ * Deletes all rows.
+ */
+export const DELETE_ALL_ROWS = `
+DELETE FROM Shows;
+`;
+
+/**
  * Inserts a new show.
  *
  * @param {string} name Name of the show.
@@ -39,7 +46,7 @@ export const INSERT_SHOW = (
   name: string,
   type: string,
   posterUrl: string,
-  backdropUrl: boolean,
+  backdropUrl: string,
   releaseDate: string,
   overview: string,
 ): IMariaDbQuery => ([
@@ -47,7 +54,7 @@ export const INSERT_SHOW = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview)
-VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
+VALUES (":name", ":type", ":posterUrl", ":backdropUrl", ":releaseDate", ":overview");`,
   },
   {
     name,
@@ -56,5 +63,42 @@ VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
     backdropUrl,
     releaseDate,
     overview,
+  },
+]);
+
+/**
+ * Delete show by Id.
+ *
+ * @param {number} id Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const DELETE_SHOW = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+DELETE FROM Shows
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Selects a show by Id.
+ *
+ * @param {number} id Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_SHOW = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Shows
+WHERE \`id\` = :id;`,
+  },
+  {
+    id,
   },
 ]);

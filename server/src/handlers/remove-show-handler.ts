@@ -50,7 +50,7 @@ export class RemoveShowHandler extends Handler {
       }
 
       const existing = await this._database.userShow.findOne({
-        userId: user['id'],
+        userId: user.id,
         showId,
       }) as IUserShow | null;
 
@@ -63,7 +63,7 @@ export class RemoveShowHandler extends Handler {
 
       const completed = await this._database.userShow.delete({
         showId,
-        userId: user['id'],
+        userId: user.id,
       }) !== 0;
 
       if (!completed) {

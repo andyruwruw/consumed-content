@@ -50,7 +50,7 @@ export class UnfollowHandler extends Handler {
       }
 
       const follow = await this._database.userFollow.findOne({
-        userId: user['id'],
+        userId: user.id,
         followingUserId,
       }) as IUserFollow;
 
@@ -62,7 +62,7 @@ export class UnfollowHandler extends Handler {
       }
 
       const completed = (await this._database.userFollow.delete({
-        userId: user['id'],
+        userId: user.id,
         followingUserId,
       })) === 1;
 

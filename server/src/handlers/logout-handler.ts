@@ -44,7 +44,7 @@ export class LogoutHandler extends Handler {
       }
 
       const completed = await this._database.userToken.delete({
-        userId: user['id'],
+        userId: user.id,
         token,
       });
 

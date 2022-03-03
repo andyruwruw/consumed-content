@@ -17,7 +17,7 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
-  return await RegisterHandler.execute(
+  return RegisterHandler.execute(
     req,
     res,
   );

@@ -19,7 +19,7 @@ const searchMovies = async (
   page: number = 1,
 ): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
   try {
-    const response =  await request.get(`/search/movie`, {
+    const response =  await request.get('/search/movie', {
       params: {
         query,
         page,
@@ -33,7 +33,7 @@ const searchMovies = async (
     return null;
   }
   return null;
-}
+};
 
 /**
  * Search for TV shows by query.
@@ -41,12 +41,12 @@ const searchMovies = async (
  * @param {string} query The query to search.
  * @returns {Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null>} The search results.
  */
- const searchTvShows = async (
+const searchTvShows = async (
   query: string,
   page: number = 1,
 ): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
   try {
-    const response =  await request.get(`/search/tv`, {
+    const response =  await request.get('/search/tv', {
       params: {
         query,
         page,
@@ -60,7 +60,7 @@ const searchMovies = async (
     return null;
   }
   return null;
-}
+};
 
 export default {
   searchMovies,

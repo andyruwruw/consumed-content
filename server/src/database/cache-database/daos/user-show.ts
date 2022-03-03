@@ -66,6 +66,30 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
   }
 
   /**
+   * Returns whether a show is already added.
+   *
+   * @param {number} userId User's Id.
+   * @param {number} showId Show's Id.
+   * @returns {Promise<boolean>} Whether the show is already added.
+   */
+   async isShowAdded(
+    userId: number,
+    showId: number,
+  ): Promise<boolean> {
+    try {
+      const response = await this._findOne({
+        userId,
+        showId,
+      });
+
+      return response !== null;
+    } catch (error) {
+      console.log(error);
+    }
+    return false;
+  }
+
+  /**
    * Retrieves all shows for a user.
    *
    * @param {number} userId User's Id.

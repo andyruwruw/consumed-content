@@ -9,6 +9,7 @@ import {
   SELECT_USERS_MOVIES,
   SELECT_USERS_SHOWS,
   SELECT_USERS_TV_SHOWS,
+  SELECT_USER_SHOW,
 } from '../queries/user-show';
 import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
@@ -71,6 +72,32 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
       console.log(error);
     }
     return 0;
+  }
+
+  /**
+   * Returns whether a show is already added.
+   *
+   * @param {number} userId User's Id.
+   * @param {number} showId Show's Id.
+   * @returns {Promise<boolean>} Whether the show is already added.
+   */
+  async isShowAdded(
+    userId: number,
+    showId: number,
+  ): Promise<boolean> {
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_USER_SHOW(
+        userId,
+        showId,
+      ));
+
+      console.log(response);
+
+      return response.length > 0;
+    } catch (error) {
+      console.log(error);
+    }
+    return false;
   }
 
   /**

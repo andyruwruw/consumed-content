@@ -436,6 +436,10 @@ export interface IReviewDAO extends IDataAccessObject {
     rating: number,
     description: string,
   ) => Promise<number>;
+  getUserShowReview: (
+    userId: number,
+    showId: number,
+  ) => Promise<IUserReviewObject>;
   getUserReviews: (userId: number) => Promise<IUserReviewObject[]>;
   getShowReviews: (showId: number) => Promise<IShowReviewObject[]>;
 }
@@ -497,6 +501,10 @@ export interface IUserShowDAO extends IDataAccessObject {
     userId: number,
     showId: number,
   ) => Promise<number>;
+  isShowAdded: (
+    userId: number,
+    showId: number,
+  ) => Promise<boolean>;
   getUserShows: (userId: number) => Promise<IUserShowObject[]>;
   getUserMovies: (userId: number) => Promise<IUserShowObject[]>;
   getUserTvShows: (userId: number) => Promise<IUserShowObject[]>;

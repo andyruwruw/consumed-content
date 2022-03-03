@@ -116,9 +116,35 @@ WHERE \`id\` = :id;`,
 ]);
 
 /**
+ * Gets review for a show by a user.
+ *
+ * @param {number} userId User's Id.
+ * @param {number} showId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_USER_REVIEW = (
+   userId: number,
+   showId: number,
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql:`
+SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl
+FROM Review
+WHERE \`userId\` = :userId AND \`showId\` = :showId
+INNER JOIN Shows ON Review.showId = Shows.id
+INNER JOIN Users ON Review.userId = Users.id`,
+  },
+  {
+    userId,
+    showId,
+  },
+]);
+
+/**
  * Gets reviews from a show.
  *
- * @param {number} userId Show the review is about.
+ * @param {number} userId User's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const SELECT_USERS_REVIEWS = (userId: number): IMariaDbQuery => ([

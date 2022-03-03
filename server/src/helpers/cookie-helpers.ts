@@ -1,5 +1,8 @@
 // Packages
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import {
+  VercelRequest,
+  VercelResponse,
+} from '@vercel/node';
 import jsonwebtoken from 'jsonwebtoken';
 
 // Local Imports

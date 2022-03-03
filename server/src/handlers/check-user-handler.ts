@@ -32,12 +32,11 @@ export class CheckUserHandler extends Handler {
 
       if (!user) {
         res.status(204).send({});
-        return;
+      } else {
+        res.status(200).send({
+          user,
+        });
       }
-
-      res.status(200).send({
-        user,
-      });
     } catch (error) {
       console.log(error);
 

@@ -97,6 +97,48 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
   }
 
   /**
+   * Retrieves a user's review of a show.
+   *
+   * @param {number} userId User's Id.
+   * @param {number} showId Show's Id.
+   * @returns {Promise<IUserReviewObject>} The review.
+   */
+   async getUserShowReview(
+     userId: number,
+     showId: number,
+   ): Promise<IUserReviewObject> {
+    try {
+      const review = await this._findOne({
+        userId,
+        showId,
+      });
+
+      const show = await Show._findOne({
+        id: review.showId,
+      });
+
+      const user = await User._findOne({
+        id: review.userId,
+      });
+
+      return {
+        ...review,
+        showName: show.name,
+        type: show.type,
+        posterUrl: show.posterUrl,
+        backdropUrl: show.backdropUrl,
+        releaseDate: show.releaseDate,
+        overview: show.overview,
+        username: user.username,
+        imageUrl: user.imageUrl,
+      } as IUserReviewObject;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /**
    * Retrieves reviews from a user.
    * 
    * @param {number} userId User's Id.

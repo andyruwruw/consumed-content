@@ -30,6 +30,31 @@ DELETE FROM UserShow;
 `;
 
 /**
+ * Selects a user show.
+ *
+ * @param {number} userId User's Id.
+ * @param {number} showId Show's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_USER_SHOW = (
+   userId: number,
+   showId: number
+): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+FROM UserShow
+WHERE \`userId\` = :userId AND \'showId\' = :showId
+LEFT JOIN Shows ON UserShow.showId = Show.id;`,
+  },
+  {
+    userId,
+    showId,
+  },
+]);
+
+/**
  * Selects all shows added by a user.
  *
  * @param {number} userId User's Id.

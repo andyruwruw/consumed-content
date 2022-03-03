@@ -9,7 +9,7 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
 // Types
-import { IReview } from '../../../shared/types';
+import { IUserReviewObject } from '../../../shared/types';
 
 /**
  * Handler for creating reviews.
@@ -52,25 +52,23 @@ export class CreateReviewHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.review.findOne({
-        userId: user.id,
+      if (await this._database.review.getUserShowReview(
+        user.id,
         showId,
-      }) as IReview | null;
-
-      if (existing) {
+      ) !== null) {
         res.status(401).send({
           error: 'Edit the existing review.',
         });
         return;
       }
 
-      const completed = await this._database.review.insert({
+      const completed = (await this._database.review.create(
         showId,
-        userId: user.id,
+        user.id,
         name,
         rating,
         description,
-      }) !== 0;
+      ) !== 0);
 
       if (!completed) {
         res.status(500).send({
@@ -79,10 +77,10 @@ export class CreateReviewHandler extends Handler {
         return;
       }
 
-      const review = await this._database.review.findOne({
+      const review = await this._database.review.getUserShowReview(
+        user.id,
         showId,
-        userId: user.id,
-      }) as IReview;
+      ) as IUserReviewObject;
 
       res.status(201).send({
         review,

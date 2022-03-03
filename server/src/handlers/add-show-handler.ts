@@ -8,9 +8,6 @@ import {
 import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
-// Types
-import { IUserShow } from '../../../shared/types';
-
 /**
  * Handler for adding shows to a user's list.
  */
@@ -49,23 +46,20 @@ export class AddShowHandler extends Handler {
         return;
       }
 
-      const existing = await this._database.userShow.findOne({
-        userId: user.id,
+      if (await this._database.userShow.isShowAdded(
+        user.id,
         showId,
-      }) as IUserShow | null;
-
-      if (existing) {
+      )) {
         res.status(204).send({
           completed: true,
         });
         return;
       }
 
-      const completed = await this._database.userShow.insert({
+      const completed = (await this._database.userShow.add(
+        user.id,
         showId,
-        userId: user.id,
-        added: Date.now(),
-      }) !== 0;
+      ) !== 0);
 
       if (!completed) {
         res.status(500).send({

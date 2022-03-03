@@ -7,6 +7,7 @@ import {
   INSERT_REVIEW,
   SELECT_SHOWS_REVIEWS,
   SELECT_USERS_REVIEWS,
+  SELECT_USER_REVIEW,
   UPDATE_REVIEW,
 } from '../queries/review';
 import { ConnectionManager } from '../connection-manager';
@@ -105,6 +106,32 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
     }
     return 0;
   }
+
+  /**
+   * Retrieves a user's review of a show.
+   *
+   * @param {number} userId User's Id.
+   * @param {number} showId Show's Id.
+   * @returns {Promise<IUserReviewObject>} The review.
+   */
+  async getUserShowReview(
+    userId: number,
+    showId: number,
+  ): Promise<IUserReviewObject> {
+   try {
+     const response = await ConnectionManager.connection.query(...SELECT_USER_REVIEW(
+       userId,
+       showId,
+     ));
+
+     console.log(response);
+
+     return response;
+   } catch (error) {
+     console.log(error);
+   }
+   return null;
+ }
 
   /**
    * Retrieves reviews from a user.

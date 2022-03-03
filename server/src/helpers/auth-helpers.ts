@@ -3,18 +3,15 @@ import { VercelRequest } from '@vercel/node';
 import bcrypt from 'bcrypt';
 
 // Local Imports
-import { SALT_WORK_FACTOR } from '../config';
-import { Database } from '../database/database';
 import {
   getCookie,
   decodeToken,
 } from './cookie-helpers';
+import { SALT_WORK_FACTOR } from '../config';
+import { Database } from '../database/database';
 
 // Types
-import {
-  IUser,
-  IUserToken,
-} from '../../../shared/types';
+import { IPublicUserObject } from '../../../shared/types';
 
 /**
  * Salts and hashes passwords.
@@ -53,12 +50,12 @@ export const comparePassword = async (
  *
  * @param {VercelRequest} req Incoming request.
  * @param {Database} database Database instance.
- * @returns {Promise<IUser | null>} User if valid, null otherwise.
+ * @returns {Promise<IPublicUserObject | null>} User if valid, null otherwise.
  */
 export const validate = async (
   req: VercelRequest,
   database: Database,
-): Promise<IUser | null> => {
+): Promise<IPublicUserObject | null> => {
   const cookie = getCookie(req);
 
   if (!cookie || cookie === '') {
@@ -73,18 +70,14 @@ export const validate = async (
     return null;
   }
 
-  const token = await database.userToken.findOne({
-    userId: userId,
-    token: cookie,
-  }) as IUserToken | null;
-
-  if (!token) {
+  if (!await database.userToken.validate(
+    userId,
+    cookie,
+  )) {
     return null;
   }
-  
-  const user = await database.user.findOne({
-    id: userId,
-  }) as IUser | null;
+
+  const user = await database.user.getUser(userId);
 
   return user;
 };

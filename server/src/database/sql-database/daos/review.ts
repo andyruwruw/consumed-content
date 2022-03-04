@@ -120,9 +120,9 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
         id,
       ));
  
-      console.log(response);
- 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IUserReviewObject;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -140,19 +140,19 @@ export class Review extends DataAccessObject<IReview> implements IReviewDAO {
     userId: number,
     showId: number,
   ): Promise<IUserReviewObject> {
-   try {
-     const response = await ConnectionManager.connection.query(...SELECT_USER_REVIEW(
-       userId,
-       showId,
-     ));
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_USER_REVIEW(
+        userId,
+        showId,
+      ));
 
-     console.log(response);
-
-     return response;
-   } catch (error) {
-     console.log(error);
-   }
-   return null;
+      if (response.length > 0) {
+        return response[0] as IUserReviewObject;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
  }
 
   /**

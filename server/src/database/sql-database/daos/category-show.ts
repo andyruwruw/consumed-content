@@ -81,7 +81,7 @@ export class CategoryShow extends DataAccessObject<ICategoryShow> implements ICa
         categoryId,
       ));
 
-      return response.affectedRows;
+      return response;
     } catch (error) {
       console.log(error);
     }

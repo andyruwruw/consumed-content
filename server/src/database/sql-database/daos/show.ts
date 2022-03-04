@@ -87,7 +87,9 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
         id,
       ));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IShow;
+      }
     } catch (error) {
       console.log(error);
     }

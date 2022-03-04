@@ -69,7 +69,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PUBLIC_USER_BY_ID(id));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IPublicUserObject;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +88,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PRIVATE_USER_BY_ID(id));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IUser;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +107,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PUBLIC_USER_BY_USERNAME(username));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IPublicUserObject;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -120,7 +126,9 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_PRIVATE_USER_BY_USERNAME(username));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IUser;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +144,7 @@ export class User extends DataAccessObject<IUser> implements IUserDAO {
    * @param {string} password User's password.
    * @param {boolean} privateMode User's privacy settings.
    * @param {string} imageUrl User's image.
-   * @returns 
+   * @returns {Promise<number>} Number of affected rows.
    */
   async update(
     id: number,

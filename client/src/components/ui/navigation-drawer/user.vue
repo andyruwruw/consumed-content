@@ -3,7 +3,7 @@
     <div
       :class="$style.image"
       :style="{
-        'background-image': `url('${getUser.image}')`,
+        'background-image': `url('${image}')`,
       }" />
 
     <span :class="$style.name">
@@ -27,6 +27,13 @@ export default Vue.extend({
     ...mapGetters('user', [
       'getUser',
     ]),
+
+    image() {
+      if (this.getUser.image && this.getUser.image.length > 0) {
+        return this.getUser.image;
+      }
+      return 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg';
+    },
   },
 });
 </script>

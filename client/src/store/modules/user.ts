@@ -98,6 +98,7 @@ const actions: ActionTree<AuthModuleState, any> = {
    */
   async login({
     commit,
+    dispatch,
   }, {
     username,
     password,
@@ -110,6 +111,7 @@ const actions: ActionTree<AuthModuleState, any> = {
 
       if (user) {
         commit('setUser', user);
+        dispatch('navigation/goToHome', undefined, { root: true });
       }
     } catch (error) {
       console.log(error);
@@ -127,6 +129,7 @@ const actions: ActionTree<AuthModuleState, any> = {
    */
   async register({
     commit,
+    dispatch,
   }, {
     name,
     username,
@@ -141,6 +144,23 @@ const actions: ActionTree<AuthModuleState, any> = {
 
       if (user) {
         commit('setUser', user);
+        dispatch('navigation/goToHome', undefined, { root: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async checkUser({
+    commit,
+    dispatch,
+  }): Promise<void> {
+    try {
+      const user = await api.auth.checkUser();
+
+      if (user) {
+        commit('setUser', user);
+        dispatch('navigation/goToHome', undefined, { root: true });
       }
     } catch (error) {
       console.log(error);

@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 
 import AppBar from './components/ui/app-bar/index.vue';
 import NavigationDrawer from './components/ui/navigation-drawer/index.vue';
@@ -22,6 +23,17 @@ export default Vue.extend({
   components: {
     AppBar,
     NavigationDrawer,
+  },
+
+  created() {
+    console.log('checking user');
+    this.checkUser();
+  },
+
+  methods: {
+    ...mapActions('user', [
+      'checkUser',
+    ]),
   },
 });
 </script>

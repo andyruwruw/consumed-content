@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'NavigationDrawerTabs',
@@ -87,6 +88,10 @@ export default Vue.extend({
   }),
 
   methods: {
+    ...mapActions('user', [
+      'logout',
+    ]),
+
     changePage() {
       let index = this.tab;
       if (index >= 3) {
@@ -97,7 +102,11 @@ export default Vue.extend({
       }
       const path = this.tabs[index].path as string;
 
-      this.$router.push(path);
+      if (path === '/logout') {
+        this.logout();
+      } else {
+        this.$router.push(path);
+      }
     },
   },
 });

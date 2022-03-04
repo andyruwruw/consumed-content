@@ -5,6 +5,7 @@ import { CreateReviewHandler as CreateReviewHandlerClass } from './create-review
 import { DeleteReviewHandler as DeleteReviewHandlerClass } from './delete-review-handler';
 import { EditReviewHandler as EditReviewHandlerClass } from './edit-review-handler';
 import { FollowHandler as FollowHandlerClass } from './follow-handler';
+import { GetCategoryShowsHandler as GetCategoryShowsHandlerClass } from './get-category-shows-handler';
 import { GetShowReviewsHandler as GetShowReviewsHandlerClass } from './get-show-reviews-handler';
 import { GetUserCategoriesHandler as GetUserCategoriesHandlerClass } from './get-user-categories-handler';
 import { GetUserFollowersHandler as GetUserFollowersHandlerClass } from './get-user-followers-handler';
@@ -27,6 +28,7 @@ export const CreateReviewHandler = new CreateReviewHandlerClass();
 export const DeleteReviewHandler = new DeleteReviewHandlerClass();
 export const EditReviewHandler = new EditReviewHandlerClass();
 export const FollowHandler = new FollowHandlerClass();
+export const GetCategoryShowsHandler = new GetCategoryShowsHandlerClass();
 export const GetShowReviewsHandler = new GetShowReviewsHandlerClass();
 export const GetUserCategoriesHandler = new GetUserCategoriesHandlerClass();
 export const GetUserFollowersHandler = new GetUserFollowersHandlerClass();

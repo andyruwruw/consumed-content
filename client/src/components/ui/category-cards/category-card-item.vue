@@ -9,7 +9,7 @@
     @click="goToCategory">
     <div :class="$style.details">
       <span :class="$style.title">
-        {{ title }}
+        {{ name }}
       </span>
 
       <span :class="$style.genres">
@@ -49,9 +49,34 @@ export default Vue.extend({
       default: 0,
     },
 
-    title: {
+    userId: {
+      type: Number,
+      default: -1,
+    },
+
+    name: {
       type: String,
       required: true,
+    },
+
+    description: {
+      type: String,
+      default: '',
+    },
+    
+    created: {
+      type: Number,
+      default: 0,
+    },
+
+    username: {
+      type: String,
+      default: 'Unknown',
+    },
+
+    imageUrl: {
+      type: String,
+      default: '',
     },
 
     shows: {

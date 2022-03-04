@@ -24,7 +24,7 @@
         :imageUrl="show.imageUrl"
         :padding="rows"
         :saved="saved"
-        @unlike="unlike(index)" />
+        @remove="remove(index)" />
     </div>
   </div>
 </template>
@@ -50,52 +50,17 @@ export default Vue.extend({
 
     shows: {
       type: Array,
-      default: () => [],
+      default: () => [] as IShow[],
     },
 
     rows: {
       type: Boolean,
       default: true,
     },
-
-    limit: {
-      type: Number,
-      default: 0,
-    },
-
-    randomize: {
-      type: Boolean,
-      default: false,
-    },
-
-    saved: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  data: () => ({
-    editedShows: [] as Record<string, any>[],
-  }),
-
-  created() {
-    this.editedShows = [] as Record<string, any>[];
-
-    for (let i = 0; i < this.shows.length; i += 1) {
-      this.editedShows.push((this.shows[i] as Record<string, any>[]));
-    }
-
-    if (this.randomize) {
-      this.editedShows = this.editedShows.sort(() => 0.5 - Math.random());
-    }
-
-    if (this.limit !== 0) {
-      this.editedShows.length = this.limit;
-    }
   },
 
   methods: {
-    unlike(id: number) {
+    remove(id: number) {
       const newShows = [];
 
       for (let i = 0; i < this.editedShows.length; i += 1) {

@@ -3,7 +3,7 @@ import {
   VercelRequest,
   VercelResponse,
 } from '@vercel/node';
-import jsonwebtoken from 'jsonwebtoken';
+import * as jsonwebtoken from 'jsonwebtoken';
 
 // Local Imports
 import { COOKIE_NAME } from '../config';
@@ -32,7 +32,7 @@ export const attatchCookie = (
   res: VercelResponse,
   cookie: string,
 ): void => {
-  res.setHeader('Set-Cookie', `${COOKIE_NAME}=${cookie}; HttpOnly`);
+  res.setHeader('Set-Cookie', `${COOKIE_NAME}=${cookie}`);
 };
 
 /**

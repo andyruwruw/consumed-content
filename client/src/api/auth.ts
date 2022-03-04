@@ -46,7 +46,7 @@ const register = async (
       },
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       return response.data.user;
     }
   } catch (error) {
@@ -68,8 +68,17 @@ const checkUser = async (): Promise<IPublicUserObject | null> => {
   return null;
 };
 
+const logout = async (): Promise<void> => {
+  try {
+    await request.get('/logout');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default {
   login,
   register,
   checkUser,
+  logout,
 };

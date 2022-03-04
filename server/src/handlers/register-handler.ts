@@ -33,8 +33,6 @@ export class RegisterHandler extends Handler {
       const username = req.query.username as string;
       const password = req.query.password as string;
 
-      console.log(name, username, password);
-
       if (!name
         || !name.length
         || !username
@@ -50,7 +48,6 @@ export class RegisterHandler extends Handler {
       const existing = await this._database.user.getUserByUsername(username) as IUser;
 
       if (existing) {
-        console.log('Username already exists.');
         res.status(409).send({
           error: 'Username already exists.',
         });
@@ -80,8 +77,7 @@ export class RegisterHandler extends Handler {
 
       const token = generateToken({
         id: user.id,
-        you: 'are super cool',
-        here: 'is a free cookie',
+        date: (new Date()).getTime(),
       });
 
       const completedTokenInsert = await this._database.userToken.register(

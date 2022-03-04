@@ -58,6 +58,7 @@ export class LoginHandler extends Handler {
 
       const token = generateToken({
         userId: user.id,
+        date: (new Date()).getTime(),
       });
 
       const completed = await this._database.userToken.register(

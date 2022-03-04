@@ -2,12 +2,12 @@
   <div
     :class="$style.component"
     :style="{
-      'background-image': `url('${imageUrl}')`,
+      'background-image': `url('${backdropUrl}')`,
     }">
     <div :class="$style.content">
       <div :class="$style.header">
         <span :class="$style.title">
-          {{ title }}
+          {{ name }}
         </span>
 
         <v-btn
@@ -29,12 +29,12 @@
         </span>
 
         <span :class="[$style.released, $style['detail-item']]">
-          {{ released }}
+          {{ releaseDate }}
         </span>
       </div>
 
       <span :class="$style.description">
-        {{ description }}
+        {{ overview }}
       </span>
     </div>
   </div>
@@ -47,33 +47,38 @@ export default Vue.extend({
   name: 'MovieFeature',
 
   props: {
-    title: {
+    id: {
+      type: Number,
+      required: true,
+    },
+
+    name: {
       type: String,
       required: true,
     },
 
-    duration: {
+    posterUrl: {
+      type: String,
+      required: true,
+    },
+
+    backdropUrl: {
+      type: String,
+      required: true,
+    },
+    
+    releaseDate: {
+      type: Number,
+      required: true,
+    },
+
+    overview: {
       type: String,
       required: true,
     },
 
     genres: {
       type: Array,
-      required: true,
-    },
-
-    released: {
-      type: String,
-      required: true,
-    },
-
-    description: {
-      type: String,
-      required: true,
-    },
-
-    imageUrl: {
-      type: String,
       required: true,
     },
   },

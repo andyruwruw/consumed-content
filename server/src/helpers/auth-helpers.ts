@@ -62,22 +62,24 @@ export const validate = async (
     return null;
   }
 
-  const {
-    userId,
-  } = decodeToken(cookie);
+  const token = decodeToken(cookie);
 
-  if (!userId || userId === '') {
+  const {
+    id,
+  } = token;
+
+  if (!id || id === '') {
     return null;
   }
 
   if (!await database.userToken.validate(
-    userId,
+    id,
     cookie,
   )) {
     return null;
   }
 
-  const user = await database.user.getUser(userId);
+  const user = await database.user.getUser(id);
 
   return user;
 };

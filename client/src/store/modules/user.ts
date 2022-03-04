@@ -172,13 +172,13 @@ const actions: ActionTree<AuthModuleState, any> = {
    *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.
    */
-  logout({ commit }): void {
+  logout({
+    commit,
+    dispatch,
+  }): void {
     commit('reset');
-    commit(
-      'shows/reset',
-      null,
-      { root: true },
-    );
+    dispatch('navigation/goToLanding', undefined, { root: true });
+    api.auth.logout();
   },
 };
 

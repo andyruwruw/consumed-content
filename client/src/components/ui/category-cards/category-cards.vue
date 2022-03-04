@@ -17,7 +17,12 @@
         v-for="(category, index) in categories"
         :key="`category-${index}`"
         :id="index"
-        :title="category.title"
+        :userId="category.userId"
+        :name="category.name"
+        :description="category.description"
+        :created="category.created"
+        :username="category.username"
+        :imageUrl="category.imageUrl"
         :shows="category.shows"
         :padding="rows" />
     </div>
@@ -27,12 +32,8 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import {
-  FAKE_MOVIES,
-  CATEGORY_NAMES,
-} from '../../../config';
-
 import CategoryCardItem from './category-card-item.vue';
+import { IUserCategoryObject } from '../../../../../shared/types';
 
 export default Vue.extend({
   name: 'CategoryCards',
@@ -52,35 +53,10 @@ export default Vue.extend({
       default: true,
     },
 
-    limit: {
-      type: Number,
-      default: 0,
+    categories: {
+      type: Array,
+      default: () => [] as IUserCategoryObject[],
     },
-  },
-
-  data: () => ({
-    categories: [] as any[],
-  }),
-
-  created() {
-    let editedShows = [];
-
-    for (let i = 0; i < FAKE_MOVIES.length; i += 1) {
-      editedShows.push(FAKE_MOVIES[i]);
-    }
-
-    editedShows = editedShows.sort(() => 0.5 - Math.random());
-
-    const offset = Math.floor(Math.random() * 200);
-
-    for (let i = 0; i < (this.limit === 0 ? 15 : this.limit); i += 1) {
-      const shows = editedShows.splice(0, 4);
-
-      this.categories.push({
-        title: (CATEGORY_NAMES as string[])[(i + offset) % CATEGORY_NAMES.length] as string,
-        shows,
-      });
-    }
   },
 });
 </script>

@@ -9,11 +9,7 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
 // Types
-import {
-  IShow,
-  IUser,
-  IUserShowObject,
-} from '../../../shared/types';
+import { IUserShowObject } from '../../../shared/types';
 
 /**
  * Handler for getting a user's shows.

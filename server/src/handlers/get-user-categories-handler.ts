@@ -9,10 +9,7 @@ import { validate } from '../helpers/auth-helpers';
 import { Handler } from './handler';
 
 // Types
-import {
-  ICategory,
-  IUser,
-} from '../../../shared/types';
+import { ICategory } from '../../../shared/types';
 
 /**
  * Handler for getting a user's categories.

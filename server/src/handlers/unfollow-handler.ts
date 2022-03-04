@@ -28,9 +28,9 @@ export class UnfollowHandler extends Handler {
     try {
       await this._connectDatabase();
 
-      const followingUserId = parseInt(req.query.followingUserId as string, 10);
+      const id = parseInt(req.query.id as string, 10);
 
-      if (!(typeof(followingUserId) === 'number')) {
+      if (!(typeof(id) === 'number')) {
         res.status(400).send({
           error: 'User to follow not set.',
         });
@@ -51,7 +51,7 @@ export class UnfollowHandler extends Handler {
 
       const existing = await this._database.userFollow.getFollow(
         user.id,
-        followingUserId,
+        id,
       ) as IUserFollow;
 
       if (existing === null) {
@@ -63,7 +63,7 @@ export class UnfollowHandler extends Handler {
 
       const completed = (await this._database.userFollow.unfollow(
         user.id,
-        followingUserId,
+        id,
       )) === 1;
 
       res.status(200).send({

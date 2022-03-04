@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { CreateReviewHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Creates a new review.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return CreateReviewHandler.execute(
     req,
     res,

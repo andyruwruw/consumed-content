@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { LoginHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Log a user in.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return LoginHandler.execute(
     req,
     res,

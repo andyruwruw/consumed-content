@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { SearchMoviesHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Searches for movies.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return SearchMoviesHandler.execute(
     req,
     res,

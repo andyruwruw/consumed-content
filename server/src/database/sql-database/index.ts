@@ -34,6 +34,7 @@ export class SQLDatabase extends Database {
       password: Environment.getDatabasePassword(),
       port: 3306,
     }));
+    await ConnectionManager.connection.query('USE consumedcontent');
   }
 
   /**

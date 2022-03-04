@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { GetUserReviewsHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Get a user's reviews.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return GetUserReviewsHandler.execute(
     req,
     res,

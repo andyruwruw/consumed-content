@@ -43,7 +43,7 @@ export const SELECT_PRIVATE_USER_BY_USERNAME = (username: string): IMariaDbQuery
     sql:`
 SELECT *
 FROM Users
-WHERE username = ":username";
+WHERE username = :username;
     `,
   },
   {
@@ -63,7 +63,7 @@ export const SELECT_PUBLIC_USER_BY_USERNAME = (username: string): IMariaDbQuery 
     sql:`
 SELECT id, name, username, private, imageUrl
 FROM Users
-WHERE username = ":username";
+WHERE username = :username;
     `,
   },
   {
@@ -134,7 +134,7 @@ export const INSERT_USER = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Users (name, username, password, private, imageUrl)
-VALUES (":name", ":username", ":password", :private, ":imageUrl");`,
+VALUES (:name, :username, :password, :private, :imageUrl);`,
   },
   {
     name,
@@ -167,14 +167,14 @@ export const UPDATE_USER = (
   {
     namedPlaceholders: true,
     sql: `
-    UPDATE users 
-    SET 
-    name=':name', 
-    username=':username', 
-    password='password', 
-    private=0, 
-    imageUrl='imageUrl', 
-    WHERE id=4;`,
+UPDATE users 
+SET
+    name = :name, 
+    username = :username, 
+    password = :password, 
+    private = :private, 
+    imageUrl = :imageUrl, 
+    WHERE id = :id;`,
   },
   {
     id,

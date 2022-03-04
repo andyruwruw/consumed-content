@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { LogoutHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Logout a user.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return LogoutHandler.execute(
     req,
     res,

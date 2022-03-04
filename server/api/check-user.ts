@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { CheckUserHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Check if a user is already logged in.
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return CheckUserHandler.execute(
     req,
     res,

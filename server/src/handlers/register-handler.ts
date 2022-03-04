@@ -33,6 +33,8 @@ export class RegisterHandler extends Handler {
       const username = req.query.username as string;
       const password = req.query.password as string;
 
+      console.log(name, username, password);
+
       if (!name
         || !name.length
         || !username
@@ -47,7 +49,10 @@ export class RegisterHandler extends Handler {
 
       const existing = await this._database.user.getUserByUsername(username) as IUser;
 
+      console.log(existing);
+
       if (existing) {
+        console.log('Username already exists.');
         res.status(409).send({
           error: 'Username already exists.',
         });

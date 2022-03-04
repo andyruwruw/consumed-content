@@ -6,6 +6,7 @@ import {
 
 // Local Imports
 import { UnfollowHandler } from '../src/handlers';
+import { handleCors } from '../src/helpers/cors';
 
 /**
  * Deletes a review
@@ -17,6 +18,10 @@ export default async function (
   req: VercelRequest,
   res: VercelResponse,
 ): Promise<void> {
+  handleCors(
+    req,
+    res,
+  );
   return UnfollowHandler.execute(
     req,
     res,

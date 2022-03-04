@@ -60,4 +60,11 @@ export class Environment {
   static getSecret(): string {
     return process.env.SECRET;
   }
+
+  static getOrigin(): string {
+    if (process.env.ENVIRONMENT === 'production') {
+      return 'http://localhost:8080';
+    }
+    return 'http://localhost:8080';
+  }
 }

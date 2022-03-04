@@ -109,6 +109,7 @@ export interface IUserCategoryObject extends Record<string, IDatabaseColumnTypes
   created: number;
   username: string;
   imageUrl: string;
+  private: boolean;
 }
 
 export interface IShowReviewObject extends Record<string, IDatabaseColumnTypes> {
@@ -138,6 +139,7 @@ export interface IUserReviewObject extends Record<string, IDatabaseColumnTypes> 
   overview: string;
   username: string;
   imageUrl: string;
+  private: boolean;
 }
 
 export interface IShowGenreObject extends Record<string, IDatabaseColumnTypes> {

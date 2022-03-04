@@ -1,18 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "outDir": "./dist/",
-    "target": "es6",
-    "allowJs": true,
-    "typeRoots": [
-      "../server/node_modules/@types",
-      "../client/node_modules/@types"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "composite": true
+    "declaration": true, 
+    "declarationMap": true,
+    "rootDir": ".",   
+    "composite": true,  
   },
-  "include": [
-    "./types/**/*",
-  ],
   "references": []
 }

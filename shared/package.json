@@ -1,0 +1,12 @@
+{
+  "name": "consumed-content-shared",
+  "version": "1.0.0",
+  "description": "Shared content between client and server.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rimraf ./dist && echo 'All clean now!'"
+  },
+  "author": "",
+  "license": "ISC"
+}

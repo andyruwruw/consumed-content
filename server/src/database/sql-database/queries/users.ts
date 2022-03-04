@@ -83,7 +83,7 @@ export const SELECT_PRIVATE_USER_BY_ID = (id: number): IMariaDbQuery => ([
     sql:`
 SELECT *
 FROM Users
-WHERE id = :id;
+WHERE id = ":id";
     `,
   },
   {

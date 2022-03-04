@@ -38,10 +38,11 @@ export const SELECT_SHOWS_GENRES = (showId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT ShowGenre.genreId, Genre.name
-FROM ShowGenre
-WHERE \`showId\` = :showId
-LEFT JOIN Genre ON ShowGenre.genreId = Genre.id;`,
+    SELECT ShowGenre.genreId, Genre.name
+    FROM Shows
+    JOIN showgenre ON shows.id = showgenre.showId 
+    JOIN Genre ON ShowGenre.genreId = Genre.id
+    WHERE showId = :showId;`,
   },
   {
     showId,
@@ -54,17 +55,17 @@ LEFT JOIN Genre ON ShowGenre.genreId = Genre.id;`,
  * @param {number} genreId Genre's Id.
  * @returns {IMariaDbQuery} MariaDB query.
  */
-export const SELECT_GENRES_SHOWS = (showId: number): IMariaDbQuery => ([
+export const SELECT_GENRES_SHOWS = (genreId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
 SELECT ShowGenre.showId, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM ShowGenre
-WHERE \`genreId\` = :genreId
-LEFT JOIN Shows ON ShowGenre.showId = Shows.id;`,
+JOIN Shows ON ShowGenre.showId = Shows.id
+WHERE genreId = :genreId;`,
   },
   {
-    showId,
+    genreId,
   },
 ]);
 

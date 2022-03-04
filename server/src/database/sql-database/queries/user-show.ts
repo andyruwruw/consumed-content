@@ -66,8 +66,8 @@ export const SELECT_USERS_SHOWS = (userId: number): IMariaDbQuery => ([
     sql: `
 SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM UserShow
-WHERE \`userId\` = :userId
-LEFT JOIN Shows ON UserShow.showId = Show.id;`,
+JOIN Shows ON UserShow.showId = Shows.id
+WHERE \`userId\` = :userId;`,
   },
   {
     userId,
@@ -107,14 +107,10 @@ export const SELECT_USERS_MOVIES = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
-FROM UserShow
-WHERE \`userId\` = :userId
-LEFT JOIN (
-  SELECT *
-  FROM Shows
-  WHERE \`type\` = "movie"
-) ON UserShow.showId = Show.id;`,
+    SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+    FROM UserShow
+    LEFT JOIN shows ON UserShow.showId = Shows.id
+    WHERE \`userId\` = :userId and shows.type = 'movie';`,
   },
   {
     userId,
@@ -131,14 +127,10 @@ export const SELECT_USERS_TV_SHOWS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, UserShow.showId, Shows.type, Shows.name, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
-FROM UserShow
-WHERE \`userId\` = :userId
-LEFT JOIN (
-  SELECT *
-  FROM Shows
-  WHERE \`type\` = "tv-show"
-) ON UserShow.showId = Show.id;`,
+    SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+    FROM UserShow
+    LEFT JOIN shows ON UserShow.showId = Shows.id
+    WHERE \`userId\` = :userId and shows.type = 'tv-show';`,
   },
   {
     userId,
@@ -155,14 +147,12 @@ export const SELECT_SHOW_USERS = (showId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, UserShow.userId, User.username, User.imageUrl
-FROM UserShow
-WHERE \`showId\` = :showId
-LEFT JOIN (
-  SELECT *
-  FROM Users
-  WHERE \`private\` = 0
-) ON UserShow.userId = Users.id;`,
+    SELECT UserShow.added, UserShow.userId, Users.userName, Users.imageUrl
+    FROM UserShow
+    JOIN Users ON UserShow.userId = Users.id
+    WHERE :userId = 4
+    and :showId = 5 
+    and Users.private = 0;`,
   },
   {
     showId,

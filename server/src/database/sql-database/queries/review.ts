@@ -126,10 +126,10 @@ WHERE \`id\` = :id;`,
    namedPlaceholders: true,
    sql:`
 SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
-FROM Review
-WHERE \`userId\` = :userId AND \`showId\` = :showId
-INNER JOIN Shows ON Review.showId = Shows.id
-INNER JOIN Users ON Review.userId = Users.id`,
+FROM shows
+JOIN review ON Review.showId = Shows.id
+JOIN Users ON Review.userId = Users.id
+WHERE userId = :userId AND showId = :showId;`,
  },
  {
    id,

@@ -61,10 +61,10 @@ export const SELECT_SHOWS_PLATFORMS = (showId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT ShowPlatform.platformId, Platform.name, Platform.imageUrl, Platform.cost
-FROM ShowPlatform
-WHERE \`showId\` = :showId
-LEFT JOIN Platform ON ShowPlatform.platformId = Platform.id;`,
+    SELECT ShowPlatform.platformId, Platform.name, Platform.imageUrl, Platform.cost
+    FROM ShowPlatform
+    JOIN Platform ON ShowPlatform.platformId = Platform.id
+    WHERE showId = :showId;`,
   },
   {
     showId,
@@ -81,10 +81,10 @@ export const SELECT_PLATFORMS_SHOWS = (platformId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT ShowPlatform.showId, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
-FROM ShowPlatform
-WHERE \`platformId\` = :platformId
-LEFT JOIN Shows ON ShowPlatform.showId = Show.id;`,
+    SELECT ShowPlatform.showId, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+    FROM ShowPlatform
+    JOIN Shows ON ShowPlatform.showId = Shows.id
+    WHERE platformId = :platformId;`,
   },
   {
     platformId,

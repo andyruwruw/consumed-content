@@ -108,10 +108,10 @@ export const SELECT_USER_FOLLOWINGS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT User.id, User.username, User.imageUrl
-FROM UserFollow
-WHERE \`userId\` = :userId
-LEFT JOIN User ON UserFollow.followingUserId = User.id;`,
+    SELECT Users.id, Users.username, Users.imageUrl
+    FROM UserFollow
+    JOIN Users ON UserFollow.followingUserId = Users.id
+    WHERE userId = :userId;`,
   },
   {
     userId,
@@ -128,10 +128,10 @@ export const SELECT_USER_FOLLOWERS = (followingUserId: number): IMariaDbQuery =>
   {
     namedPlaceholders: true,
     sql: `
-SELECT User.id, User.username, User.imageUrl
-FROM UserFollow
-WHERE \`followingUserId\` = :followingUserId
-LEFT JOIN User ON UserFollow.userId = User.id;`,
+    SELECT Users.id, Users.username, Users.imageUrl
+    FROM UserFollow
+    JOIN Users ON UserFollow.userId = Users.id
+    WHERE followingUserId = :followingUserId;`,
   },
   {
     followingUserId,

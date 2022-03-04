@@ -1,42 +1,54 @@
 <template>
   <div :class="$style.component">
-    <h1>
-      {{ title }}
-    </h1>
+    <div :class="$style.content">
+      <h1>
+        {{ title }}
+      </h1>
 
-    <v-text-field
-      v-if="isLogin === false"
-      v-model="name"
-      label="Name"
-      solo />
+      <v-text-field
+        v-if="isLogin === false"
+        v-model="name"
+        placeholder="Name"
+        solo
+        dark />
 
-    <v-text-field
-      v-model="username"
-      label="Username"
-      solo />
+      <v-text-field
+        v-model="username"
+        placeholder="Username"
+        solo
+        dark />
 
-    <v-text-field
-      v-model="password"
-      label="Password"
-      solo />
+      <v-text-field
+        v-model="password"
+        placeholder="Password"
+        type="password"
+        solo
+        dark />
 
-    <v-text-field
-      v-if="isLogin === false"
-      v-model="passwordCheck"
-      label="Re-entry Password"
-      solo />
+      <v-text-field
+        v-if="isLogin === false"
+        v-model="passwordCheck"
+        placeholder="Re-entry Password"
+        type="password"
+        solo
+        dark />
 
-    <v-btn
-      elevation="2"
-      @click="toggleLoginRegister">
-      {{ toggleButtonText }}
-    </v-btn>
+      <div :class="$style.actions">
+        <v-btn
+          color="#E6B31D"
+          :disabled="valid"
+          @click="toggleLoginRegister">
+          {{ toggleButtonText }}
+        </v-btn>
 
-    <v-btn
-      elevation="2"
-      @click="execute">
-      Join
-    </v-btn>
+        <v-btn
+          color="#E6B31D"
+          :disabled="valid"
+          @click="execute">
+          {{ submitButtonText }}
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,9 +100,9 @@ export default Vue.extend({
   computed: {
     title() {
       if (this.isLogin) {
-        return 'Login';
+        return 'Login to you account';
       }
-      return 'Join!';
+      return 'Join by making an account.';
     },
 
     toggleButtonText() {
@@ -99,12 +111,47 @@ export default Vue.extend({
       }
       return 'Login Instead';
     },
+
+    submitButtonText() {
+      if (this.isLogin) {
+        return 'Login';
+      }
+      return 'Register';
+    },
+
+    valid() {
+      return (this.username.length > 0
+        && this.password.length > 0
+        && (
+          this.isLogin
+          || (this.passwordCheck.length > 0 && this.password === this.passwordCheck && this.name.length > 0))
+      );
+    },
   },
 });
 </script>
 
 <style lang="scss" module>
 .component {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  max-width: calc(100% - 2rem);
+  width: 500px;
+  margin: 2rem 0 5rem;
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h1 {
+    font-weight: 200;
+    margin-bottom: 2rem;
+  }
+
   h1,
   p {
     color: white;

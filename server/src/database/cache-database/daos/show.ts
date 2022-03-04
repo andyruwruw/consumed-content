@@ -13,7 +13,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
    * @param {string} type Type of show.
    * @param {string} posterUrl Poster image URL for show.
    * @param {string} backdropUrl Backdrop image URL for show.
-   * @param {string} releaseDate Release date of show.
+   * @param {number} releaseDate Release date of show.
    * @param {string} overview Overview of show.
    * @returns {Promise<number>} Number of affected rows.
    */
@@ -22,7 +22,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
     type: string,
     posterUrl: string,
     backdropUrl: string,
-    releaseDate: string,
+    releaseDate: number,
     overview: string,
   ): Promise<number> {
     try {

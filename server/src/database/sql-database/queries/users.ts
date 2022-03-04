@@ -5,7 +5,7 @@ import { IMariaDbQuery } from '../../../types';
  * Creates the Users table.
  */
 export const CREATE_USER_TABLE = `
-CREATE OR REPLACE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
   \`id\` int(11) NOT NULL AUTO_INCREMENT,
   \`name\` varchar(64) NOT NULL,
   \`username\` varchar(64) NOT NULL,
@@ -133,7 +133,7 @@ export const INSERT_USER = (
   {
     namedPlaceholders: true,
     sql: `
-INSERT INTO Users (name, username, pasword, privateMode, imageUrl)
+INSERT INTO Users (name, username, password, private, imageUrl)
 VALUES (":name", ":username", ":password", :private, ":imageUrl");`,
   },
   {

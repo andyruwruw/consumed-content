@@ -34,29 +34,6 @@ export class SQLDatabase extends Database {
       password: Environment.getDatabasePassword(),
       port: 3306,
     }));
-
-    await ConnectionManager.connection.query('CREATE DATABASE IF NOT EXISTS consumedcontent');
-
-    await ConnectionManager.connection.query('USE consumedcontent');
-
-    await Promise.all([
-      this.genre.createTable(),
-      this.platform.createTable(),
-      this.show.createTable(),
-      this.user.createTable(),
-    ]);
-
-    await Promise.all([
-      this.category.createTable(),
-      this.review.createTable(),
-      this.showGenre.createTable(),
-      this.showPlatform.createTable(),
-      this.userFollow.createTable(),
-      this.userShow.createTable(),
-      this.userToken.createTable(),
-    ]);
-
-    await this.categoryShow.createTable();
   }
 
   /**

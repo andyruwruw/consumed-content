@@ -8,7 +8,7 @@ export const CREATE_CATEGORY_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS CategoryShow (
   \`categoryId\` int(11) NOT NULL,
   \`showId\` int(11) NOT NULL,
-  \`added\` int(11) DEFAULT(UNIX_TIMESTAMP()()),
+  \`added\` int(11) DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`categoryId\`, \`showId\`),
   FOREIGN KEY (\`categoryId\`) REFERENCES \`Category\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE

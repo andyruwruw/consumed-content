@@ -1,25 +1,24 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
+    "target": "es5",
     "module": "commonjs",
-    "target": "es6",
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "dist/",
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./src/**/*",
     "./test/**/*",
     "./api/**/*",
   ],
-  "references": [
-    {
-      "path": "../shared",
-      "prepend": true
-    }
-  ]
+  "exclude": [
+    "./node_modules",
+    "./dist",
+  ],
 }

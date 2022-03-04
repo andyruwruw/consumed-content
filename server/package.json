@@ -4,14 +4,11 @@
   "description": "Serverless API for consuming content.",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --build",
     "start": "vercel dev",
-    "clean": "rimraf ./dist && echo 'All clean now!'",
     "test": "jest --colors",
     "test:verbose": "jest --verbose --colors",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "database:setup": "nodemon --config nodemon.json src/utils/setup.ts",
     "database:reset": "nodemon --config nodemon.json src/utils/reset-database.ts",
     "database:wipe": "nodemon --config nodemon.json src/utils/wipe-database.ts",
     "database:create-data": "nodemon --config nodemon.json src/utils/create-sample-data.ts"

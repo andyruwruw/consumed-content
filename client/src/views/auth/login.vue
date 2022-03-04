@@ -1,33 +1,36 @@
 <template>
   <div :class="$style.component">
     <h1>
-      {{ title}}
+      {{ title }}
     </h1>
 
-    <p>
-      No information needed! Just click the button below to login to a test account.
-    </p>
+    <v-text-field
+      v-if="isLogin === false"
+      v-model="name"
+      label="Name"
+      solo />
 
-    <v-row>
-      <v-col
-        cols="12"
-        md="6">
-        <v-text-field
-          label="User Name"
-          solo />
-        <v-text-field
-          label="Password"
-          solo />
-      </v-col>
-    </v-row>
+    <v-text-field
+      v-model="username"
+      label="Username"
+      solo />
+
+    <v-text-field
+      v-model="password"
+      label="Password"
+      solo />
+
+    <v-text-field
+      v-if="isLogin === false"
+      v-model="passwordCheck"
+      label="Re-entry Password"
+      solo />
 
     <v-btn
       elevation="2"
       @click="toggleLoginRegister">
       {{ toggleButtonText }}
     </v-btn>
-
-    &nbsp;
 
     <v-btn
       elevation="2"
@@ -45,7 +48,15 @@ export default Vue.extend({
   name: 'Login',
 
   data: () => ({
-    login: true,
+    isLogin: true,
+
+    username: '',
+
+    password: '',
+
+    passwordCheck: '',
+
+    name: '',
   }),
 
   methods: {
@@ -55,39 +66,39 @@ export default Vue.extend({
     ]),
 
     execute() {
-      if (this.login) {
+      if (this.isLogin) {
         this.login({
-          username,
-          password,
+          username: this.username,
+          password: this.password,
         });
       } else {
         this.register({
-          name, 
-          username,
-          password
+          name: this.name,
+          username: this.username,
+          password: this.password,
         });
       }
     },
 
     toggleLoginRegister() {
-      this.login = !this.login;
+      this.isLogin = !this.isLogin;
     },
   },
 
   computed: {
     title() {
-      if (this.login) {
+      if (this.isLogin) {
         return 'Login';
       }
       return 'Join!';
     },
 
     toggleButtonText() {
-      if (this.login) {
+      if (this.isLogin) {
         return 'Register Instead';
       }
       return 'Login Instead';
-    }
+    },
   },
 });
 </script>

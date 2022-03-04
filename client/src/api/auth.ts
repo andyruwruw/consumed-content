@@ -32,6 +32,28 @@ const login = async (
   return null;
 };
 
+const register = async (
+  name: string,
+  username: string,
+  password: string,
+): Promise<IUser | null> => {
+  try {
+    console.log('register');
+  } catch (error) {
+    return null;
+  }
+  return null;
+};
+
+const checkUser = async (): Promise<void> => {
+  try {
+    console.log('checkUser');
+  } catch (error) {
+    return;
+  }
+};
+
 export default {
   login,
+  register,
 };

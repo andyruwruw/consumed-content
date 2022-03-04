@@ -106,13 +106,10 @@ export const SELECT_CATEGORY_SHOWS = (categoryId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-SELECT Shows.id, Shows.name, Shows.type, Shows.posterUrl, Shows.releaseDate, Shows.overview, CategorysShows.added
-FROM (
-  SELECT *
-  FROM CategoryShow
-  WHERE CategoryShow.categoryId = :categoryId
-) as CategorysShows
-JOIN Shows ON Shows.id = CategorysShows.showId;
+    SELECT Shows.id, Shows.name, Shows.type, Shows.posterUrl, Shows.releaseDate, Shows.overview, CategoryShow.added
+    FROM Shows
+    JOIN CategoryShow ON Shows.id = CategoryShow.showId
+    WHERE CategoryShow.categoryId = :categoryId;
 `,
   },
   {

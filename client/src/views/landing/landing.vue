@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p>
+      This is the landing page, meant to convince you to press login at the top right.
+    </p>
   </div>
 </template>
 

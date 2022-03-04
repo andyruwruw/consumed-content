@@ -61,8 +61,6 @@ const checkUser = async (): Promise<IPublicUserObject | null> => {
 
     if (response.status === 200) {
       return response.data.user;
-    } else if (response.status === 204) {
-      return null;
     }
   } catch (error) {
     console.log(error);

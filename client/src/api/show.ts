@@ -26,7 +26,7 @@ const userShows = async (
     console.log(error);
   }
   return [];
-}
+};
 
 const searchMovies = async (
   query: string,

@@ -36,14 +36,13 @@
       <div :class="$style.actions">
         <v-btn
           color="#E6B31D"
-          :disabled="valid"
           @click="toggleLoginRegister">
           {{ toggleButtonText }}
         </v-btn>
 
         <v-btn
           color="#E6B31D"
-          :disabled="valid"
+          :disabled="!valid"
           @click="execute">
           {{ submitButtonText }}
         </v-btn>

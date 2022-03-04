@@ -81,7 +81,7 @@ const get = async (id: number): Promise<IPublicUserObject | null> => {
     console.log(error);
   }
   return null;
-}
+};
 
 export default {
   follow,

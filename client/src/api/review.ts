@@ -3,7 +3,7 @@ import request from './request';
 
 // Types
 import { IUserReviewObject } from '../../../shared/types';
-import { IShowReviewRequestResponse } from '@/types';
+import { IShowReviewRequestResponse } from '../types';
 
 const create = async (
   showId: number,
@@ -99,7 +99,7 @@ const getUserReviews = async (id: number): Promise<IUserReviewObject[]> => {
     console.log(error);
   }
   return [];
-}
+};
 
 export default {
   create,

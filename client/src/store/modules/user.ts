@@ -1,4 +1,5 @@
 // Packages
+import api from '@/api';
 import {
   ActionTree,
   GetterTree,
@@ -95,14 +96,24 @@ const actions: ActionTree<AuthModuleState, any> = {
    * @param {string} payload.username User's username.
    * @param {string} payload.password User's password.
    */
-  login({
+  async login({
     commit,
-    dispatch,
   }, {
     username,
     password,
-  }): void {
-    console.log(username, password);
+  }): Promise<void> {
+    try {
+      const user = await api.auth.login(
+        username,
+        password,
+      );
+
+      if (user) {
+        commit('setUser', user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   /**
@@ -114,15 +125,26 @@ const actions: ActionTree<AuthModuleState, any> = {
    * @param {string} payload.username User's username.
    * @param {string} payload.password User's password.
    */
-  register({
+  async register({
     commit,
-    dispatch,
   }, {
     name,
     username,
     password,
-  }): void {
-    console.log(name, username, password);
+  }): Promise<void> {
+    try {
+      const user = await api.auth.register(
+        name,
+        username,
+        password,
+      );
+
+      if (user) {
+        commit('setUser', user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   /**

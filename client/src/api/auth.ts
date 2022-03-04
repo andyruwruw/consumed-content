@@ -2,19 +2,19 @@
 import request from './request';
 
 // Types
-import { IUser } from '../../../shared/types';
+import { IPublicUserObject } from '../../../shared/types';
 
 /**
  * Logs in a user.
  *
  * @param {string} username Username of the user.
  * @param {string} password Password of the user.
- * @returns {Promise<IUser | null>} User object.
+ * @returns {Promise<IPublicUserObject | null>} User object.
  */
 const login = async (
   username: string,
   password: string,
-): Promise<IUser | null> => {
+): Promise<IPublicUserObject | null> => {
   try {
     const response = await request.get('/login', {
       params: {
@@ -24,10 +24,10 @@ const login = async (
     });
 
     if (response.status === 200) {
-      return response.data;
+      return response.data.user;
     }
   } catch (error) {
-    return null;
+    console.log(error);
   }
   return null;
 };
@@ -36,24 +36,42 @@ const register = async (
   name: string,
   username: string,
   password: string,
-): Promise<IUser | null> => {
+): Promise<IPublicUserObject | null> => {
   try {
-    console.log('register');
+    const response = await request.get('/register', {
+      params: {
+        name,
+        username,
+        password,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data.user;
+    }
   } catch (error) {
-    return null;
+    console.log(error);
   }
   return null;
 };
 
-const checkUser = async (): Promise<void> => {
+const checkUser = async (): Promise<IPublicUserObject | null> => {
   try {
-    console.log('checkUser');
+    const response = await request.get('/check-user');
+
+    if (response.status === 200) {
+      return response.data.user;
+    } else if (response.status === 204) {
+      return null;
+    }
   } catch (error) {
-    return;
+    console.log(error);
   }
+  return null;
 };
 
 export default {
   login,
   register,
+  checkUser,
 };

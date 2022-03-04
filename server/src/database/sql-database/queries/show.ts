@@ -54,7 +54,7 @@ export const INSERT_SHOW = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview)
-VALUES (":name", ":type", ":posterUrl", ":backdropUrl", :releaseDate, ":overview");`,
+VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
   },
   {
     name,
@@ -77,7 +77,7 @@ export const DELETE_SHOW = (id: number): IMariaDbQuery => ([
     namedPlaceholders: true,
     sql: `
 DELETE FROM Shows
-WHERE \`id\` = :id;`,
+WHERE id = :id;`,
   },
   {
     id,
@@ -96,7 +96,7 @@ export const SELECT_SHOW = (id: number): IMariaDbQuery => ([
     sql: `
 SELECT *
 FROM Shows
-WHERE \`id\` = :id;`,
+WHERE id = :id;`,
   },
   {
     id,

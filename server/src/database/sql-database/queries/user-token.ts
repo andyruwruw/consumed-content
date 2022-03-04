@@ -43,7 +43,7 @@ export const INSERT_USER_TOKEN = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO UserToken (userId, token)
-VALUES (:userId, ":token");`,
+VALUES (:userId, :token);`,
   },
   {
     userId,
@@ -67,7 +67,7 @@ export const SELECT_TOKEN = (
     sql: `
 SELECT *
 FROM UserToken
-WHERE userId = :userId AND token = ":token";`,
+WHERE userId = :userId AND token = :token;`,
   },
   {
     userId,
@@ -90,7 +90,7 @@ export const DELETE_TOKEN = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserToken
-WHERE userId = :userId AND token = ":token";`,
+WHERE userId = :userId AND token = :token;`,
   },
   {
     userId,

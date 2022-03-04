@@ -66,7 +66,7 @@ export const DELETE_USER_FOLLOW = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserFollow
-WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
+WHERE userId = :userId AND followingUserId = :followingUserId;`,
   },
   {
     userId,
@@ -90,7 +90,7 @@ WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
     sql: `
 SELECT *
 FROM UserFollow
-WHERE \`userId\` = :userId AND \`followingUserId\` = :followingUserId;`,
+WHERE userId = :userId AND followingUserId = :followingUserId;`,
   },
   {
     userId,

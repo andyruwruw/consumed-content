@@ -43,7 +43,7 @@ export const DELETE_SHOW_PLATFORM = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM ShowPlatform
-WHERE \`showId\` = :showId AND \`platformId\` = :platformId;`,
+WHERE showId = :showId AND platformId = :platformId;`,
   },
   {
     showId,
@@ -130,7 +130,7 @@ export const SELECT_SHOW_PLATFORM = (
     sql: `
 SELECT *
 FROM ShowPlatform
-WHERE \`showId\` = :showId AND \`platformId\` = :platformId;`,
+WHERE showId = :showId AND platformId = :platformId;`,
   },
   {
     showId,

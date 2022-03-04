@@ -47,7 +47,7 @@ export const INSERT_CATEGORY = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO CategoryShow (userId, name, description)
-VALUES (:userId, ":name", ":description");`,
+VALUES (:userId, :name, :description);`,
   },
   {
     userId,

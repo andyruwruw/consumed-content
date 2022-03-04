@@ -130,7 +130,7 @@ export const SELECT_USERS_TV_SHOWS = (userId: number): IMariaDbQuery => ([
     SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
     FROM UserShow
     LEFT JOIN shows ON UserShow.showId = Shows.id
-    WHERE \`userId\` = :userId and shows.type = 'tv-show';`,
+    WHERE userId = :userId and shows.type = 'tv-show';`,
   },
   {
     userId,

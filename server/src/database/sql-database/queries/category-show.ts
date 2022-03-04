@@ -67,7 +67,7 @@ export const DELETE_CATEGORY_SHOW = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM CategoryShow
-WHERE categoryId = \`:categoryId\` AND showId = \`:showId\`;`,
+WHERE categoryId = :categoryId AND showId = :showId;`,
   },
   {
     categoryId,
@@ -89,7 +89,7 @@ export const SELECT_CATEGORY_SHOW = (
     sql: `
 SELECT *
 FROM CategoryShow
-WHERE categoryId = \`:categoryId\` AND showId = \`:showId\`;`,
+WHERE categoryId = :categoryId AND showId = :showId;`,
   },
   {
     categoryId,

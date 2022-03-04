@@ -65,7 +65,7 @@ export const UPDATE_PLATFORM = (
     namedPlaceholders: true,
     sql: `
 UPDATE Platform
-SET \`name\` = ":name", \`imageUrl\` = ":imageUrl", \`cost\` = :cost
+SET \`name\` = :name, \`imageUrl\` = :imageUrl, \`cost\` = :cost
 WHERE \`id\` = :id;`,
   },
   {
@@ -114,7 +114,7 @@ export const INSERT_PLATFORM = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Platform (name, imageUrl, cost)
-VALUES (":name", ":imageUrl", :cost);`,
+VALUES (:name, :imageUrl, :cost);`,
   },
   {
     name,

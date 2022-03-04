@@ -41,7 +41,7 @@ export const INSERT_GENRE = (
     namedPlaceholders: true,
     sql: `
 INSERT INTO Genre (id, name)
-VALUES (:id, ":name");`,
+VALUES (:id, :name);`,
   },
   {
     id,

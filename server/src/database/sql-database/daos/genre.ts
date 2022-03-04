@@ -53,7 +53,9 @@ export class Genre extends DataAccessObject<IGenre> implements IGenreDAO {
         id,
       ));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as IGenre;
+      }
     } catch (error) {
       console.log(error);
     }

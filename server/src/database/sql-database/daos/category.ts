@@ -106,7 +106,9 @@ export class Category extends DataAccessObject<ICategory> implements ICategoryDA
         id,
       ));
 
-      return response;
+      if (response.length > 0) {
+        return response[0] as ICategory;
+      }
     } catch (error) {
       console.log(error);
     }

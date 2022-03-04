@@ -49,7 +49,8 @@ export class RegisterHandler extends Handler {
 
       const existing = await this._database.user.getUserByUsername(username) as IUser;
 
-      console.log(existing);
+      console.log(existing.length);
+      console.log(existing[0]);
 
       if (existing) {
         console.log('Username already exists.');

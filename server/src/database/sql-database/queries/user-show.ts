@@ -45,7 +45,7 @@ DELETE FROM UserShow;
     sql: `
 SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM UserShow
-WHERE \`userId\` = :userId AND \'showId\' = :showId
+WHERE userId = :userId AND showId = :showId
 LEFT JOIN Shows ON UserShow.showId = Show.id;`,
   },
   {
@@ -67,7 +67,7 @@ export const SELECT_USERS_SHOWS = (userId: number): IMariaDbQuery => ([
 SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
 FROM UserShow
 JOIN Shows ON UserShow.showId = Shows.id
-WHERE \`userId\` = :userId;`,
+WHERE userId = :userId;`,
   },
   {
     userId,
@@ -89,7 +89,7 @@ export const DELETE_USERS_SHOW = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserShow
-WHERE \`userId\` = :userId AND \`showId\` = :showId;`,
+WHERE userId = :userId AND showId = :showId;`,
   },
   {
     userId,
@@ -110,7 +110,7 @@ export const SELECT_USERS_MOVIES = (userId: number): IMariaDbQuery => ([
     SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
     FROM UserShow
     LEFT JOIN shows ON UserShow.showId = Shows.id
-    WHERE \`userId\` = :userId and shows.type = 'movie';`,
+    WHERE userId = :userId and shows.type = 'movie';`,
   },
   {
     userId,

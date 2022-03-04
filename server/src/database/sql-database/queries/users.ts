@@ -83,7 +83,7 @@ export const SELECT_PRIVATE_USER_BY_ID = (id: number): IMariaDbQuery => ([
     sql:`
 SELECT *
 FROM Users
-WHERE id = ":id";
+WHERE id = :id;
     `,
   },
   {
@@ -167,9 +167,14 @@ export const UPDATE_USER = (
   {
     namedPlaceholders: true,
     sql: `
-UPDATE Users
-SET \`name\` = ":name", \`username\` = ":username", \`password\` = ":password", \`private\` = :private, \`imageUrl\` = ":imageUrl"
-WHERE \`id\` = ":id";`,
+    UPDATE users 
+    SET 
+    name=':name', 
+    username=':username', 
+    password='password', 
+    private=0, 
+    imageUrl='imageUrl', 
+    WHERE id=4;`,
   },
   {
     id,

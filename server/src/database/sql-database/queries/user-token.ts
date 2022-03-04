@@ -67,7 +67,7 @@ export const SELECT_TOKEN = (
     sql: `
 SELECT *
 FROM UserToken
-WHERE \`userId\` = :userId AND \`token\` = ":token";`,
+WHERE userId = :userId AND token = ":token";`,
   },
   {
     userId,
@@ -90,7 +90,7 @@ export const DELETE_TOKEN = (
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserToken
-WHERE \`userId\` = :userId AND \`token\` = ":token";`,
+WHERE userId = :userId AND token = ":token";`,
   },
   {
     userId,
@@ -109,7 +109,7 @@ export const DELETE_USERS_TOKENS = (userId: number): IMariaDbQuery => ([
     namedPlaceholders: true,
     sql: `
 DELETE FROM UserToken
-WHERE \`userId\` = :userId;`,
+WHERE userId = :userId;`,
   },
   {
     userId,

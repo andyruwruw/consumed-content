@@ -202,6 +202,24 @@ class SampleDataCreator {
   
   async _createFakeUserShows(): Promise<void> {
     console.log(`Creating at max ${this._userShowNum} fake added shows per user.`);
+
+    for (let i = 0; i < this._users.length; i += 1) {
+      const showsNum = Math.floor(Math.random() * this._userShowNum);
+
+      console.log(` - User ${this._users[i]} has ${showsNum} shows added.`);
+
+      for (let j = 0; j < this._userTokenNum; j += 1) {
+        const token = generateToken({
+          id: this._users[i],
+          date: (new Date()).getTime(),
+        });
+  
+        pending.push(this._database.userToken.register(
+          this._users[i],
+          token,
+        ));
+      }
+    }
   }
   
   async _createFakeUserTokens(): Promise<void> {

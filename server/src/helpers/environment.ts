@@ -8,6 +8,15 @@ dotenv.config();
  */
 export class Environment {
   /**
+   * Retrieves the server port.
+   *
+   * @returns {string} The server port.
+   */
+  static getPort(): number {
+    return parseInt(process.env.PORT) || 3000;
+  }
+
+  /**
    * Retrieves the current environment.
    *
    * @returns {string} The current environment.

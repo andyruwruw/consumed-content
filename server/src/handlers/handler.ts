@@ -9,6 +9,12 @@ import { Database } from '../database/database';
 import { getDatabase } from '../database';
 import { UsedAbstractHandlerError } from '../errors/used-abstract-handler-error';
 
+// Types
+import {
+  Request,
+  Response,
+} from 'express';
+
 /**
  * Abstract handler class.
  */
@@ -33,12 +39,12 @@ export class Handler {
   /**
    * Executes the handler.
    *
-   * @param {VercelRequest} req Request for handler.
-   * @param {VercelResponse} res Response to request.
+   * @param {VercelRequest | Request} req Request for handler.
+   * @param {VercelResponse | Response} res Response to request.
    */
   execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): void {
     throw new UsedAbstractHandlerError();
   }

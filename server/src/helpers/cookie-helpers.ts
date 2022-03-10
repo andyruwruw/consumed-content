@@ -9,13 +9,19 @@ import * as jsonwebtoken from 'jsonwebtoken';
 import { COOKIE_NAME } from '../config';
 import { Environment } from './environment';
 
+// Types
+import {
+  Request,
+  Response,
+} from 'express';
+
 /**
  * Retrieves a cookie from requests.
  *
- * @param {VercelRequest} req Incoming request.
+ * @param {VercelRequest | Request} req Incoming request.
  * @returns {string | null} Cookie value.
  */
-export const getCookie = (req: VercelRequest): string | null => {
+export const getCookie = (req: VercelRequest | Request): string | null => {
   if (!(COOKIE_NAME in req.cookies)) {
     return null;
   }
@@ -25,11 +31,11 @@ export const getCookie = (req: VercelRequest): string | null => {
 /**
  * Attatches a cookie to an outgoing response.
  *
- * @param {VercelResponse} res Outgoing response.
+ * @param {VercelResponse | Response} res Outgoing response.
  * @param {string} cookie Cookie to be attached.
  */
 export const attatchCookie = (
-  res: VercelResponse,
+  res: VercelResponse | Response,
   cookie: string,
 ): void => {
   res.setHeader('Set-Cookie', `${COOKIE_NAME}=${cookie}`);

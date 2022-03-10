@@ -9,7 +9,10 @@ import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
 // Types
-import { IUserShow } from '../../../shared/types';
+import {
+  Request,
+  Response,
+} from 'express';
 
 /**
  * Handler for removing shows from a user's list.
@@ -22,8 +25,8 @@ export class RemoveShowHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

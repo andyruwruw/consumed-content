@@ -9,6 +9,10 @@ import { validate } from '../helpers/auth-helpers';
 import { Handler } from './handler';
 
 // Types
+import {
+  Request,
+  Response,
+} from 'express';
 import { IUserReviewObject } from '../../../shared/types';
 
 /**
@@ -22,8 +26,8 @@ export class EditReviewHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

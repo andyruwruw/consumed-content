@@ -8,6 +8,12 @@ import {
 import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
+// Types
+import {
+  Request,
+  Response,
+} from 'express';
+
 /**
  * Handler for checking if a new user is already logged in.
  */
@@ -19,8 +25,8 @@ export class CheckUserHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

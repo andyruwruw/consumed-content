@@ -11,6 +11,7 @@ import { SALT_WORK_FACTOR } from '../config';
 import { Database } from '../database/database';
 
 // Types
+import { Request } from 'express';
 import { IPublicUserObject } from '../../../shared/types';
 
 /**
@@ -48,12 +49,12 @@ export const comparePassword = async (
 /**
  * Validates a request and returns user.
  *
- * @param {VercelRequest} req Incoming request.
+ * @param {VercelRequest | Request} req Incoming request.
  * @param {Database} database Database instance.
  * @returns {Promise<IPublicUserObject | null>} User if valid, null otherwise.
  */
 export const validate = async (
-  req: VercelRequest,
+  req: VercelRequest | Request,
   database: Database,
 ): Promise<IPublicUserObject | null> => {
   const cookie = getCookie(req);

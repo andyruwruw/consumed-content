@@ -13,6 +13,10 @@ import { comparePassword } from '../helpers/auth-helpers';
 import { Handler } from './handler';
 
 // Types
+import {
+  Request,
+  Response,
+} from 'express';
 import { IUser } from '../../../shared/types';
 
 /**
@@ -26,8 +30,8 @@ export class LoginHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

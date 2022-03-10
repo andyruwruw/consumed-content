@@ -10,9 +10,10 @@ import { validate } from '../helpers/auth-helpers';
 
 // Types
 import {
-  IShowReviewObject,
-  IUser,
-} from '../../../shared/types';
+  Request,
+  Response,
+} from 'express';
+import { IShowReviewObject } from '../../../shared/types';
 
 /**
  * Handler for fetching a set of reviews for a show.
@@ -25,8 +26,8 @@ export class GetShowReviewsHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

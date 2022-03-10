@@ -9,6 +9,12 @@ import { convertSimplifiedMovies } from '../helpers/themoviedb-helpers';
 import { Handler } from './handler';
 import api from '../api';
 
+// Types
+import {
+  Request,
+  Response,
+} from 'express';
+
 /**
  * Handler for searching movies.
  */
@@ -20,8 +26,8 @@ export class SearchMoviesHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       const query = req.query.query as string;

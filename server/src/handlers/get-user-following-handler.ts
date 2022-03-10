@@ -8,6 +8,10 @@ import {
 import { Handler } from './handler';
 
 // Types
+import {
+  Request,
+  Response,
+} from 'express';
 import { IUserFollowObject } from '../../../shared/types';
 
 /**
@@ -21,8 +25,8 @@ export class GetUserFollowingHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

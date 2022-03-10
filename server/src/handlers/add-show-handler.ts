@@ -8,6 +8,12 @@ import {
 import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
 
+// Types
+import {
+  Request,
+  Response,
+} from 'express';
+
 /**
  * Handler for adding shows to a user's list.
  */
@@ -15,12 +21,12 @@ export class AddShowHandler extends Handler {
   /**
    * Executes the handler.
    *
-   * @param {VercelRequest} req Request for handler.
-   * @param {VercelResponse} res Response to request.
+   * @param {VercelRequest | Request} req Request for handler.
+   * @param {VercelResponse | Response} res Response to request.
    */
   async execute(
-    req: VercelRequest,
-    res: VercelResponse,
+    req: VercelRequest | Request,
+    res: VercelResponse | Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

@@ -45,7 +45,6 @@
 <script lang="ts">
 // Packages
 import Vue from 'vue';
-import moment from 'moment';
 import {
   mapActions,
   mapGetters,

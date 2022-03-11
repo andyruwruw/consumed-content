@@ -4,6 +4,7 @@
   "description": "Serverless API for consuming content.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "start": "nodemon --config nodemon.json src/index.ts",
     "serverless": "vercel dev",
     "test": "jest --colors",
@@ -25,7 +26,6 @@
   },
   "homepage": "https://github.com/andyruwruw/consumed-content#readme",
   "dependencies": {
-    "@vercel/node": "^1.12.1",
     "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",

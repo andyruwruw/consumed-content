@@ -1,9 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-
 // Local Imports
 import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
@@ -21,12 +15,12 @@ export class AddShowHandler extends Handler {
   /**
    * Executes the handler.
    *
-   * @param {VercelRequest | Request} req Request for handler.
-   * @param {VercelResponse | Response} res Response to request.
+   * @param {Request} req Request for handler.
+   * @param {Response} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

@@ -1,9 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-
 // Local Imports
 import { Database } from '../database/database';
 import { getDatabase } from '../database';
@@ -43,8 +37,8 @@ export class Handler {
    * @param {VercelResponse | Response} res Response to request.
    */
   execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): void {
     throw new UsedAbstractHandlerError();
   }

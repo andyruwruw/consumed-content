@@ -1,15 +1,10 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
+
+// Local Imports
 import {
   attatchCookie,
   generateToken,
 } from '../helpers/cookie-helpers';
 import { hashPassword } from '../helpers/auth-helpers';
-
-// Local Imports
 import { Handler } from './handler';
 
 // Types
@@ -30,8 +25,8 @@ export class RegisterHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

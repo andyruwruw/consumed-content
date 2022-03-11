@@ -1,9 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-
 // Local Imports
 import {
   attatchCookie,
@@ -30,8 +24,8 @@ export class LoginHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

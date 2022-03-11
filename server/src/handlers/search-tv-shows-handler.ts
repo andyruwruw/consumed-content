@@ -1,9 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-
 // Local Imports
 import { convertSimplifiedTvShows } from '../helpers/themoviedb-helpers';
 import { Handler } from './handler';
@@ -26,8 +20,8 @@ export class SearchTvShowsHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       const query = req.query.query as string;

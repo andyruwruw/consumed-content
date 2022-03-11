@@ -1,10 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-import { validate } from '../helpers/auth-helpers';
-
 // Local Imports
 import { Handler } from './handler';
 
@@ -14,6 +7,7 @@ import {
   Response,
 } from 'express';
 import { ICategory } from '../../../shared/types';
+import { validate } from '../helpers/auth-helpers';
 
 /**
  * Handler for getting a user's categories.
@@ -26,8 +20,8 @@ export class GetUserCategoriesHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

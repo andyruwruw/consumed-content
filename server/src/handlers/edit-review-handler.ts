@@ -1,12 +1,6 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-import { validate } from '../helpers/auth-helpers';
-
 // Local Imports
 import { Handler } from './handler';
+import { validate } from '../helpers/auth-helpers';
 
 // Types
 import {
@@ -26,8 +20,8 @@ export class EditReviewHandler extends Handler {
    * @param {VercelResponse} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

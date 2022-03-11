@@ -1,20 +1,20 @@
 // Packages
 import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
+  Request,
+  Response,
+} from 'express';
 
 // Local Imports
 import { Environment } from './environment';
 
 /**
  * Does cors stuff.
- * @param {VercelRequest} req Incoming request.
- * @param {VercelResponse} res Outgoing response.
+ * @param {Request} req Incoming request.
+ * @param {Response} res Outgoing response.
  */
 export const handleCors = (
-  req: VercelRequest,
-  res: VercelResponse,
+  req: Request,
+  res: Response,
 ): void => {
   res.setHeader(
     'Access-Control-Allow-Origin',

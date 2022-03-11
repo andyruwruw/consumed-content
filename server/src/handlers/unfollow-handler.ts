@@ -1,9 +1,3 @@
-// Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
-
 // Local Imports
 import { Handler } from './handler';
 import { validate } from '../helpers/auth-helpers';
@@ -22,12 +16,12 @@ export class UnfollowHandler extends Handler {
   /**
    * Executes the handler.
    *
-   * @param {VercelRequest} req Request for handler.
-   * @param {VercelResponse} res Response to request.
+   * @param {Request} req Request for handler.
+   * @param {Response} res Response to request.
    */
   async execute(
-    req: VercelRequest | Request,
-    res: VercelResponse | Response,
+    req: Request,
+    res: Response,
   ): Promise<void> {
     try {
       await this._connectDatabase();

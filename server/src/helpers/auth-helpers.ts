@@ -1,5 +1,4 @@
 // Packages
-import { VercelRequest } from '@vercel/node';
 import * as bcrypt from 'bcrypt';
 
 // Local Imports
@@ -49,12 +48,12 @@ export const comparePassword = async (
 /**
  * Validates a request and returns user.
  *
- * @param {VercelRequest | Request} req Incoming request.
+ * @param {Request} req Incoming request.
  * @param {Database} database Database instance.
  * @returns {Promise<IPublicUserObject | null>} User if valid, null otherwise.
  */
 export const validate = async (
-  req: VercelRequest | Request,
+  req: Request,
   database: Database,
 ): Promise<IPublicUserObject | null> => {
   const cookie = getCookie(req);

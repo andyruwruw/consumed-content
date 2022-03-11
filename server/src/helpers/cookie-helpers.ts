@@ -1,8 +1,4 @@
 // Packages
-import {
-  VercelRequest,
-  VercelResponse,
-} from '@vercel/node';
 import * as jsonwebtoken from 'jsonwebtoken';
 
 // Local Imports
@@ -18,10 +14,10 @@ import {
 /**
  * Retrieves a cookie from requests.
  *
- * @param {VercelRequest | Request} req Incoming request.
+ * @param {Request} req Incoming request.
  * @returns {string | null} Cookie value.
  */
-export const getCookie = (req: VercelRequest | Request): string | null => {
+export const getCookie = (req: Request): string | null => {
   if (!(COOKIE_NAME in req.cookies)) {
     return null;
   }
@@ -31,11 +27,11 @@ export const getCookie = (req: VercelRequest | Request): string | null => {
 /**
  * Attatches a cookie to an outgoing response.
  *
- * @param {VercelResponse | Response} res Outgoing response.
+ * @param {Response} res Outgoing response.
  * @param {string} cookie Cookie to be attached.
  */
 export const attatchCookie = (
-  res: VercelResponse | Response,
+  res: Response,
   cookie: string,
 ): void => {
   res.setHeader('Set-Cookie', `${COOKIE_NAME}=${cookie}`);

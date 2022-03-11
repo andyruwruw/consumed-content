@@ -83,10 +83,34 @@ const get = async (id: number): Promise<IPublicUserObject | null> => {
   return null;
 };
 
+const update = async (
+  name: string,
+  imageUrl: string,
+  privateMode: boolean,
+): Promise<IPublicUserObject | null> => {
+  try {
+    const response = await request.get('/edit-user', {
+      params: {
+        name,
+        imageUrl,
+        privateMode,
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data.user as IPublicUserObject;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+
 export default {
   follow,
   unfollow,
   get,
   following,
   followers,
+  update,
 };

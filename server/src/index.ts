@@ -9,6 +9,7 @@ import {
   CreateReviewHandler,
   DeleteReviewHandler,
   EditReviewHandler,
+  EditUserHandler,
   FollowHandler,
   GetCategoryShowsHandler,
   GetShowReviewsHandler,
@@ -41,6 +42,8 @@ app.get('/api/create-review', (req, res) => CreateReviewHandler.execute(req, res
 app.get('/api/delete-review', (req, res) => DeleteReviewHandler.execute(req, res));
 
 app.get('/api/edit-review', (req, res) => EditReviewHandler.execute(req, res));
+
+app.get('/api/edit-user', (req, res) => EditUserHandler.execute(req, res));
 
 app.get('/api/follow', (req, res) => FollowHandler.execute(req, res));
 

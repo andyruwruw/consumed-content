@@ -167,6 +167,15 @@ const actions: ActionTree<AuthModuleState, any> = {
     }
   },
 
+  async updateUser({
+    commit,
+    dispatch,
+  }): Promise<void> {
+    try {
+      const response = await api.auth.
+    }
+  }
+
   /**
    * Logs a user out and clears state.
    *

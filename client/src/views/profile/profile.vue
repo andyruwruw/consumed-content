@@ -1,5 +1,6 @@
 <template>
   <div>
+    <profile-header :user="user" />
   </div>
 </template>
 
@@ -7,10 +8,16 @@
 import Vue from 'vue';
 
 import api from '../../api';
+import ProfileHeader from './components/header.vue';
+
 import { IPublicUserObject } from '../../../../shared/types';
 
 export default Vue.extend({
   name: 'Profile',
+
+  components: {
+    ProfileHeader,
+  },
 
   data: () => ({
     user: null as null | IPublicUserObject,

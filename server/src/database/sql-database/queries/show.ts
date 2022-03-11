@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS Shows (
   \`id\` int(11) NOT NULL AUTO_INCREMENT,
   \`name\` varchar(64) NOT NULL,
   \`type\` varchar(64) NOT NULL,
-  \`posterUrl\` varchar(255) NOT NULL,
-  \`backdropUrl\` varchar(255) NOT NULL,
-  \`releaseDate\` int(11) NOT NULL,
-  \`overview\` text NOT NULL,
+  \`posterUrl\` varchar(255),
+  \`backdropUrl\` varchar(255),
+  \`releaseDate\` bigint,
+  \`overview\` text,
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 `;
@@ -29,6 +29,13 @@ DROP TABLE Shows;
  */
 export const DELETE_ALL_ROWS = `
 DELETE FROM Shows;
+`;
+
+/**
+ * Selects all rows.
+ */
+export const SELECT_SHOWS = `
+SELECT * FROM Shows;
 `;
 
 /**

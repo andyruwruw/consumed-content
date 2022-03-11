@@ -5,7 +5,7 @@ import { ConnectionManager } from '../database/sql-database/connection-manager';
 /**
  * Wipes Database by deleting all rows.
  */
-const wipeDatabase = async (): Promise<void> => {
+export const wipeDatabase = async (): Promise<void> => {
   console.log('Wipping the database.');
   console.log('This process will delete any existing data but leave tables as they are.');
   

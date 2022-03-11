@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Users (
   \`password\` varchar(255) NOT NULL,
   \`private\` boolean NOT NULL,
   \`imageUrl\` varchar(255) NOT NULL,
-  \`joined\` int(11) DEFAULT(UNIX_TIMESTAMP()),
+  \`joined\` bigint unsigned DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 `;

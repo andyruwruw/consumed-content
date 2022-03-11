@@ -9,11 +9,11 @@ CREATE TABLE IF NOT EXISTS Review (
   \`id\` int(11) NOT NULL AUTO_INCREMENT,
   \`showId\` int(11) NOT NULL,
   \`userId\` int(11) NOT NULL,
-  \`name\` varchar(64) NOT NULL,
+  \`name\` varchar(128) NOT NULL,
   \`rating\` int(11) NOT NULL,
   \`description\` text NOT NULL,
-  \`created\` int(11) DEFAULT(UNIX_TIMESTAMP()),
-  \`updated\` int(11) DEFAULT(UNIX_TIMESTAMP()),
+  \`created\` bigint unsigned DEFAULT(UNIX_TIMESTAMP()),
+  \`updated\` bigint unsigned DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`),
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
@@ -55,7 +55,7 @@ export const INSERT_REVIEW = (
     namedPlaceholders: true,
     sql:`
 INSERT INTO Review (showId, userId, name, rating, description)
-VALUE (:showId, :userId, ":name", :rating, ":description")
+VALUE (:showId, :userId, :name, :rating, :description)
     `,
   },
   {

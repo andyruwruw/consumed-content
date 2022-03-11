@@ -52,9 +52,27 @@ const getTvShowsCredits = async (id: number): Promise<IMovieDbTvShowCredits | nu
  *
  * @returns {Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null>} Top rated TV shows.
  */
-const getTopRatedTvShows = async (): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
+const getTopRatedTvShows = async (page = 1): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
   try {
-    const response =  await request.get('/tv/top_rated');
+    const response =  await request.get(`/tv/top_rated?page=${page}`);
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    return null;
+  }
+  return null;
+};
+
+/**
+ * Gets a list of popular TV shows.
+ *
+ * @returns {Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null>} Top rated TV shows.
+ */
+ const getPopularTvShows = async (page = 1): Promise<IMovieDbPageObject<IMovieDbTvShowSimplified> | null> => {
+  try {
+    const response =  await request.get(`/tv/popular?page=${page}`);
 
     if (response.status === 200) {
       return response.data;
@@ -69,4 +87,5 @@ export default {
   getTvShow,
   getTvShowsCredits,
   getTopRatedTvShows,
+  getPopularTvShows,
 };

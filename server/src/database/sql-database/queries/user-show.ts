@@ -8,7 +8,7 @@ export const CREATE_USER_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS UserShow (
   \`userId\` int(11) NOT NULL,
   \`showId\` int(11) NOT NULL,
-  \`added\` int(11) DEFAULT(UNIX_TIMESTAMP()),
+  \`added\` bigint unsigned DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`userId\`, \`showId\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE,
   FOREIGN KEY (\`showId\`) REFERENCES \`Shows\` (\`id\`) ON DELETE CASCADE
@@ -43,10 +43,13 @@ DELETE FROM UserShow;
   {
     namedPlaceholders: true,
     sql: `
-SELECT UserShow.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
-FROM UserShow
-WHERE userId = :userId AND showId = :showId
-LEFT JOIN Shows ON UserShow.showId = Show.id;`,
+SELECT UserShows.added, Shows.name, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview
+FROM (
+  SELECT *
+  FROM UserShow
+  WHERE UserShow.userId = :userId AND UserShow.showId = :showId
+) as UserShows
+LEFT JOIN Shows ON Shows.id = UserShows.showId;`,
   },
   {
     userId,

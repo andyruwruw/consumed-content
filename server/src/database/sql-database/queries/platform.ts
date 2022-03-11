@@ -77,6 +77,16 @@ WHERE \`id\` = :id;`,
 ]);
 
 /**
+ * Selects all platforms.
+ *
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+export const SELECT_PLATFORMS = `
+SELECT *
+FROM Platform
+`;
+
+/**
  * Selects a platform.
  *
  * @param {number} id Platform's Id.

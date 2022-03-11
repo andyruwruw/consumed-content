@@ -72,15 +72,33 @@ const getMoviesImages = async (id: number): Promise<IMovieDbItemImages | null> =
  *
  * @returns {Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null>} Top rated movies.
  */
-const getTopRatedMovies = async (): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
+const getTopRatedMovies = async (page = 1): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
   try {
-    const response =  await request.get('/movie/top_rated');
+    const response =  await request.get(`/movie/top_rated?page=${page}`);
 
     if (response.status === 200) {
       return response.data;
     }
   } catch (error) {
-    return null;
+    console.log(error);
+  }
+  return null;
+};
+
+/**
+ * Gets a list of the popular movies.
+ *
+ * @returns {Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null>} Top rated movies.
+ */
+const getPopularMovies = async (page = 1): Promise<IMovieDbPageObject<IMovieDbMovieSimplified> | null> => {
+  try {
+    const response =  await request.get(`/movie/popular?page=${page}`);
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
   }
   return null;
 };
@@ -90,4 +108,5 @@ export default {
   getMoviesCredits,
   getMoviesImages,
   getTopRatedMovies,
+  getPopularMovies,
 };

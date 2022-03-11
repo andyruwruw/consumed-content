@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Category (
   \`userId\` int(11) NOT NULL,
   \`name\` varchar(64) NOT NULL,
   \`description\` varchar(255) DEFAULT(""),
-  \`created\` int(11) DEFAULT(UNIX_TIMESTAMP()),
+  \`created\` bigint unsigned DEFAULT(UNIX_TIMESTAMP()),
   PRIMARY KEY (\`id\`),
   FOREIGN KEY (\`userId\`) REFERENCES \`Users\` (\`id\`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -46,7 +46,7 @@ export const INSERT_CATEGORY = (
   {
     namedPlaceholders: true,
     sql: `
-INSERT INTO CategoryShow (userId, name, description)
+INSERT INTO Category (userId, name, description)
 VALUES (:userId, :name, :description);`,
   },
   {

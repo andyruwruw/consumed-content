@@ -5,6 +5,7 @@ import {
   DELETE_PLATFORM,
   DROP_PLATFORM_TABLE,
   INSERT_PLATFORM,
+  SELECT_PLATFORMS,
   UPDATE_PLATFORM,
 } from '../queries/platform';
 import { ConnectionManager } from '../connection-manager';
@@ -92,6 +93,22 @@ export class Platform extends DataAccessObject<IPlatform> implements IPlatformDA
       console.log(error);
     }
     return 0;
+  }
+
+  /**
+   * Selects all platforms.
+   *
+   * @returns {Promise<IPlatform[]>} All platforms.
+   */
+  async getAll(): Promise<IPlatform[]> {
+    try {
+      const response = await ConnectionManager.connection.query(SELECT_PLATFORMS);
+
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
   }
 
   /**

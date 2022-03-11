@@ -420,6 +420,7 @@ export interface IPlatformDAO extends IDataAccessObject {
     imageUrl: string,
     cost: number,
   ) => Promise<number>;
+  getAll: () => Promise<IPlatform[]>;
 }
 
 export interface IReviewDAO extends IDataAccessObject {
@@ -479,6 +480,7 @@ export interface IShowDAO extends IDataAccessObject {
   ) => Promise<number>;
   delete: (id: number) => Promise<number>;
   select: (id: number) => Promise<IShow | null>;
+  getAll: () => Promise<IShow[]>;
 }
 
 export interface IUserFollowDAO extends IDataAccessObject {

@@ -79,4 +79,20 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
     }
     return null;
   }
+
+  /**
+   * Retrieves all shows.
+   *
+   * @returns {Promise<IShow[]>} Shows.
+   */
+   async getAll(): Promise<IShow[]> {
+    try {
+      const response = await this._find({});
+
+      return response as IShow[];
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
+  }
 }

@@ -34,12 +34,13 @@ export const convertMovies = (movies: IMovieDbMovie[]): IShow[] => {
  */
 export const convertSimplifiedMovies = (movies: IMovieDbMovieSimplified[]): IShow[] => {
   return movies.map((movie: IMovieDbMovieSimplified): IShow => {
+    const date = movie.release_date.split('-') as unknown as [number, number, number];
     return {
       name: movie.title,
       type: 'movie',
       posterUrl: movie.poster_path,
       backdropUrl: movie.backdrop_path,
-      releaseDate: (new Date(movie.release_date)).getTime(),
+      releaseDate: (new Date(...date)).getTime() || null,
       overview: movie.overview,
     };
   });
@@ -71,14 +72,15 @@ export const convertTvShows = (tvShows: IMovieDbTvShow[]): IShow[] => {
  * @returns {IShow[]} Converted TV shows.
  */
 export const convertSimplifiedTvShows = (tvShows: IMovieDbTvShowSimplified[]): IShow[] => {
-  return tvShows.map((movie: IMovieDbTvShowSimplified): IShow => {
+  return tvShows.map((tvShow: IMovieDbTvShowSimplified): IShow => {
+    const date = tvShow.first_air_date.split('-') as unknown as [number, number, number];
     return {
-      name: movie.name,
+      name: tvShow.name,
       type: 'movie',
-      posterUrl: movie.poster_path,
-      backdropUrl: movie.backdrop_path,
-      releaseDate: (new Date(movie.first_air_date)).getTime(),
-      overview: movie.overview,
+      posterUrl: tvShow.poster_path,
+      backdropUrl: tvShow.backdrop_path,
+      releaseDate: (new Date(...date)).getTime() || null,
+      overview: tvShow.overview,
     };
   });
 };

@@ -82,4 +82,20 @@ export class Platform extends DataAccessObject<IPlatform> implements IPlatformDA
     }
     return 0;
   }
+
+  /**
+   * Selects all platforms.
+   *
+   * @returns {Promise<IPlatform[]>} All platforms.
+   */
+  async getAll(): Promise<IPlatform[]> {
+    try {
+      const response = await this._find();
+
+      return response as IPlatform[];
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
+  }
 }

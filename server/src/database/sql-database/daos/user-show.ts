@@ -91,8 +91,6 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
         showId,
       ));
 
-      console.log(response);
-
       return response.length > 0;
     } catch (error) {
       console.log(error);

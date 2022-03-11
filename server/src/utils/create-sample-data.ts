@@ -1,11 +1,27 @@
 // Local Imports
+import {
+  convertSimplifiedMovies,
+  convertSimplifiedTvShows,
+} from '../helpers/themoviedb-helpers';
+import { 
+  REVIEW_NAMES,
+  REVIEW_DESCRIPTIONS,
+} from '../assets/data/reviews';
+import { CATEGORY_NAMES } from '../assets/data/categories';
 import { getDatabase } from '../database';
 import { Database } from '../database/database';
 import { NAMES } from '../assets/data/names';
 import { ConnectionManager } from '../database/sql-database/connection-manager';
 import { PLATFORMS } from '../assets/data/platforms';
-import { IPublicUserObject } from '../../../shared/types';
 import { generateToken } from '../helpers/cookie-helpers';
+import { wipeDatabase } from './wipe-database';
+import api from '../api';
+
+// Types
+import {
+  IPublicUserObject,
+  IShow,
+} from '../../../shared/types';
 
 class SampleDataCreator {
   _database: Database;
@@ -26,8 +42,16 @@ class SampleDataCreator {
 
   _users: number[];
 
+  _shows: number[];
+
+  _categories: number[];
+
+  _indices: Record<string, number>;
+
   constructor() {
     this._users = [];
+    this._shows = [];
+    this._categories = [];
     this._userNum = parseInt(process.argv[process.argv.indexOf('--users') + 1], 10) || 20;
     this._userCategoryNum = parseInt(process.argv[process.argv.indexOf('--user-categories') + 1], 10) || 5;
     this._userReviewNum = parseInt(process.argv[process.argv.indexOf('--user-reviews') + 1], 10) || 5;
@@ -35,9 +59,11 @@ class SampleDataCreator {
     this._userShowNum = parseInt(process.argv[process.argv.indexOf('--user-shows') + 1], 10) || 20;
     this._userTokenNum = parseInt(process.argv[process.argv.indexOf('--user-tokens') + 1], 10) || 2;
     this._categoryShowNum = parseInt(process.argv[process.argv.indexOf('--category-shows') + 1], 10) || 5;
+    this._indices = {};
   }
 
   async start() {
+    await wipeDatabase();
     console.log('Creating sample data.');
     this._instructions();
     await this._connectToDatabase();
@@ -53,9 +79,9 @@ class SampleDataCreator {
     await this._createFakeCategories();
     await this._createFakeReviews();
 
-    // Dependent Tier 3 Tables
-    await this._createFakeCategoryShows();
-    await this._createFakeShowPlatforms();
+    // // Dependent Tier 3 Tables
+    // await this._createFakeCategoryShows();
+    // await this._createFakeShowPlatforms();
   }
 
   _spacing() {
@@ -157,14 +183,96 @@ class SampleDataCreator {
   
   async _createFakeCategories(): Promise<void> {
     console.log(`Creating at max ${this._userCategoryNum} fake categories per user.`);
+
+    const pending = [];
+
+    for (let i = 0; i < this._users.length; i += 1) {
+      const categoryNum = Math.floor(Math.random() * this._userCategoryNum);
+
+      console.log(` - User ${this._users[i]} has ${categoryNum} categories added.`);
+
+      for (let j = 0; j < categoryNum; j += 1) {
+        pending.push(this._database.category.create(
+          this._users[i],
+          CATEGORY_NAMES[Math.floor(Math.random() * CATEGORY_NAMES.length)],
+          '',
+        ));
+      }
+    }
+
+    await Promise.all(pending);
+
+    for (let i = 0; i < this._users.length; i += 1) {
+      const categories = await this._database.category.selectUserCategories(this._users[i]);
+
+      for (let j = 0; j < categories.length; j += 1) {
+        this._categories.push(categories[j].id);
+      }
+    }
+
+    this._spacing();
   }
   
   async _createFakeReviews(): Promise<void> {
     console.log(`Creating at max ${this._userReviewNum} fake reviews per user.`);
+
+    const pending = [];
+
+    for (let i = 0; i < this._users.length; i += 1) {
+      const reviewNum = Math.floor(Math.random() * this._userReviewNum);
+      const showsDone = [] as number[];
+
+      console.log(` - User ${this._users[i]} has ${reviewNum} reviews added.`);
+
+      for (let j = 0; j < reviewNum; j += 1) {
+        const show = this._shows[Math.floor(Math.random() * this._shows.length)];
+
+        if (!(showsDone.includes(show))) {
+          pending.push(this._database.review.create(
+            show,
+            this._users[i],
+            REVIEW_NAMES[Math.floor(Math.random() * REVIEW_NAMES.length)],
+            Math.floor(Math.random() * 10) + 1,
+            REVIEW_DESCRIPTIONS[Math.floor(Math.random() * REVIEW_DESCRIPTIONS.length)],
+          ));
+
+          showsDone.push(show);
+        }
+      }
+    }
+
+    await Promise.all(pending);
   }
   
   async _createFakeShowPlatforms(): Promise<void> {
     console.log(`Creating at max ${2} fake platforms per show.`);
+
+    const pending = [];
+
+    const platforms = await this._database.platform.getAll();
+
+    for (let i = 0; i < this._shows.length; i += 1) {
+      const platformNum = Math.floor(Math.random() * 2);
+
+      console.log(` - Show ${this._shows[i]} has ${platformNum} platforms added.`);
+
+      const platformsAdded = [] as number[];
+
+      for (let j = 0; j < platformNum; j += 1) {
+        const platform = platforms[Math.floor(Math.random() * platforms.length)];
+
+        if (!(platformsAdded.includes(platform.id))) {
+          pending.push(this._database.showPlatform.add(
+            this._shows[i],
+            platform.id,
+          ));
+
+          platformsAdded.push(platform.id);
+        }
+      }
+    }
+
+    await Promise.all(pending);
   }
   
   async _createFakeUserFollows(): Promise<void> {
@@ -199,27 +307,99 @@ class SampleDataCreator {
 
     this._spacing();
   }
+
+  async _createShows(): Promise<void> {
+    const showNum = (this._userShowNum * 0.5) * this._userNum;
+
+    console.log(` - Collecting Shows for use.`);
+
+    let state = 0;
+
+    const pending = [];
+    let addedNum = 0;
+
+    while (addedNum < showNum) {
+      let items = [] as IShow[];
+      const page = Math.floor(state / 4) + 1;
+
+      if (state % 4 === 0) {
+        const response = await api.themoviedb.movie.getPopularMovies(page);
+        items = await convertSimplifiedMovies(response.results);
+      } else if (state % 4 === 1) {
+        const response = await api.themoviedb.tvShow.getPopularTvShows(page);
+        items = await convertSimplifiedTvShows(response.results);
+      } else if (state % 4 === 2) {
+        const response = await api.themoviedb.movie.getTopRatedMovies(page);
+        items = await convertSimplifiedMovies(response.results);
+      } else if (state % 4 === 3) {
+        const response = await api.themoviedb.tvShow.getTopRatedTvShows(page);
+        items = await convertSimplifiedTvShows(response.results);
+      }
+
+      for (let i = 0; i < items.length; i += 1) {
+        pending.push(this._database.show.add(
+          items[i].name,
+          items[i].type,
+          items[i].posterUrl,
+          items[i].backdropUrl,
+          items[i].releaseDate,
+          items[i].overview,
+        ));
+
+        addedNum += 1;
+      }
+
+      console.log(` - Shows Loaded: ${addedNum} / ${showNum}`);
+
+      state += 1;
+    }
+
+    await Promise.all(pending);
+
+    const shows = await this._database.show.getAll();
+
+    this._shows = shows.map((show) => show.id);
+  }
+
+  async _getRandomShow(): Promise<number> {
+    if (this._shows.length === 0) {
+      await this._createShows();
+    }
+    const index = Math.floor(Math.random() * this._shows.length);
+
+    return this._shows[index];
+  }
   
   async _createFakeUserShows(): Promise<void> {
     console.log(`Creating at max ${this._userShowNum} fake added shows per user.`);
+
+    const pending = [];
 
     for (let i = 0; i < this._users.length; i += 1) {
       const showsNum = Math.floor(Math.random() * this._userShowNum);
 
       console.log(` - User ${this._users[i]} has ${showsNum} shows added.`);
 
-      for (let j = 0; j < this._userTokenNum; j += 1) {
-        const token = generateToken({
-          id: this._users[i],
-          date: (new Date()).getTime(),
-        });
-  
-        pending.push(this._database.userToken.register(
+      for (let j = 0; j < showsNum; j += 1) {
+        const showId = await this._getRandomShow();
+
+        const isAdded = await this._database.userShow.isShowAdded(
           this._users[i],
-          token,
-        ));
+          showId,
+        );
+
+        if (!isAdded) {
+          pending.push(this._database.userShow.add(
+            this._users[i],
+            showId,
+          ));
+        }
       }
     }
+
+    await Promise.all(pending);
+
+    this._spacing();
   }
   
   async _createFakeUserTokens(): Promise<void> {
@@ -254,6 +434,31 @@ class SampleDataCreator {
   
   async _createFakeCategoryShows(): Promise<void> {
     console.log(`Creating at max ${this._categoryShowNum} fake shows per category.`);
+
+    const pending = [];
+
+    for (let i = 0; i < this._categories.length; i += 1) {
+      const showNum = Math.floor(Math.random() * this._categoryShowNum);
+      
+      console.log(` - Creating ${showNum} shows for category ${this._categories[i]}.`);
+
+      const addedShows = [] as number[];
+
+      for (let j = 0; j < showNum; j += 1) {
+        const show = await this._getRandomShow();
+
+        if (!addedShows.includes(show)) {
+          pending.push(this._database.categoryShow.add(
+            this._categories[i],
+            show,
+          ));
+
+          addedShows.push(show);
+        }
+      }
+    }
+
+    await Promise.all(pending);
   }
 }
 

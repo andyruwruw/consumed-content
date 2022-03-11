@@ -6,6 +6,7 @@ import {
   DROP_SHOW_TABLE,
   INSERT_SHOW,
   SELECT_SHOW,
+  SELECT_SHOWS,
 } from '../queries/show';
 import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
@@ -94,6 +95,22 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
       console.log(error);
     }
     return null;
+  }
+
+  /**
+   * Retrieves all shows.
+   *
+   * @returns {Promise<IShow[]>} Shows.
+   */
+  async getAll(): Promise<IShow[]> {
+    try {
+      const response = await ConnectionManager.connection.query(SELECT_SHOWS);
+
+      return response as IShow[];
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
   }
 
   /**

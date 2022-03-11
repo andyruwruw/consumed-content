@@ -104,7 +104,7 @@ const update = async (
     console.log(error);
   }
   return null;
-}
+};
 
 export default {
   follow,

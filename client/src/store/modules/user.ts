@@ -167,14 +167,25 @@ const actions: ActionTree<AuthModuleState, any> = {
     }
   },
 
-  async updateUser({
-    commit,
-    dispatch,
+  async updateUser({ commit }, {
+    name,
+    imageUrl,
+    privateMode,
   }): Promise<void> {
     try {
-      const response = await api.auth.
+      const response = await api.user.update(
+        name,
+        imageUrl,
+        privateMode,
+      );
+
+      if (response) {
+        commit('setUser', response);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
+  },
 
   /**
    * Logs a user out and clears state.

@@ -22,8 +22,24 @@ import { mapGetters } from 'vuex';
 import NavigationDrawerUser from './user.vue';
 import NavigationDrawerTabs from './tabs.vue';
 import NavigationDrawerMyProfileButton from './my-profile-button.vue';
+import { IPublicUserObject } from '../../../../../shared/types';
 
-export default Vue.extend({
+interface IData {
+}
+
+interface IMethods {
+}
+
+interface IComputed {
+  getUser: IPublicUserObject;
+  isLoggedIn: boolean;
+  isOpen: boolean;
+}
+
+interface IProps {
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'NavigationDrawer',
 
   components: {
@@ -39,8 +55,7 @@ export default Vue.extend({
     ]),
 
     isOpen() {
-      return this.isNavBarOpen
-        || (this.$route.name !== 'Landing'
+      return (this.$route.name !== 'Landing'
         && this.$route.name !== 'Login'
         && this.$route.name !== 'Logout'
         && this.getUser !== null);

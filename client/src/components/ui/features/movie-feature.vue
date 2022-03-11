@@ -43,7 +43,27 @@
 <script lang="ts">
 import Vue from 'vue';
 
-export default Vue.extend({
+interface IData {
+}
+
+interface IMethods {
+  clicked: () => void;
+}
+
+interface IComputed {
+}
+
+interface IProps {
+  id: number;
+  name: string;
+  posterUrl: string;
+  backdropUrl: string;
+  releaseDate: number;
+  overview: string;
+  genres: string[];
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'MovieFeature',
 
   props: {
@@ -85,7 +105,7 @@ export default Vue.extend({
 
   methods: {
     clicked() {
-      this.$router.push(`/show/${this.title}`);
+      this.$router.push(`/show/${this.name}`);
     },
   },
 });

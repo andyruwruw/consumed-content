@@ -46,12 +46,38 @@
 // Packages
 import Vue from 'vue';
 import moment from 'moment';
-import { mapGetters } from 'vuex';
+import {
+  mapActions,
+  mapGetters,
+} from 'vuex';
 
 // Types
 import { IPublicUserObject } from '../../../../../shared/types';
 
-export default Vue.extend({
+interface IData {
+  mode: number;
+  name: string;
+  imageUrl: string;
+  privateMode: boolean;
+}
+
+interface IMethods {
+  updateUser: (user: Record<string, string | boolean>) => void;
+  toggleMode: () => void;
+  save: () => void;
+}
+
+interface IComputed {
+  getUser: IPublicUserObject;
+  isUser: boolean;
+  actionText: string;
+}
+
+interface IProps {
+  user: IPublicUserObject;
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'ProfileHeader',
 
   props: {
@@ -65,6 +91,10 @@ export default Vue.extend({
     mode: 0,
 
     name: '',
+
+    imageUrl: '',
+
+    privateMode: true,
   }),
 
   computed: {
@@ -76,29 +106,35 @@ export default Vue.extend({
       return this.user.id === this.getUser.id;
     },
 
-    joinedDate() {
-      return moment(this.user.joined).fromNow();
-    },
-
     actionText() {
       return this.mode === 0 ? 'Edit' : 'Save';
     },
   },
 
   methods: {
+    ...mapActions('user', [
+      'updateUser',
+    ]),
+
     toggleMode() {
       if (this.mode === 1) {
         this.save();
       } else {
         this.name = this.user.name;
+        this.imageUrl = this.user.imageUrl;
+        this.privateMode = this.user.private;
       }
-      
+
       this.mode = this.mode === 0 ? 1 : 0;
     },
 
     save() {
-      
-    }
+      this.updateUser({
+        name: this.name,
+        imageUrl: this.imageUrl,
+        privateMode: this.privateMode,
+      });
+    },
   },
 });
 </script>

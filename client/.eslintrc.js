@@ -17,5 +17,6 @@ module.exports = {
     '@typescript-eslint/no-empty-function': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/prefer-default-export': 'off',
     'max-len': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
   },
 };

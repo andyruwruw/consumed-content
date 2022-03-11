@@ -35,7 +35,25 @@ import Vue from 'vue';
 import ShowCardItem from './show-card-item.vue';
 import { IShow } from '../../../../../shared/types';
 
-export default Vue.extend({
+interface IData {
+  editedShows: IShow[];
+}
+
+interface IMethods {
+  remove: (index: number) => void;
+  
+}
+
+interface IComputed {
+}
+
+interface IProps {
+  title: string;
+  shows: IShow[];
+  rows: boolean;
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'ShowCards',
 
   components: {
@@ -57,6 +75,14 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
+  },
+
+  data: () => ({
+    editedShows: [] as IShow[],
+  }),
+
+  created() {
+    this.editedShows = this.shows;
   },
 
   methods: {

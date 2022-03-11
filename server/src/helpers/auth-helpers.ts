@@ -1,6 +1,6 @@
 // Packages
 import { VercelRequest } from '@vercel/node';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 // Local Imports
 import {

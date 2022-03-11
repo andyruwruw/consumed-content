@@ -3,8 +3,11 @@ import {
   VercelRequest,
   VercelResponse,
 } from '@vercel/node';
+import {
+  attatchCookie,
+  generateToken,
+} from '../helpers/cookie-helpers';
 import { hashPassword } from '../helpers/auth-helpers';
-import { attatchCookie, generateToken } from '../helpers/cookie-helpers';
 
 // Local Imports
 import { Handler } from './handler';

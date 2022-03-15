@@ -1,5 +1,5 @@
 // Local Imports
-import { convertSimplifiedMovies } from '../helpers/themoviedb-helpers';
+import { convertAndMergeMovies, convertSimplifiedMovies } from '../helpers/themoviedb-helpers';
 import { Handler } from './handler';
 import api from '../api';
 
@@ -32,7 +32,7 @@ export class SearchMoviesHandler extends Handler {
         page,
       );
 
-      const shows = convertSimplifiedMovies(response.results);
+      const shows = await convertAndMergeMovies(response.results, this._database);
 
       res.status(200).send({
         shows,

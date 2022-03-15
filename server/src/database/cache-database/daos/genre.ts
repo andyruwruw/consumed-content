@@ -48,4 +48,20 @@ export class Genre extends DataAccessObject<IGenre> implements IGenreDAO {
     }
     return null;
   }
+
+  /**
+   * Selects all Genres
+   *
+   * @returns {Promise<IGenre[]>} Genre or null.
+   */
+  async getAll(): Promise<IGenre[]> {
+    try {
+      const response = await this._find();
+
+      return response as IGenre[];
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
+  }
 }

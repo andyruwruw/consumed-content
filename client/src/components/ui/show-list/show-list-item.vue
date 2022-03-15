@@ -1,32 +1,27 @@
 <template>
-  <div
-    :class="$style.component"
-    @click="clicked">
-    <div
-      :class="$style.image"
-      :style="{
-        'background-image': `url('${imageUrl}')`,
-      }" />
+  <div :class="$style.component">
+    <div :class="$style['image-wrapper']">
+      <v-img
+        :src="`http://image.tmdb.org/t/p/original${image}`"
+        :class="$style.image"
+        width="90px"
+        height="90px" />
+    </div>
 
     <div :class="$style.content">
-      <div :class="$style['main-details']">
-        <span :class="$style.title">
-          {{ title }}
+      <div :class="$style.details">
+        <span
+          :class="$style.title"
+          @click="goToShow">
+          {{ name }}
         </span>
 
-        <span :class="$style.duration">
-          {{ duration }}
+        <span :class="$style.genres">
+          {{ genres.map(genre => genre.name).join(', ') }}
         </span>
       </div>
 
-      <div :class="$style['alt-details']">
-        <span :class="$style.genres">
-          {{ genres.join(', ') }}
-        </span>
-
-        <span :class="$style['release-date']">
-          Released: {{ released }}
-        </span>
+      <div :class="$style.actions">
       </div>
     </div>
   </div>
@@ -34,40 +29,85 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions, mapGetters } from 'vuex';
+import api from '../../../api';
 
 export default Vue.extend({
   name: 'ShowListItem',
 
   props: {
-    title: {
-      type: String,
-      required: true,
+    id: {
+      type: Number,
+      default: 0,
     },
 
-    duration: {
+    name: {
       type: String,
-      required: true,
-    },
-
-    genres: {
-      type: Array,
       required: true,
     },
 
     released: {
+      type: Number,
+      required: false,
+      default: -1,
+    },
+
+    image: {
       type: String,
       required: true,
     },
 
-    imageUrl: {
-      type: String,
-      required: true,
+    padding: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  data: () => ({
+    liked: false,
+    genres: [],
+  }),
+
+  async created() {
+    this.genres = await api.show.getShowGenres(this.id);
+    this.liked = this.isSaved;
+  },
+
+  computed: {
+    ...mapGetters('shows', [
+      'getSaved',
+    ]),
+
+    isSaved() {
+      return this.id in this.getSaved && this.getSaved[this.id];
     },
   },
 
   methods: {
-    clicked() {
-      this.$router.push(`/show/${this.title}`);
+    ...mapActions('shows', [
+      'like',
+      'unlike',
+    ]),
+
+    goToShow() {
+      this.$router.push(`/show/${this.id}`);
+    },
+
+    writeReview() {
+      this.$router.push(`/review/${this.id}`);
+    },
+
+    interact() {
+      this.liked = !this.liked;
+      if (!this.liked) {
+        this.unlike({
+          id: this.id,
+        });
+      } else {
+        this.like({
+          id: this.id,
+        });
+      }
     },
   },
 });
@@ -76,56 +116,49 @@ export default Vue.extend({
 <style lang="scss" module>
 .component {
   display: flex;
-  margin: 1rem;
-  width: 800px;
+  margin: 1rem 0rem;
+  width: 100%;
+  z-index: 100;
   background: #2E2E2E;
-  padding: 1rem;
-  cursor: pointer;
 }
 
 .content {
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 1rem - 4rem);
 }
 
-.main-details {
+.details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  height: 100%;
 }
 
-.alt-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.image-wrapper {
+  display: block !important;
+  height: 90px !important;
+  width: 90px !important;
+  margin-right: 1rem;
 }
 
 .image {
-  $size: 4rem;
-
-  display: block;
-  height: $size;
-  width: $size;
   background-size: 100% auto;
-  margin-right: 1rem;
 }
 
 .title {
   color: white;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.duration {
-  color: rgba(255, 255, 255, 0.322);
+.actions {
+  display: flex;
 }
 
 .genres {
   color: rgba(255, 255, 255, 0.322);
-  text-align: right;
-}
-
-.release-date {
-  color: rgba(255, 255, 255, 0.322);
-  text-align: right;
 }
 </style>

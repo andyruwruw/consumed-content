@@ -17,8 +17,8 @@
         <v-text-field
           v-if="mode === 1"
           :value="name"
+          style="flex: none"
           color="#E6B31D"
-          label="Name"
           hide-details
           dense
           dark
@@ -127,8 +127,8 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
       this.mode = this.mode === 0 ? 1 : 0;
     },
 
-    save() {
-      this.updateUser({
+    async save() {
+      await this.updateUser({
         name: this.name,
         imageUrl: this.imageUrl,
         privateMode: this.privateMode,

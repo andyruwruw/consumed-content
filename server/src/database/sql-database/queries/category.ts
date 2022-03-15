@@ -71,7 +71,7 @@ export const UPDATE_CATEGORY = (
     namedPlaceholders: true,
     sql: `
 UPDATE Category
-SET name = \`:name\`, description = \`:description\`
+SET \`name\` = :name, \`description\` = :description
 WHERE \`id\` = :id;`,
   },
   {
@@ -111,8 +111,7 @@ export const SELECT_CATEGORY = (id: number): IMariaDbQuery => ([
     sql: `
 SELECT *
 FROM Category
-WHERE \`id\` = :id
-ORDER BY Category.name ASC;`,
+WHERE \`id\` = :id;`,
   },
   {
     id,

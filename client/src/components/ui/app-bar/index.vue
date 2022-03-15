@@ -3,7 +3,8 @@
     color="#343434"
     app
     dark
-    flat>
+    flat
+    :class="$style.component">
     <div class="d-flex align-center">
       <img
         :class="$style.icon"
@@ -18,10 +19,12 @@
 
     <v-text-field
       v-if="isLoggedIn"
+      v-model="query"
+      placeholder="Search..."
       outlined
       dense
       hide-details
-      placeholder="Search..." />
+      @keydown.enter="makeSearch" />
 
     <v-spacer></v-spacer>
 
@@ -48,10 +51,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters, mapActions } from 'vuex';
+import {
+  mapGetters,
+  mapActions,
+} from 'vuex';
 
 export default Vue.extend({
   name: 'AppBar',
+
+  data: () => ({
+    query: '',
+  }),
 
   computed: {
     ...mapGetters('user', [
@@ -68,6 +78,10 @@ export default Vue.extend({
       'toggleNavBar',
     ]),
 
+    ...mapActions('navigation', [
+      'search',
+    ]),
+
     goHome() {
       if (this.isLoggedIn) {
         this.$router.push('/home');
@@ -79,11 +93,21 @@ export default Vue.extend({
     loginPage() {
       this.$router.push('/login');
     },
+
+    makeSearch() {
+      this.search({
+        query: this.query,
+      });
+    },
   },
 });
 </script>
 
 <style lang="scss" module>
+.component {
+  position: relative;
+}
+
 .icon {
   height: 1.4rem;
   width: 1.4rem;

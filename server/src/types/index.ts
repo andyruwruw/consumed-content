@@ -404,6 +404,7 @@ export interface IGenreDAO extends IDataAccessObject {
     id: number,
     name: string,
   ) => Promise<number>;
+  getAll: () => Promise<IGenre[]>;
   select: (id: number) => Promise<IGenre | null>;
 }
 
@@ -477,9 +478,11 @@ export interface IShowDAO extends IDataAccessObject {
     backdropUrl: string,
     releaseDate: number,
     overview: string,
+    theMovieDbId: number,
   ) => Promise<number>;
   delete: (id: number) => Promise<number>;
   select: (id: number) => Promise<IShow | null>;
+  selectByMovieDb: (id: number) => Promise<IShow | null>;
   getAll: () => Promise<IShow[]>;
 }
 

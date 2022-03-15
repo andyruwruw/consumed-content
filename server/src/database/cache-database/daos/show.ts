@@ -15,6 +15,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
    * @param {string} backdropUrl Backdrop image URL for show.
    * @param {number} releaseDate Release date of show.
    * @param {string} overview Overview of show.
+   * @param {number} theMovieDbId TheMovieDb ID for show.
    * @returns {Promise<number>} Number of affected rows.
    */
   async add(
@@ -24,6 +25,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
     backdropUrl: string,
     releaseDate: number,
     overview: string,
+    theMovieDbId: number,
   ): Promise<number> {
     try {
       const response = await this._insert({
@@ -33,6 +35,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
         backdropUrl,
         releaseDate,
         overview,
+        theMovieDbId,
       });
 
       return response;
@@ -71,6 +74,25 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
     try {
       const response = await this._findOne({
         id,
+      });
+
+      return response as IShow;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /**
+   * Retrieves a show by theMovieDB Id.
+   *
+   * @param {number} id Show's theMovieDB Id.
+   * @returns {Promise<IShow | null>} Show or null.
+   */
+   async selectByMovieDb(id: number): Promise<IShow | null> {
+    try {
+      const response = await this._findOne({
+        theMovieDbId: id,
       });
 
       return response as IShow;

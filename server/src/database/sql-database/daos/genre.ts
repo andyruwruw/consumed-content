@@ -5,6 +5,7 @@ import {
   DROP_GENRE_TABLE,
   INSERT_GENRE,
   SELECT_GENRE,
+  SELECT_GENRES,
 } from '../queries/genre';
 import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
@@ -60,6 +61,24 @@ export class Genre extends DataAccessObject<IGenre> implements IGenreDAO {
       console.log(error);
     }
     return null;
+  }
+
+  /**
+   * Selects all Genres
+   *
+   * @returns {Promise<IGenre[]>} Genre or null.
+   */
+  async getAll(): Promise<IGenre[]> {
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_GENRES());
+
+      if (response.length > 0) {
+        return response as IGenre[];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
   }
 
   /**

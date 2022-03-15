@@ -14,17 +14,15 @@
         },
       ]">
       <show-card-item
-        v-for="(show, index) in editedShows"
-        :key="show.title"
-        :id="index"
-        :title="show.title"
-        :duration="show.duration"
-        :genres="show.genres"
+        v-for="(show, index) in shows"
+        :key="`${show.name}-${index}-show-list`"
+        :id="show.id"
+        :name="show.name"
         :released="show.released"
-        :imageUrl="show.imageUrl"
+        :image="show.posterUrl"
         :padding="rows"
-        :saved="saved"
-        @remove="remove(index)" />
+        :category="category"
+        @remove="handleRemove" />
     </div>
   </div>
 </template>
@@ -40,8 +38,6 @@ interface IData {
 }
 
 interface IMethods {
-  remove: (index: number) => void;
-  
 }
 
 interface IComputed {
@@ -51,6 +47,7 @@ interface IProps {
   title: string;
   shows: IShow[];
   rows: boolean;
+  category: boolean;
 }
 
 export default Vue.extend<IData, IMethods, IComputed, IProps>({
@@ -66,6 +63,11 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
       default: '',
     },
 
+    category: {
+      type: Boolean,
+      default: false,
+    },
+
     shows: {
       type: Array,
       default: () => [] as IShow[],
@@ -77,25 +79,9 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
     },
   },
 
-  data: () => ({
-    editedShows: [] as IShow[],
-  }),
-
-  created() {
-    this.editedShows = this.shows;
-  },
-
   methods: {
-    remove(id: number) {
-      const newShows = [];
-
-      for (let i = 0; i < this.editedShows.length; i += 1) {
-        if (i !== id) {
-          newShows.push(this.editedShows[i]);
-        }
-      }
-
-      this.editedShows = newShows as IShow[];
+    handleRemove(id: number) {
+      this.$emit('remove', id);
     },
   },
 });

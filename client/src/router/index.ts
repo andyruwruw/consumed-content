@@ -38,17 +38,22 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/profile/profile.vue'),
   },
   {
-    path: '/profile/:id/category',
+    path: '/category',
     name: 'Categories',
     component: () => import('../views/category/categories.vue'),
   },
   {
-    path: '/profile/:id/review',
+    path: '/review',
     name: 'Reviews',
     component: () => import('../views/review/reviews.vue'),
   },
   {
-    path: '/profile/:id/show',
+    path: '/movies',
+    name: 'Movies',
+    component: () => import('../views/show/movies.vue'),
+  },
+  {
+    path: '/shows',
     name: 'Shows',
     component: () => import('../views/show/shows.vue'),
   },
@@ -71,6 +76,11 @@ const routes: Array<RouteConfig> = [
     path: '/show/:id',
     name: 'Show',
     component: () => import('../views/show/show.vue'),
+  },
+  {
+    path: '/search/:query',
+    name: 'Search',
+    component: () => import('../views/search/search.vue'),
   },
 ];
 

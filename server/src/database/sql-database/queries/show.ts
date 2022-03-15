@@ -7,12 +7,13 @@ import { IMariaDbQuery } from '../../../types';
 export const CREATE_SHOW_TABLE = `
 CREATE TABLE IF NOT EXISTS Shows (
   \`id\` int(11) NOT NULL AUTO_INCREMENT,
-  \`name\` varchar(64) NOT NULL,
+  \`name\` varchar(256) NOT NULL,
   \`type\` varchar(64) NOT NULL,
   \`posterUrl\` varchar(255),
   \`backdropUrl\` varchar(255),
   \`releaseDate\` bigint,
   \`overview\` text,
+  \`theMovieDbId\` int(64),
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 `;
@@ -47,6 +48,7 @@ SELECT * FROM Shows;
  * @param {string} backdropUrl URL to backdrop image.
  * @param {number} releaseDate Release date.
  * @param {string} overview Overview of the show.
+ * @param {number} theMovieDbId TheMovieDb ID.
  * @returns {IMariaDbQuery} MariaDB query.
  */
 export const INSERT_SHOW = (
@@ -56,12 +58,13 @@ export const INSERT_SHOW = (
   backdropUrl: string,
   releaseDate: number,
   overview: string,
+  theMovieDbId: number,
 ): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql: `
-INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview)
-VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
+INSERT INTO Shows (name, type, posterUrl, backdropUrl, releaseDate, overview, theMovieDbId)
+VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview, :theMovieDbId);`,
   },
   {
     name,
@@ -70,6 +73,7 @@ VALUES (:name, :type, :posterUrl, :backdropUrl, :releaseDate, :overview);`,
     backdropUrl,
     releaseDate,
     overview,
+    theMovieDbId,
   },
 ]);
 
@@ -104,6 +108,25 @@ export const SELECT_SHOW = (id: number): IMariaDbQuery => ([
 SELECT *
 FROM Shows
 WHERE id = :id;`,
+  },
+  {
+    id,
+  },
+]);
+
+/**
+ * Selects a show by TheMovieDB id..
+ *
+ * @param {number} id The MovieDB's Id.
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_SHOW_BY_MOVIEDB_ID = (id: number): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Shows
+WHERE theMovieDbId = :id;`,
   },
   {
     id,

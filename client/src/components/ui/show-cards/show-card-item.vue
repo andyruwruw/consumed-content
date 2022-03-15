@@ -22,7 +22,7 @@
           icon
           @click="interact">
           <v-icon large>
-            {{ saved ? 'mdi-minus' : 'mdi-plus' }}
+            {{ liked || category ? 'mdi-minus' : 'mdi-plus' }}
           </v-icon>
         </v-btn>
       </div>
@@ -30,22 +30,30 @@
       <span
         :class="$style.title"
         @click="goToShow">
-        {{ title }}
+        {{ name }}
       </span>
 
-      <span :class="$style.genres">
-        {{ genres.join(', ') }}
+      <span
+        v-if="genres.length > 0"
+        :class="$style.genres">
+        {{ genres.map(genre => genre.name).join(', ') }}
       </span>
     </div>
 
     <v-img
-      :src="imageUrl"
+      :src="`http://image.tmdb.org/t/p/original/${image}`"
       :class="$style.image" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import {
+  mapActions,
+  mapGetters,
+} from 'vuex';
+
+import api from '../../../api';
 
 export default Vue.extend({
   name: 'ShowCardItem',
@@ -56,27 +64,18 @@ export default Vue.extend({
       default: 0,
     },
 
-    title: {
+    name: {
       type: String,
-      required: true,
-    },
-
-    duration: {
-      type: String,
-      required: true,
-    },
-
-    genres: {
-      type: Array,
       required: true,
     },
 
     released: {
-      type: String,
-      required: true,
+      type: Number,
+      required: false,
+      default: -1,
     },
 
-    imageUrl: {
+    image: {
       type: String,
       required: true,
     },
@@ -86,13 +85,38 @@ export default Vue.extend({
       default: false,
     },
 
-    saved: {
+    category: {
       type: Boolean,
       default: false,
     },
   },
 
+  data: () => ({
+    liked: false,
+    genres: [],
+  }),
+
+  async created() {
+    this.genres = await api.show.getShowGenres(this.id);
+    this.liked = this.isSaved;
+  },
+
+  computed: {
+    ...mapGetters('shows', [
+      'getSaved',
+    ]),
+
+    isSaved() {
+      return this.id in this.getSaved && this.getSaved[this.id];
+    },
+  },
+
   methods: {
+    ...mapActions('shows', [
+      'like',
+      'unlike',
+    ]),
+
     goToShow() {
       this.$router.push(`/show/${this.id}`);
     },
@@ -102,19 +126,20 @@ export default Vue.extend({
     },
 
     interact() {
-      if (this.saved) {
-        this.unlike();
+      if (this.category) {
+        this.$emit('remove', this.id);
       } else {
-        this.like();
+        this.liked = !this.liked;
+        if (!this.liked) {
+          this.unlike({
+            id: this.id,
+          });
+        } else {
+          this.like({
+            id: this.id,
+          });
+        }
       }
-    },
-
-    unlike() {
-      this.$emit('unlike', this.id);
-    },
-
-    like() {
-      console.log('If we had any features like that I\'d add it for you');
     },
   },
 });
@@ -170,6 +195,9 @@ export default Vue.extend({
 
 .genres {
   color: rgba(255, 255, 255, 0.568);
+  margin: .5rem;
+  text-align: center;
+  width: calc(100% - 1rem);
 }
 
 .button-wrapper {

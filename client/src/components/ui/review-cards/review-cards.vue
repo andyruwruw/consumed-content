@@ -14,19 +14,16 @@
         },
       ]">
       <review-card-item
-        v-for="(show, index) in editedShows"
-        :key="show.title"
-        :id="index"
-        :title="show.title"
-        :duration="show.duration"
-        :genres="show.genres"
-        :released="show.released"
-        :imageUrl="show.imageUrl"
+        v-for="review in reviews"
+        :key="review.id"
+        :id="review.id"
+        :name="review.name"
+        :showName="review.showName"
+        :showId="review.showId"
+        :image="review.posterUrl"
         :padding="rows"
-        :rating="Math.round(Math.random() * 10)"
-        :reviewTitle="reviewTitles[index % reviewTitles.length]"
-        :description="reviewDescriptions[index % reviewDescriptions.length]"
-        @unlike="unlike(index)" />
+        :rating="review.rating"
+        :description="review.description" />
     </div>
   </div>
 </template>
@@ -34,11 +31,6 @@
 <script lang="ts">
 import Vue from 'vue';
 
-import {
-  FAKE_MOVIES,
-  RANDOM_REVIEW_DESCRIPTIONS,
-  RANDOM_REVIEW_TITLES,
-} from '../../../config';
 import ReviewCardItem from './review-card-item.vue';
 
 export default Vue.extend({
@@ -54,56 +46,19 @@ export default Vue.extend({
       default: '',
     },
 
+    reviews: {
+      type: Array,
+      default: () => [],
+    },
+
     rows: {
       type: Boolean,
       default: true,
     },
-
-    limit: {
-      type: Number,
-      default: 0,
-    },
-
-    randomize: {
-      type: Boolean,
-      default: false,
-    },
   },
-
-  data: () => ({
-    editedShows: [] as Record<string, any>[],
-    reviewDescriptions: RANDOM_REVIEW_DESCRIPTIONS,
-    reviewTitles: RANDOM_REVIEW_TITLES,
-  }),
 
   created() {
-    this.editedShows = [] as Record<string, any>[];
-
-    for (let i = 0; i < FAKE_MOVIES.length; i += 1) {
-      this.editedShows.push(FAKE_MOVIES[i]);
-    }
-
-    if (this.randomize) {
-      this.editedShows = this.editedShows.sort(() => 0.5 - Math.random());
-    }
-
-    if (this.limit !== 0) {
-      this.editedShows.length = this.limit;
-    }
-  },
-
-  methods: {
-    unlike(id: number) {
-      const newShows = [] as Record<string, any>[];
-
-      for (let i = 0; i < this.editedShows.length; i += 1) {
-        if (i !== id) {
-          newShows.push(this.editedShows[i]);
-        }
-      }
-
-      this.editedShows = newShows;
-    },
+    console.log(this.reviews);
   },
 });
 </script>

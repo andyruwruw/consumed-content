@@ -69,6 +69,7 @@ class SampleDataCreator {
     await this._connectToDatabase();
 
     // Base Tables
+    await this._database._addGenres();
     await this._createFakeUsers();
     await this._createFakePlatforms();
 
@@ -80,8 +81,8 @@ class SampleDataCreator {
     await this._createFakeReviews();
 
     // // Dependent Tier 3 Tables
-    // await this._createFakeCategoryShows();
-    // await this._createFakeShowPlatforms();
+    await this._createFakeCategoryShows();
+    await this._createFakeShowPlatforms();
   }
 
   _spacing() {
@@ -149,12 +150,44 @@ class SampleDataCreator {
       const name = `${this._getRandomName()} ${this._getRandomName()}`;
       const username = `${this._getRandomName()}${this._getRandomName()}${Math.floor(Math.random() * 20)}`;
 
+
+      const images = [
+        'https://random.imagecdn.app/v1/image?width=500&height=500',
+        'https://picsum.photos/500',
+        'https://random.imagecdn.app/v1/image?width=499&height=499',
+        'https://picsum.photos/499',
+        'https://random.imagecdn.app/v1/image?width=498&height=498',
+        'https://picsum.photos/498',
+        'https://random.imagecdn.app/v1/image?width=497&height=497',
+        'https://picsum.photos/497',
+        'https://random.imagecdn.app/v1/image?width=496&height=496',
+        'https://picsum.photos/496',
+        'https://random.imagecdn.app/v1/image?width=495&height=495',
+        'https://picsum.photos/495',
+        'https://random.imagecdn.app/v1/image?width=494&height=494',
+        'https://picsum.photos/494',
+        'https://random.imagecdn.app/v1/image?width=493&height=493',
+        'https://picsum.photos/493',
+        'https://random.imagecdn.app/v1/image?width=492&height=492',
+        'https://picsum.photos/492',
+        'https://random.imagecdn.app/v1/image?width=491&height=491',
+        'https://picsum.photos/491',
+        'https://random.imagecdn.app/v1/image?width=490&height=490',
+        'https://picsum.photos/490',
+        'https://random.imagecdn.app/v1/image?width=489&height=489',
+        'https://picsum.photos/489',
+        'https://random.imagecdn.app/v1/image?width=488&height=488',
+        'https://picsum.photos/488',
+        'https://random.imagecdn.app/v1/image?width=487&height=487',
+        'https://picsum.photos/487',
+      ];
+
       pending.push(this._database.user.register(
         name,
         username,
         '12345',
         Math.random() > .8,
-        Math.random() > .5 ? 'https://random.imagecdn.app/v1/image?width=500&height=500' : 'https://picsum.photos/500',
+        images[Math.floor(Math.random() * images.length)],
       ));
       usernames.push(username);
 
@@ -309,7 +342,11 @@ class SampleDataCreator {
   }
 
   async _createShows(): Promise<void> {
-    const showNum = (this._userShowNum * 0.5) * this._userNum;
+    let showNum = (this._userShowNum * 0.5) * this._userNum;
+
+    if (showNum > 1000) {
+      showNum = 1000;
+    }
 
     console.log(` - Collecting Shows for use.`);
 
@@ -318,25 +355,30 @@ class SampleDataCreator {
     const pending = [];
     let addedNum = 0;
 
+    const genres = {} as Record<number, number[]>;
+
     while (addedNum < showNum) {
+      let response;
       let items = [] as IShow[];
       const page = Math.floor(state / 4) + 1;
 
       if (state % 4 === 0) {
-        const response = await api.themoviedb.movie.getPopularMovies(page);
+        response = await api.themoviedb.movie.getPopularMovies(page);
         items = await convertSimplifiedMovies(response.results);
       } else if (state % 4 === 1) {
-        const response = await api.themoviedb.tvShow.getPopularTvShows(page);
+        response = await api.themoviedb.tvShow.getPopularTvShows(page);
         items = await convertSimplifiedTvShows(response.results);
       } else if (state % 4 === 2) {
-        const response = await api.themoviedb.movie.getTopRatedMovies(page);
+        response = await api.themoviedb.movie.getTopRatedMovies(page);
         items = await convertSimplifiedMovies(response.results);
       } else if (state % 4 === 3) {
-        const response = await api.themoviedb.tvShow.getTopRatedTvShows(page);
+        response = await api.themoviedb.tvShow.getTopRatedTvShows(page);
         items = await convertSimplifiedTvShows(response.results);
       }
 
       for (let i = 0; i < items.length; i += 1) {
+        genres[response.results[i].id] = response.results[i].genre_ids;
+
         pending.push(this._database.show.add(
           items[i].name,
           items[i].type,
@@ -344,6 +386,7 @@ class SampleDataCreator {
           items[i].backdropUrl,
           items[i].releaseDate,
           items[i].overview,
+          items[i].theMovieDbId,
         ));
 
         addedNum += 1;
@@ -358,7 +401,22 @@ class SampleDataCreator {
 
     const shows = await this._database.show.getAll();
 
-    this._shows = shows.map((show) => show.id);
+    const pendingGenres = [];
+
+    for (let i = 0; i < shows.length; i += 1) {
+      this._shows.push(shows[i].id);
+
+      const showGenres = genres[shows[i].theMovieDbId];
+
+      for (let j = 0; j < showGenres.length; j += 1) {
+        pendingGenres.push(this._database.showGenre.add(
+          shows[i].id,
+          showGenres[j],
+        ));
+      }
+    }
+
+    await Promise.all(pendingGenres);
   }
 
   async _getRandomShow(): Promise<number> {

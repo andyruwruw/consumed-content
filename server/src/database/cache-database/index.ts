@@ -23,6 +23,7 @@ export class CacheDatabase extends Database {
    * Connects to the database.
    */
   async connect(): Promise<void> {
+    await this._addGenres();
     return;
   }
 

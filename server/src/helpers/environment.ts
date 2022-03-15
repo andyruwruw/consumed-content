@@ -13,7 +13,7 @@ export class Environment {
    * @returns {string} The server port.
    */
   static getPort(): number {
-    return parseInt(process.env.PORT) || 3000;
+    return parseInt(process.env.PORT) || 3050;
   }
 
   /**

@@ -8,7 +8,7 @@
     ]">
     <div :class="$style['image-wrapper']">
       <v-img
-        :src="imageUrl"
+        :src="`http://image.tmdb.org/t/p/original${image}`"
         :class="$style.image"
         height="18rem" />
     </div>
@@ -16,23 +16,23 @@
     <div :class="$style.details">
       <p
         :class="$style.title"
-        @click="goToReview">
-        {{ reviewTitle }}
+        @click="goToShow">
+        {{ name }}
       </p>
 
       <p
         :class="$style['movie-title']"
         @click="goToShow">
-        {{ title }}
+        {{ showName }}
       </p>
 
       <span>
         <v-icon
-          v-for="i in 5"
-          :key="`star-${i}-${id}`"
-          :dark="i * 2 < rating"
+          v-for="number in 10"
+          :key="`star-${number}-${id}`"
+          color="#E6B31D"
           small>
-          mdi-star
+          {{ number > rating ? 'mdi-star-outline' : 'mdi-star' }}
         </v-icon>
       </span>
 
@@ -47,7 +47,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'ShowCardItem',
+  name: 'ReviewCardItem',
 
   props: {
     id: {
@@ -55,27 +55,22 @@ export default Vue.extend({
       default: 0,
     },
 
-    title: {
+    name: {
       type: String,
       required: true,
     },
 
-    duration: {
+    showId: {
+      type: Number,
+      default: 0,
+    },
+
+    showName: {
       type: String,
       required: true,
     },
 
-    genres: {
-      type: Array,
-      required: true,
-    },
-
-    released: {
-      type: String,
-      required: true,
-    },
-
-    imageUrl: {
+    image: {
       type: String,
       required: true,
     },
@@ -94,19 +89,11 @@ export default Vue.extend({
       type: String,
       required: true,
     },
-
-    reviewTitle: {
-      type: String,
-      required: true,
-    },
   },
 
   methods: {
-    goToReview() {
-      this.$router.push(`/review/${this.id}/${this.id}`);
-    },
     goToShow() {
-      this.$router.push(`/show/${this.id}`);
+      this.$router.push(`/show/${this.showId}`);
     },
   },
 });

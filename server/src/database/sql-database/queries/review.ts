@@ -104,7 +104,7 @@ export const UPDATE_REVIEW = (
     namedPlaceholders: true,
     sql:`
 UPDATE Review
-SET \`name\` = ":name", \`rating\` = :rating, \`description\` = ":description", \`updated\` = UNIX_TIMESTAMP()
+SET \`name\` = :name, \`rating\` = :rating, \`description\` = :description, \`updated\` = UNIX_TIMESTAMP()
 WHERE \`id\` = :id;`,
   },
   {
@@ -126,10 +126,10 @@ WHERE \`id\` = :id;`,
    namedPlaceholders: true,
    sql:`
    SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
-   FROM shows
-   JOIN review ON Review.showId = Shows.id
+   FROM Shows
+   JOIN Review ON Review.showId = Shows.id
    JOIN Users ON Review.userId = Users.id
-   WHERE review.id = :id;`,
+   WHERE Review.id = :id;`,
  },
  {
    id,
@@ -150,7 +150,7 @@ WHERE \`id\` = :id;`,
   {
     namedPlaceholders: true,
     sql:`
-    SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
+    SELECT Review.id, Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
     FROM Review
     JOIN Shows ON Review.showId = Shows.id
     JOIN Users ON Review.userId = Users.id
@@ -172,7 +172,7 @@ export const SELECT_USERS_REVIEWS = (userId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
-    SELECT Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
+    SELECT Review.id, Review.showId, Review.userId, Review.name, Review.rating, Review.description, Review.created, Review.updated, Shows.name as showName, Shows.type, Shows.posterUrl, Shows.backdropUrl, Shows.releaseDate, Shows.overview, Users.username, Users.imageUrl, Users.private
     FROM Review
     JOIN Shows ON Review.showId = Shows.id
     JOIN Users ON Review.userId = Users.id
@@ -194,7 +194,7 @@ export const SELECT_SHOWS_REVIEWS = (showId: number): IMariaDbQuery => ([
   {
     namedPlaceholders: true,
     sql:`
-    SELECT Review.userId, Review.showId, Review.name, Review.rating, Review.description, Users.private, Users.username, Users.imageUrl
+    SELECT Review.id, Review.userId, Review.showId, Review.name, Review.rating, Review.description, Users.private, Users.username, Users.imageUrl
     FROM Review
     JOIN Users ON Review.userId = Users.id
     WHERE showId = :showId

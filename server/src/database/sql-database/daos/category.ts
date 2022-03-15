@@ -5,6 +5,7 @@ import {
   DELETE_CATEGORY,
   DROP_CATEGORY_TABLE,
   INSERT_CATEGORY,
+  SELECT_CATEGORY,
   SELECT_USER_CATEGORIES,
   UPDATE_CATEGORY,
 } from '../queries/category';
@@ -102,7 +103,7 @@ export class Category extends DataAccessObject<ICategory> implements ICategoryDA
    */
   async select(id: number): Promise<ICategory | null> {
     try {
-      const response = await ConnectionManager.connection.query(...DELETE_CATEGORY(
+      const response = await ConnectionManager.connection.query(...SELECT_CATEGORY(
         id,
       ));
 

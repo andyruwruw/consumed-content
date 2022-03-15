@@ -1,4 +1,5 @@
 // Local Imports
+import api from '../api';
 import { UsedAbstractDatabaseError } from '../errors/used-abstract-database-error';
 
 // Types
@@ -108,5 +109,68 @@ export class Database {
    * Sets DAO instances.
    */
   _initializeDaos(): void {
+  }
+
+  async _addGenres(): Promise<number[]> {
+    try {
+      console.log('Adding Genres');
+
+      const existing = await this.genre.getAll();
+      const existingMap = {} as Record<number, boolean>;
+
+      for (let i = 0; i < existing.length; i += 1) {
+        existingMap[existing[i].id] = true;
+      }
+
+      const fullGenres = [
+        api.themoviedb.genre.getMovieGenres(),
+        api.themoviedb.genre.getTvShowGenres(),
+      ];
+
+      const [
+        movieGenres,
+        tvShowGenres,
+      ] = await Promise.all(fullGenres);
+
+      const genresAdding = [] as number[];
+
+      const pending = [];
+
+      if (movieGenres) {
+        for (let i = 0; i < movieGenres.genres.length; i += 1) {
+          const genre = movieGenres.genres[i];
+
+          if (!existingMap[genre.id] && !genresAdding.includes(genre.id)) {
+            pending.push(this.genre.insert(
+              genre.id,
+              genre.name,
+            ));
+          }
+
+          genresAdding.push(genre.id);
+        }
+      }
+
+      if (tvShowGenres) {
+        for (let i = 0; i < tvShowGenres.genres.length; i += 1) {
+          const genre = tvShowGenres.genres[i];
+
+          if (!existingMap[genre.id] && !genresAdding.includes(genre.id)) {
+            pending.push(this.genre.insert(
+              genre.id,
+              genre.name,
+            ));
+          }
+
+          genresAdding.push(genre.id);
+        }
+      }
+
+      console.log(`${pending.length} genres added`);
+
+      return Promise.all(pending);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

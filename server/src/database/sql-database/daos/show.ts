@@ -7,6 +7,7 @@ import {
   INSERT_SHOW,
   SELECT_SHOW,
   SELECT_SHOWS,
+  SELECT_SHOW_BY_MOVIEDB_ID,
 } from '../queries/show';
 import { ConnectionManager } from '../connection-manager';
 import { DataAccessObject } from './dao';
@@ -28,6 +29,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
    * @param {string} backdropUrl Backdrop image URL for show.
    * @param {number} releaseDate Release date of show.
    * @param {string} overview Overview of show.
+   * @param {number} theMovieDbId TheMovieDb ID for show.
    * @returns {Promise<number>} Number of affected rows.
    */
   async add(
@@ -37,6 +39,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
     backdropUrl: string,
     releaseDate: number,
     overview: string,
+    theMovieDbId: number,
   ): Promise<number> {
     try {
       // Sanitize release date.
@@ -48,6 +51,7 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
         backdropUrl,
         releaseDate,
         overview,
+        theMovieDbId,
       ));
 
       return response.affectedRows;
@@ -85,6 +89,27 @@ export class Show extends DataAccessObject<IShow> implements IShowDAO {
   async select(id: number): Promise<IShow | null> {
     try {
       const response = await ConnectionManager.connection.query(...SELECT_SHOW(
+        id,
+      ));
+
+      if (response.length > 0) {
+        return response[0] as IShow;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /**
+   * Retrieves a show by theMovieDB Id.
+   *
+   * @param {number} id Show's theMovieDB Id.
+   * @returns {Promise<IShow | null>} Show or null.
+   */
+   async selectByMovieDb(id: number): Promise<IShow | null> {
+    try {
+      const response = await ConnectionManager.connection.query(...SELECT_SHOW_BY_MOVIEDB_ID(
         id,
       ));
 

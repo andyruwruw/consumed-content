@@ -111,6 +111,7 @@ const actions: ActionTree<AuthModuleState, any> = {
 
       if (user) {
         commit('setUser', user);
+        dispatch('shows/fetchSaved', undefined, { root: true });
         dispatch('navigation/goToHome', undefined, { root: true });
       }
     } catch (error) {
@@ -144,6 +145,7 @@ const actions: ActionTree<AuthModuleState, any> = {
 
       if (user) {
         commit('setUser', user);
+        dispatch('shows/fetchSaved', undefined, { root: true });
         dispatch('navigation/goToHome', undefined, { root: true });
       }
     } catch (error) {
@@ -160,6 +162,7 @@ const actions: ActionTree<AuthModuleState, any> = {
 
       if (user) {
         commit('setUser', user);
+        dispatch('shows/fetchSaved', undefined, { root: true });
         dispatch('navigation/goToHome', undefined, { root: true });
       }
     } catch (error) {
@@ -197,6 +200,7 @@ const actions: ActionTree<AuthModuleState, any> = {
     dispatch,
   }): void {
     commit('reset');
+    commit('shows/reset', undefined, { root: true });
     dispatch('navigation/goToLanding', undefined, { root: true });
     api.auth.logout();
   },

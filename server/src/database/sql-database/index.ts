@@ -28,13 +28,16 @@ export class SQLDatabase extends Database {
    * Connects to the database.
    */
   async connect(): Promise<void> {
-    ConnectionManager.setConnection(await createConnection({
-      host: Environment.getDatabaseHost(),
-      user: Environment.getDatabaseUser(),
-      password: Environment.getDatabasePassword(),
-      port: 3306,
-    }));
-    await ConnectionManager.connection.query('USE consumedcontent');
+    if (!this.isConnected()){
+      ConnectionManager.setConnection(await createConnection({
+        host: Environment.getDatabaseHost(),
+        user: Environment.getDatabaseUser(),
+        password: Environment.getDatabasePassword(),
+        port: 3306,
+      }));
+      await ConnectionManager.connection.query('USE consumedcontent');
+      await this._addGenres();
+    }
   }
 
   /**
@@ -43,7 +46,7 @@ export class SQLDatabase extends Database {
    * @returns {boolean} Whether the database instance is connected.
    */
   isConnected(): boolean {
-    return ConnectionManager.connection !== undefined;
+    return ConnectionManager.connection !== null;
   }
 
   /**

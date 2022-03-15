@@ -1,5 +1,5 @@
 // Local Imports
-import { convertSimplifiedTvShows } from '../helpers/themoviedb-helpers';
+import { convertAndMergeTvShows, convertSimplifiedTvShows } from '../helpers/themoviedb-helpers';
 import { Handler } from './handler';
 import api from '../api';
 
@@ -32,7 +32,11 @@ export class SearchTvShowsHandler extends Handler {
         page,
       );
 
-      const shows = convertSimplifiedTvShows(response.results);
+      console.log(response.results);
+
+      const shows = await convertAndMergeTvShows(response.results, this._database);
+
+      console.log(shows);
 
       res.status(200).send({
         shows,

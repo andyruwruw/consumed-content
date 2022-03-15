@@ -16,15 +16,17 @@
       <category-card-item
         v-for="(category, index) in categories"
         :key="`category-${index}`"
-        :id="index"
-        :userId="category.userId"
-        :name="category.name"
-        :description="category.description"
         :created="category.created"
-        :username="category.username"
+        :description="category.description"
+        :id="category.id"
         :imageUrl="category.imageUrl"
-        :shows="category.shows"
-        :padding="rows" />
+        :name="category.name"
+        :userId="category.userId"
+        :username="category.username"
+        :padding="rows"
+        :add="add"
+        :relevantId="relevantId"
+        @add="handleAdd" />
     </div>
   </div>
 </template>
@@ -56,6 +58,22 @@ export default Vue.extend({
     categories: {
       type: Array,
       default: () => [] as IUserCategoryObject[],
+    },
+
+    add: {
+      type: Boolean,
+      default: false,
+    },
+
+    relevantId: {
+      type: Number,
+      default: -1,
+    },
+  },
+
+  methods: {
+    handleAdd(id: number) {
+      this.$emit('add', id);
     },
   },
 });

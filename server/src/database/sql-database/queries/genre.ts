@@ -6,7 +6,7 @@ import { IMariaDbQuery } from '../../../types';
  */
 export const CREATE_GENRE_TABLE = `
 CREATE TABLE IF NOT EXISTS Genre (
-  \`id\` int(11) NOT NULL,
+  \`id\` int(14) NOT NULL,
   \`name\` varchar(64) NOT NULL,
   PRIMARY KEY (\`id\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -65,5 +65,21 @@ WHERE \`id\` = :id;`,
   },
   {
     id,
+  },
+]);
+
+/**
+ * Selects all genres.
+ *
+ * @returns {IMariaDbQuery} MariaDB query.
+ */
+ export const SELECT_GENRES = (): IMariaDbQuery => ([
+  {
+    namedPlaceholders: true,
+    sql: `
+SELECT *
+FROM Genre;`,
+  },
+  {
   },
 ]);

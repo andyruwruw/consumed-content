@@ -182,6 +182,7 @@ export class UserShow extends DataAccessObject<IUserShow> implements IUserShowDA
       }) as IShow;
 
       shows.push({
+        id: show.id,
         added: userShows[i].added,
         ...show,
       });

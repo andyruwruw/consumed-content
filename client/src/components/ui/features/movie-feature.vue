@@ -2,7 +2,7 @@
   <div
     :class="$style.component"
     :style="{
-      'background-image': `url('${backdropUrl}')`,
+      'background-image': `url('http://image.tmdb.org/t/p/original/${image}')`,
     }">
     <div :class="$style.content">
       <div :class="$style.header">
@@ -20,16 +20,12 @@
       </div>
 
       <div :class="$style.details">
-        <span :class="[$style.duration, $style['detail-item']]">
-          {{ duration }}
+        <span :class="[$style.released, $style['detail-item']]">
+          {{ releaseDateFormated }}
         </span>
 
         <span :class="[$style.genres, $style['detail-item']]">
-          {{ genres.join(', ') }}
-        </span>
-
-        <span :class="[$style.released, $style['detail-item']]">
-          {{ releaseDate }}
+          {{ genres.map(genre => genre.name).join(', ') }}
         </span>
       </div>
 
@@ -42,6 +38,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import moment from 'moment';
+
+import api from '../../../api';
 
 interface IData {
 }
@@ -56,11 +55,9 @@ interface IComputed {
 interface IProps {
   id: number;
   name: string;
-  posterUrl: string;
-  backdropUrl: string;
+  image: string;
   releaseDate: number;
   overview: string;
-  genres: string[];
 }
 
 export default Vue.extend<IData, IMethods, IComputed, IProps>({
@@ -77,16 +74,11 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
       required: true,
     },
 
-    posterUrl: {
+    image: {
       type: String,
       required: true,
     },
 
-    backdropUrl: {
-      type: String,
-      required: true,
-    },
-    
     releaseDate: {
       type: Number,
       required: true,
@@ -96,16 +88,25 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
       type: String,
       required: true,
     },
-
-    genres: {
-      type: Array,
-      required: true,
-    },
   },
 
   methods: {
     clicked() {
       this.$router.push(`/show/${this.name}`);
+    },
+  },
+
+  data: () => ({
+    genres: [],
+  }),
+
+  async created() {
+    this.genres = await api.show.getShowGenres(this.id);
+  },
+
+  computed: {
+    releaseDateFormated() {
+      return moment(this.releaseDate).format('MMMM Do YYYY');
     },
   },
 });
@@ -153,7 +154,30 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
 }
 
 .description {
+  display: block;
   font-size: .9rem;
   color: rgba(255, 255, 255, 0.726);
+  width: 100%;
+  height: calc(100% - 40px - 43.2px);
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #0000001c;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: rgba(167, 167, 167, 0.171);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(250, 250, 250, 0.425);
+  }
 }
 </style>

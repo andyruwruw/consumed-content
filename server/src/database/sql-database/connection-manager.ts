@@ -5,7 +5,7 @@ export class ConnectionManager {
   /**
    * Static reference to connection.
    */
-  static connection: Connection;
+  static connection: Connection = null;
 
   /**
    * Sets static reference to connection.

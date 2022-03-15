@@ -178,6 +178,23 @@ const actions: ActionTree<NavigationState, any> = {
   },
 
   /**
+   * Routes the user to Home page.
+   *
+   * @param {ActionContext<NavigationState, any>} context Vuex action context.
+   */
+  search({
+    dispatch,
+  }, {
+    query,
+  }): void {
+    try {
+      router.push(`/search/${query}`);
+    } catch (error) {
+      dispatch('goTo404');
+    }
+  },
+
+  /**
    * Routes the user to Landing page.
    *
    * @param {ActionContext<NavigationState, any>} context Vuex action context.

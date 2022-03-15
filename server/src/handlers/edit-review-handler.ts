@@ -27,7 +27,7 @@ export class EditReviewHandler extends Handler {
       await this._connectDatabase();
 
       const id = parseInt(req.query.id as string, 10);
-      const name = req.query.review as string || 'Review';
+      const name = req.query.name as string || 'Review';
       const rating = parseInt(req.query.rating as string, 10) || 0;
       const description = req.query.description as string || '';
 

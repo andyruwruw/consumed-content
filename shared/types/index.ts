@@ -25,6 +25,7 @@ export interface IShow extends IDatabaseObject {
   backdropUrl: string;
   releaseDate: number;
   overview: string;
+  theMovieDbId: number;
 }
 
 export interface IPlatform extends IDatabaseObject {
@@ -181,6 +182,7 @@ export interface IUserFollowObject extends Record<string, IDatabaseColumnTypes> 
 }
 
 export interface IUserShowObject extends Record<string, IDatabaseColumnTypes> {
+  id: number;
   added: number;
   name: string;
   type: string;

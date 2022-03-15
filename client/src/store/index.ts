@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import user from './modules/user';
 import navigation from './modules/navigation';
+import shows from './modules/shows';
 
 Vue.use(Vuex);
 
@@ -10,5 +11,6 @@ export default new Vuex.Store({
   modules: {
     user,
     navigation,
+    shows,
   },
 });

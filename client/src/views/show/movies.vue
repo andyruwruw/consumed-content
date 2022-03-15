@@ -16,6 +16,7 @@ import {
   mapActions,
   mapGetters,
 } from 'vuex';
+import { IUserShowObject } from '../../../../shared/types';
 
 import api from '../../api';
 import ShowCards from '../../components/ui/show-cards/show-cards.vue';
@@ -28,7 +29,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    shows: null,
+    shows: [] as IUserShowObject[],
   }),
 
   async created() {

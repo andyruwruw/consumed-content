@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { IShow } from '../../../../shared/types';
 
 import api from '../../api';
 import MovieFeature from '../../components/ui/features/movie-feature.vue';
@@ -46,10 +47,10 @@ export default Vue.extend({
   },
 
   data: () => ({
-    popularShows: [],
-    popularMovies: [],
-    topMovies: [],
-    topShows: [],
+    popularShows: [] as IShow[],
+    popularMovies: [] as IShow[],
+    topMovies: [] as IShow[],
+    topShows: [] as IShow[],
   }),
 
   async created() {

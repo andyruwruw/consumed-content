@@ -20,6 +20,8 @@ import {
 import api from '../../api';
 import ReviewCards from '../../components/ui/review-cards/review-cards.vue';
 
+import { IUserReviewObject } from '../../../../shared/types';
+
 export default Vue.extend({
   name: 'Reviews',
 
@@ -28,7 +30,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    reviews: [],
+    reviews: [] as IUserReviewObject[],
   }),
 
   async created() {

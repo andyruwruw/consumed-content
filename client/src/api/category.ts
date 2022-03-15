@@ -55,7 +55,7 @@ export const getCategory = async (id: number) => {
     });
 
     if (response.status === 200) {
-      return response.data.category as IUserCategoryObject[];
+      return response.data.category as IUserCategoryObject;
     }
   } catch (error) {
     console.log(error);

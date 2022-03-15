@@ -97,20 +97,38 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
+import { IPublicUserObject, IUserReviewObject } from '../../../../../shared/types';
 
 import api from '../../../api';
 import ReviewForm from './review-form.vue';
 
 interface IData {
+  review: IUserReviewObject | null;
+  mode: number;
+  rating: number;
+  name: string;
+  description: string;
 }
 
 interface IMethods {
+  findingReview: () => Promise<void>;
+  changeRating: (index: number) => void;
+  toggleMode: () => void;
+  save: () => Promise<void>;
+  removeReview: () => Promise<void>;
+  goToUser: () => void;
+  goToReview: () => void;
 }
 
 interface IComputed {
+  getUser: IPublicUserObject;
+  actionText: string;
+
 }
 
 interface IProps {
+  showId: number;
+  userId: number;
 }
 
 export default Vue.extend<IData, IMethods, IComputed, IProps>({
@@ -133,7 +151,7 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
   },
 
   data: () => ({
-    review: null,
+    review: null as IUserReviewObject | null,
     mode: 0,
     rating: 0,
     name: '',
@@ -153,9 +171,9 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
 
         if (review.showId === this.showId) {
           this.review = review;
-          this.rating = this.review.rating;
-          this.name = this.review.name;
-          this.description = this.review.description;
+          this.rating = review.rating;
+          this.name = review.name;
+          this.description = review.description;
           this.$emit('found');
           break;
         }
@@ -171,7 +189,7 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
     toggleMode() {
       if (this.mode) {
         this.save();
-      } else {
+      } else if (this.review) {
         this.rating = this.review.rating;
         this.name = this.review.name;
         this.description = this.review.description;
@@ -180,18 +198,22 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
     },
 
     async save() {
-      await api.review.edit(
-        this.review.id,
-        this.name,
-        this.rating,
-        this.description,
-      );
+      if (this.review) {
+        await api.review.edit(
+          this.review.id as unknown as number,
+          this.name,
+          this.rating,
+          this.description,
+        );
+      }
 
       this.findingReview();
     },
 
     async removeReview() {
-      await api.review.deleteOne(this.review.id);
+      if (this.review) {
+        await api.review.deleteOne(this.review.id as number);
+      }
       this.review = null;
     },
 

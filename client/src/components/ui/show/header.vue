@@ -42,14 +42,23 @@ import {
 } from 'vuex';
 
 import api from '../../../api';
+import { IShowGenreObject } from '../../../../../shared/types';
 
 interface IData {
+  genres: IShowGenreObject[],
+  liked: boolean;
 }
 
 interface IMethods {
+  like: (payload: Record<string, string | number>) => void;
+  unlike: (payload: Record<string, string | number>) => void;
+  interact: () => void;
 }
 
 interface IComputed {
+  getSaved: Record<number, boolean>;
+  isSaved: boolean;
+  releaseDateFormated: string;
 }
 
 interface IProps {
@@ -85,7 +94,7 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
   },
 
   data: () => ({
-    genres: [],
+    genres: [] as IShowGenreObject[],
     liked: false,
   }),
 

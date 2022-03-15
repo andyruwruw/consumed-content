@@ -40,6 +40,7 @@ import {
   IPublicUserObject,
   IUserCategoryObject,
   IUserReviewObject,
+  IUserShowObject,
 } from '../../../../shared/types';
 import CategoryCards from '../../components/ui/category-cards/category-cards.vue';
 import ReviewCards from '../../components/ui/review-cards/review-cards.vue';
@@ -63,8 +64,8 @@ export default Vue.extend({
 
     reviews: [] as IUserReviewObject[],
 
-    movies: [],
-    shows: [],
+    movies: [] as IUserShowObject[],
+    shows: [] as IUserShowObject[],
   }),
 
   async created() {

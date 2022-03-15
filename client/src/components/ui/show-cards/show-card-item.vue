@@ -52,10 +52,38 @@ import {
   mapActions,
   mapGetters,
 } from 'vuex';
+import { IShowGenreObject } from '../../../../../shared/types';
 
 import api from '../../../api';
 
-export default Vue.extend({
+interface IData {
+  genres: IShowGenreObject[],
+  liked: boolean;
+}
+
+interface IMethods {
+  like: (payload: Record<string, string | number>) => void;
+  unlike: (payload: Record<string, string | number>) => void;
+  interact: () => void;
+  goToShow: () => void;
+  writeReview: () => void;
+}
+
+interface IComputed {
+  getSaved: Record<number, boolean>;
+  isSaved: boolean;
+}
+
+interface IProps {
+  id: number;
+  name: string;
+  released: number;
+  image: string;
+  padding: boolean;
+  category: boolean;
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'ShowCardItem',
 
   props: {

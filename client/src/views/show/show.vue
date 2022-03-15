@@ -48,6 +48,11 @@ import ShowDetails from '../../components/ui/show/details.vue';
 import UserReview from '../../components/ui/show/user-review.vue';
 import ShowReviewCards from '../../components/ui/show-review-cards/show-review-cards.vue';
 import CategoryCards from '../../components/ui/category-cards/category-cards.vue';
+import {
+  IShow,
+  IShowReviewObject,
+  IUserCategoryObject,
+} from '../../../../shared/types';
 
 export default Vue.extend({
   name: 'Show',
@@ -61,11 +66,11 @@ export default Vue.extend({
   },
 
   data: () => ({
-    id: -1,
-    show: null,
-    reviews: [],
+    id: -1 as number | undefined,
+    show: null as IShow | null,
+    reviews: [] as IShowReviewObject[],
     averageRating: -1,
-    categories: [],
+    categories: [] as IUserCategoryObject[],
   }),
 
   async created() {
@@ -95,13 +100,20 @@ export default Vue.extend({
         id,
       } = this.$route.params;
 
-      const response = await api.review.getShowReviews(id);
-      this.averageRating = response.averageRating;
-      this.reviews = response.reviews;
+      const response = await api.review.getShowReviews(parseInt(id, 10));
+
+      if (response !== null) {
+        this.averageRating = response.averageRating || -1;
+        this.reviews = response.reviews || [];
+      }
     },
 
     async handleAdd(id: number) {
-      await api.category.addShow(id, this.show.id);
+      let showId = -1;
+      if (this.show && 'id' in this.show) {
+        showId = this.show.id || -1;
+      }
+      await api.category.addShow(id, showId);
       this.categories = await api.category.getUserCategories(this.getUser.id);
     },
   },

@@ -53,9 +53,35 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ICategoryShowObject } from '../../../../../shared/types';
 import api from '../../../api';
 
-export default Vue.extend({
+interface IData {
+  shows: ICategoryShowObject[]
+}
+
+interface IMethods {
+  goToCategory: () => void;
+}
+
+interface IComputed {
+  images: string[];
+  showOverlay: boolean;
+}
+
+interface IProps {
+  id: number;
+  created: number;
+  description: string;
+  imageUrl: string;
+  name: string;
+  userId: number;
+  username: string;
+  padding: boolean;add: boolean;
+  relevantId: number;
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'CategoryCardItem',
 
   props: {
@@ -111,7 +137,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    shows: [],
+    shows: [] as ICategoryShowObject[],
   }),
 
   async created() {

@@ -41,8 +41,10 @@ import Vue from 'vue';
 import moment from 'moment';
 
 import api from '../../../api';
+import { IShowGenreObject } from '../../../../../shared/types';
 
 interface IData {
+  genres: IShowGenreObject[];
 }
 
 interface IMethods {
@@ -50,6 +52,7 @@ interface IMethods {
 }
 
 interface IComputed {
+  releaseDateFormated: string;
 }
 
 interface IProps {
@@ -97,7 +100,7 @@ export default Vue.extend<IData, IMethods, IComputed, IProps>({
   },
 
   data: () => ({
-    genres: [],
+    genres: [] as IShowGenreObject[],
   }),
 
   async created() {

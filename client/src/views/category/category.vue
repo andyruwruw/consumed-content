@@ -24,6 +24,7 @@ import { mapActions } from 'vuex';
 import CategoryHeader from './components/header.vue';
 import ShowCards from '../../components/ui/show-cards/show-cards.vue';
 import api from '../../api';
+import { ICategoryShowObject, IUserCategoryObject } from '../../../../shared/types';
 
 export default Vue.extend({
   name: 'Category',
@@ -34,9 +35,9 @@ export default Vue.extend({
   },
 
   data: () => ({
-    category: null,
+    category: null as IUserCategoryObject | null,
 
-    shows: [],
+    shows: [] as ICategoryShowObject[],
   }),
 
   async created() {
@@ -57,15 +58,16 @@ export default Vue.extend({
     async fetch() {
       const { id } = this.$route.params;
 
-      this.category = await api.category.getCategory(id);
-      this.shows = await api.category.getShows(id);
+      this.category = await api.category.getCategory(parseInt(id, 10));
+      this.shows = await api.category.getShows(parseInt(id, 10));
     },
 
     async handleRemove(id: number) {
-      console.log(id, 'making call');
-      await api.category.removeShow(this.category.id, id);
+      if (this.category && 'id' in this.category) {
+        await api.category.removeShow(this.category.id, id);
 
-      await this.fetch();
+        await this.fetch();
+      }
     },
   },
 });

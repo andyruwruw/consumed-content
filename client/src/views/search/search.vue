@@ -15,6 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
+import { IShow } from '../../../../shared/types';
 import api from '../../api';
 
 import ShowList from '../../components/ui/show-list/show-list.vue';
@@ -27,9 +28,9 @@ export default Vue.extend({
   },
 
   data: () => ({
-    movies: [],
+    movies: [] as IShow[],
 
-    tvShows: [],
+    tvShows: [] as IShow[],
   }),
 
   async created() {

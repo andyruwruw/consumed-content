@@ -1,4 +1,4 @@
-import { IShowReviewObject } from "../../../shared/types";
+import { IShowReviewObject } from '../../../shared/types';
 
 export interface IShowReviewRequestResponse {
   reviews: IShowReviewObject[];

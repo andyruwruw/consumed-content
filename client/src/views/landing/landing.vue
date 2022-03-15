@@ -57,6 +57,8 @@ import api from '../../api';
 import MovieFeature from '../../components/ui/features/movie-feature.vue';
 import ShowCards from '../../components/ui/show-cards/show-cards.vue';
 
+import { IShow } from '../../../../shared/types';
+
 export default Vue.extend({
   name: 'Landing',
 
@@ -66,10 +68,10 @@ export default Vue.extend({
   },
 
   data: () => ({
-    popularShows: [],
-    popularMovies: [],
-    topMovies: [],
-    topShows: [],
+    popularShows: [] as IShow[],
+    popularMovies: [] as IShow[],
+    topMovies: [] as IShow[],
+    topShows: [] as IShow[],
   }),
 
   async created() {

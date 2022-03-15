@@ -27,6 +27,7 @@ import {
   mapActions,
   mapGetters,
 } from 'vuex';
+import { IUserCategoryObject } from '../../../../shared/types';
 
 import api from '../../api';
 import CategoryCards from '../../components/ui/category-cards/category-cards.vue';
@@ -39,7 +40,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    categories: [],
+    categories: [] as IUserCategoryObject[],
   }),
 
   async created() {

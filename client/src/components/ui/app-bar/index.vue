@@ -56,7 +56,27 @@ import {
   mapActions,
 } from 'vuex';
 
-export default Vue.extend({
+interface IData {
+  query: string;
+}
+
+interface IMethods {
+  toggleNavBar: () => void;
+  search: (payload: Record<string, string | number>) => void;
+  goHome: () => void;
+  loginPage: () => void;
+  makeSearch: () => void;
+}
+
+interface IComputed {
+  isLoggedIn: boolean;
+  landingPage: boolean;
+}
+
+interface IProps {
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'AppBar',
 
   data: () => ({

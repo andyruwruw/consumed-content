@@ -61,9 +61,35 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
+import {
+  ICategoryShowObject,
+  IUserCategoryObject,
+} from '../../../../../shared/types';
 import api from '../../../api';
 
-export default Vue.extend({
+interface IData {
+  mode: number;
+  name: string;
+  description: string;
+}
+
+interface IMethods {
+  goToHome: () => void;
+  toggleMode: () => void;
+  save: () => Promise<void>;
+  deleteCategory: () => Promise<void>;
+}
+
+interface IComputed {
+  actionText: string;
+}
+
+interface IProps {
+  category: IUserCategoryObject | null,
+  shows: ICategoryShowObject[],
+}
+
+export default Vue.extend<IData, IMethods, IComputed, IProps>({
   name: 'CategoryHeader',
 
   props: {
@@ -99,7 +125,7 @@ export default Vue.extend({
     toggleMode() {
       if (this.mode === 1) {
         this.save();
-      } else {
+      } else if (this.category) {
         this.name = this.category.name;
         this.description = this.category.description;
       }
@@ -108,17 +134,21 @@ export default Vue.extend({
     },
 
     async save() {
-      await api.category.edit(
-        this.category.id,
-        this.name,
-        this.description,
-      );
+      if (this.category && 'id' in this.category) {
+        await api.category.edit(
+          this.category.id,
+          this.name,
+          this.description,
+        );
+      }
 
       this.$emit('edited');
     },
 
     async deleteCategory() {
-      await api.category.deleteOne(this.category.id);
+      if (this.category && 'id' in this.category) {
+        await api.category.deleteOne(this.category.id);
+      }
 
       this.goToHome();
     },

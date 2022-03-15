@@ -19,6 +19,7 @@ import {
 
 import api from '../../api';
 import ShowCards from '../../components/ui/show-cards/show-cards.vue';
+import { IUserShowObject } from '../../../../shared/types';
 
 export default Vue.extend({
   name: 'Shows',
@@ -28,7 +29,7 @@ export default Vue.extend({
   },
 
   data: () => ({
-    shows: [],
+    shows: [] as IUserShowObject[],
   }),
 
   async created() {
